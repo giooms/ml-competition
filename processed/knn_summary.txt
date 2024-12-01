@@ -55,7 +55,7 @@ Sensor 10:
 Sensor 11:
   Number of time series: 3500
   Number of values: 1792000
-  Mean: 0.00
+  Mean: -0.00
   Std: 1.00
 
 Sensor 12:
@@ -85,7 +85,7 @@ Sensor 15:
 Sensor 16:
   Number of time series: 3500
   Number of values: 1792000
-  Mean: -0.00
+  Mean: 0.00
   Std: 1.00
 
 Sensor 17:
@@ -121,7 +121,7 @@ Sensor 21:
 Sensor 22:
   Number of time series: 3500
   Number of values: 1792000
-  Mean: -0.00
+  Mean: 0.00
   Std: 1.00
 
 Sensor 23:
@@ -133,7 +133,7 @@ Sensor 23:
 Sensor 24:
   Number of time series: 3500
   Number of values: 1792000
-  Mean: 0.00
+  Mean: -0.00
   Std: 1.00
 
 Sensor 25:
@@ -175,12 +175,12 @@ Sensor 30:
 Sensor 31:
   Number of time series: 3500
   Number of values: 1792000
-  Mean: 0.00
+  Mean: -0.00
   Std: 1.00
 
 Sensor 32:
   Number of time series: 3500
   Number of values: 1792000
-  Mean: -0.00
+  Mean: 0.00
   Std: 1.00
 

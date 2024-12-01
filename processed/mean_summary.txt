@@ -1,7 +1,7 @@
 Sensor 2:
   Number of time series: 3500
   Number of values: 1792000
-  Mean: -0.00
+  Mean: 0.00
   Std: 1.00
 
 Sensor 3:
@@ -79,7 +79,7 @@ Sensor 14:
 Sensor 15:
   Number of time series: 3500
   Number of values: 1792000
-  Mean: 0.00
+  Mean: -0.00
   Std: 1.00
 
 Sensor 16:
