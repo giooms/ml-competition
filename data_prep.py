@@ -249,19 +249,28 @@ class SensorDataPreprocessor:
         data = np.where((data < valid_range[0]) | (data > valid_range[1]), np.nan, data)
         
         # Remove statistical outliers using IQR method
-        for i in range(data.shape[0]):
-            valid_data = data[i, ~np.isnan(data[i])]
-            if len(valid_data) > 0:
-                q1, q3 = np.percentile(valid_data, [25, 75])
-                iqr = q3 - q1
-                mask = (data[i] >= q1 - 1.5*iqr) & (data[i] <= q3 + 1.5*iqr)
-                data[i, ~mask] = np.nan
+        # for i in range(data.shape[0]):
+        #     valid_data = data[i, ~np.isnan(data[i])]
+        #     if len(valid_data) > 0:
+        #         q1, q3 = np.percentile(valid_data, [25, 75])
+        #         iqr = q3 - q1
+        #         mask = (data[i] >= q1 - 1.5*iqr) & (data[i] <= q3 + 1.5*iqr)
+        #         data[i, ~mask] = np.nan
         
         # Fill remaining NaNs using rolling window median
         for i in range(data.shape[0]):
             data[i] = self._fill_nans_with_rolling_median(data[i])
         
         return data
+    
+    # def _winsorize_outliers(self, data: np.ndarray, sensor_id: int) -> np.ndarray:
+    #     """Winsorization: Cap outliers at percentiles"""
+    #     processed_data = data.copy()
+    #     for i in range(data.shape[1]):
+    #         column = data[:, i]
+    #         lower, upper = np.percentile(column, [2.5, 97.5])
+    #         processed_data[:, i] = np.clip(column, lower, upper)
+    #     return processed_data
     
     def _fill_nans_with_rolling_median(self, data: np.ndarray, window_size: int = 5) -> np.ndarray:
         """Fill NaNs using rolling window median."""
