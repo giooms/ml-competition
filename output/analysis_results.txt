@@ -1,0 +1,213 @@
+=== ACTIVITY DISTRIBUTION ===
+
+Lying: 250 samples (7.14%)
+Sitting: 250 samples (7.14%)
+Standing: 250 samples (7.14%)
+Walking very slow: 250 samples (7.14%)
+Normal walking: 250 samples (7.14%)
+Nordic walking: 250 samples (7.14%)
+Running: 250 samples (7.14%)
+Ascending stairs: 250 samples (7.14%)
+Descending stairs: 250 samples (7.14%)
+Cycling: 250 samples (7.14%)
+Ironing: 250 samples (7.14%)
+Vacuum cleaning: 250 samples (7.14%)
+Rope jumping: 250 samples (7.14%)
+Playing soccer: 250 samples (7.14%)
+
+=== MISSING VALUES ANALYSIS ===
+
+Sensor 2:
+  Total missing values: 0
+  Missing rate: 0.00%
+Sensor 3:
+  Total missing values: 83,650
+  Missing rate: 4.67%
+Sensor 4:
+  Total missing values: 83,650
+  Missing rate: 4.67%
+Sensor 5:
+  Total missing values: 83,650
+  Missing rate: 4.67%
+Sensor 6:
+  Total missing values: 83,650
+  Missing rate: 4.67%
+Sensor 7:
+  Total missing values: 83,650
+  Missing rate: 4.67%
+Sensor 8:
+  Total missing values: 83,650
+  Missing rate: 4.67%
+Sensor 9:
+  Total missing values: 83,650
+  Missing rate: 4.67%
+Sensor 10:
+  Total missing values: 83,650
+  Missing rate: 4.67%
+Sensor 11:
+  Total missing values: 83,650
+  Missing rate: 4.67%
+Sensor 12:
+  Total missing values: 83,650
+  Missing rate: 4.67%
+Sensor 13:
+  Total missing values: 127,183
+  Missing rate: 7.10%
+Sensor 14:
+  Total missing values: 127,183
+  Missing rate: 7.10%
+Sensor 15:
+  Total missing values: 127,183
+  Missing rate: 7.10%
+Sensor 16:
+  Total missing values: 127,183
+  Missing rate: 7.10%
+Sensor 17:
+  Total missing values: 127,183
+  Missing rate: 7.10%
+Sensor 18:
+  Total missing values: 127,183
+  Missing rate: 7.10%
+Sensor 19:
+  Total missing values: 127,183
+  Missing rate: 7.10%
+Sensor 20:
+  Total missing values: 127,183
+  Missing rate: 7.10%
+Sensor 21:
+  Total missing values: 127,183
+  Missing rate: 7.10%
+Sensor 22:
+  Total missing values: 127,183
+  Missing rate: 7.10%
+Sensor 23:
+  Total missing values: 284,966
+  Missing rate: 15.90%
+Sensor 24:
+  Total missing values: 284,966
+  Missing rate: 15.90%
+Sensor 25:
+  Total missing values: 284,966
+  Missing rate: 15.90%
+Sensor 26:
+  Total missing values: 284,966
+  Missing rate: 15.90%
+Sensor 27:
+  Total missing values: 284,966
+  Missing rate: 15.90%
+Sensor 28:
+  Total missing values: 284,966
+  Missing rate: 15.90%
+Sensor 29:
+  Total missing values: 284,966
+  Missing rate: 15.90%
+Sensor 30:
+  Total missing values: 284,966
+  Missing rate: 15.90%
+Sensor 31:
+  Total missing values: 284,966
+  Missing rate: 15.90%
+Sensor 32:
+  Total missing values: 284,966
+  Missing rate: 15.90%
+
+=== OUTLIER ANALYSIS ===
+
+HEART_RATE:
+  Sensor 2:
+    Range outliers: 0 (0.00%)
+    Statistical outliers: 0 (0.00%)
+TEMPERATURE:
+  Sensor 3:
+    Range outliers: 0 (0.00%)
+    Statistical outliers: 0 (0.00%)
+  Sensor 13:
+    Range outliers: 105,502 (6.34%)
+    Statistical outliers: 0 (0.00%)
+  Sensor 23:
+    Range outliers: 23,673 (1.57%)
+    Statistical outliers: 126,593 (8.40%)
+ACCELERATION:
+  Sensor 4:
+    Range outliers: 286 (0.02%)
+    Statistical outliers: 23,603 (1.38%)
+  Sensor 5:
+    Range outliers: 1,299 (0.08%)
+    Statistical outliers: 123,134 (7.21%)
+  Sensor 6:
+    Range outliers: 20 (0.00%)
+    Statistical outliers: 32,358 (1.89%)
+  Sensor 14:
+    Range outliers: 3,851 (0.23%)
+    Statistical outliers: 325,619 (19.56%)
+  Sensor 15:
+    Range outliers: 20 (0.00%)
+    Statistical outliers: 115,142 (6.92%)
+  Sensor 16:
+    Range outliers: 3 (0.00%)
+    Statistical outliers: 174,425 (10.48%)
+  Sensor 24:
+    Range outliers: 15,263 (1.01%)
+    Statistical outliers: 390,573 (25.92%)
+  Sensor 25:
+    Range outliers: 4,041 (0.27%)
+    Statistical outliers: 278,122 (18.45%)
+  Sensor 26:
+    Range outliers: 6,476 (0.43%)
+    Statistical outliers: 434,547 (28.83%)
+GYROSCOPE:
+  Sensor 7:
+    Range outliers: 2 (0.00%)
+    Statistical outliers: 252,898 (14.80%)
+  Sensor 8:
+    Range outliers: 0 (0.00%)
+    Statistical outliers: 268,322 (15.71%)
+  Sensor 9:
+    Range outliers: 0 (0.00%)
+    Statistical outliers: 309,876 (18.14%)
+  Sensor 17:
+    Range outliers: 0 (0.00%)
+    Statistical outliers: 212,981 (12.79%)
+  Sensor 18:
+    Range outliers: 0 (0.00%)
+    Statistical outliers: 240,406 (14.44%)
+  Sensor 19:
+    Range outliers: 0 (0.00%)
+    Statistical outliers: 172,072 (10.34%)
+  Sensor 27:
+    Range outliers: 80 (0.01%)
+    Statistical outliers: 440,538 (29.23%)
+  Sensor 28:
+    Range outliers: 31 (0.00%)
+    Statistical outliers: 538,396 (35.73%)
+  Sensor 29:
+    Range outliers: 1 (0.00%)
+    Statistical outliers: 478,227 (31.73%)
+MAGNETOMETER:
+  Sensor 10:
+    Range outliers: 161 (0.01%)
+    Statistical outliers: 27,141 (1.59%)
+  Sensor 11:
+    Range outliers: 2,090 (0.12%)
+    Statistical outliers: 4,997 (0.29%)
+  Sensor 12:
+    Range outliers: 8,420 (0.49%)
+    Statistical outliers: 15,311 (0.90%)
+  Sensor 20:
+    Range outliers: 44 (0.00%)
+    Statistical outliers: 128,065 (7.69%)
+  Sensor 21:
+    Range outliers: 29 (0.00%)
+    Statistical outliers: 146 (0.01%)
+  Sensor 22:
+    Range outliers: 19 (0.00%)
+    Statistical outliers: 240 (0.01%)
+  Sensor 30:
+    Range outliers: 151 (0.01%)
+    Statistical outliers: 2,486 (0.16%)
+  Sensor 31:
+    Range outliers: 68 (0.00%)
+    Statistical outliers: 11,315 (0.75%)
+  Sensor 32:
+    Range outliers: 64 (0.00%)
+    Statistical outliers: 38,867 (2.58%)
