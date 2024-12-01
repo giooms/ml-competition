@@ -15,199 +15,1846 @@ Vacuum cleaning: 250 samples (7.14%)
 Rope jumping: 250 samples (7.14%)
 Playing soccer: 250 samples (7.14%)
 
-=== MISSING VALUES ANALYSIS ===
+=== HEART_RATE SENSORS ===
 
 Sensor 2:
-  Total missing values: 0
-  Missing rate: 0.00%
+  Descriptive Statistics:
+    Mean: 106.19 bpm
+    Std: 35.53 bpm
+    Min: 48.00 bpm
+    25%: 78.00 bpm
+    Median: 99.00 bpm
+    75%: 127.00 bpm
+    Max: 187.00 bpm
+  Missing Values:
+    Count: 0
+    Rate: 0.00%
+  Outliers:
+    Count: 0
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: 63.41 bpm
+      Std: 9.67 bpm
+    Sitting:
+      Mean: 69.74 bpm
+      Std: 10.24 bpm
+    Standing:
+      Mean: 78.95 bpm
+      Std: 14.37 bpm
+    Walking very slow:
+      Mean: 79.24 bpm
+      Std: 7.61 bpm
+    Normal walking:
+      Mean: 112.83 bpm
+      Std: 24.75 bpm
+    Nordic walking:
+      Mean: 108.59 bpm
+      Std: 16.59 bpm
+    Running:
+      Mean: 139.82 bpm
+      Std: 20.07 bpm
+    Ascending stairs:
+      Mean: 110.00 bpm
+      Std: 23.87 bpm
+    Descending stairs:
+      Mean: 108.49 bpm
+      Std: 26.65 bpm
+    Cycling:
+      Mean: 110.17 bpm
+      Std: 8.69 bpm
+    Ironing:
+      Mean: 81.38 bpm
+      Std: 11.61 bpm
+    Vacuum cleaning:
+      Mean: 94.69 bpm
+      Std: 9.15 bpm
+    Rope jumping:
+      Mean: 161.71 bpm
+      Std: 19.34 bpm
+    Playing soccer:
+      Mean: 167.61 bpm
+      Std: 21.21 bpm
+
+
+=== TEMPERATURE SENSORS ===
+
 Sensor 3:
-  Total missing values: 83,650
-  Missing rate: 4.67%
-Sensor 4:
-  Total missing values: 83,650
-  Missing rate: 4.67%
-Sensor 5:
-  Total missing values: 83,650
-  Missing rate: 4.67%
-Sensor 6:
-  Total missing values: 83,650
-  Missing rate: 4.67%
-Sensor 7:
-  Total missing values: 83,650
-  Missing rate: 4.67%
-Sensor 8:
-  Total missing values: 83,650
-  Missing rate: 4.67%
-Sensor 9:
-  Total missing values: 83,650
-  Missing rate: 4.67%
-Sensor 10:
-  Total missing values: 83,650
-  Missing rate: 4.67%
-Sensor 11:
-  Total missing values: 83,650
-  Missing rate: 4.67%
-Sensor 12:
-  Total missing values: 83,650
-  Missing rate: 4.67%
+  Descriptive Statistics:
+    Mean: 27.59 °C
+    Std: 3.88 °C
+    Min: 20.44 °C
+    25%: 23.88 °C
+    Median: 29.31 °C
+    75%: 30.88 °C
+    Max: 33.00 °C
+  Missing Values:
+    Count: 83,650
+    Rate: 4.67%
+  Outliers:
+    Count: 0
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199975.95 °C
+      Std: 400012.02 °C
+    Sitting:
+      Mean: -199975.39 °C
+      Std: 400012.30 °C
+    Standing:
+      Mean: -66267.48 °C
+      Std: 246457.19 °C
+    Walking very slow:
+      Mean: 27.99 °C
+      Std: 1.27 °C
+    Normal walking:
+      Mean: 25.44 °C
+      Std: 2.86 °C
+    Nordic walking:
+      Mean: 25.59 °C
+      Std: 2.34 °C
+    Running:
+      Mean: 24.16 °C
+      Std: 2.62 °C
+    Ascending stairs:
+      Mean: 30.71 °C
+      Std: 0.82 °C
+    Descending stairs:
+      Mean: 30.59 °C
+      Std: 0.82 °C
+    Cycling:
+      Mean: 22.70 °C
+      Std: 0.86 °C
+    Ironing:
+      Mean: 31.70 °C
+      Std: 0.91 °C
+    Vacuum cleaning:
+      Mean: -187192.77 °C
+      Std: 387115.46 °C
+    Rope jumping:
+      Mean: 22.64 °C
+      Std: 1.35 °C
+    Playing soccer:
+      Mean: 22.75 °C
+      Std: 1.39 °C
+
 Sensor 13:
-  Total missing values: 127,183
-  Missing rate: 7.10%
-Sensor 14:
-  Total missing values: 127,183
-  Missing rate: 7.10%
-Sensor 15:
-  Total missing values: 127,183
-  Missing rate: 7.10%
-Sensor 16:
-  Total missing values: 127,183
-  Missing rate: 7.10%
-Sensor 17:
-  Total missing values: 127,183
-  Missing rate: 7.10%
-Sensor 18:
-  Total missing values: 127,183
-  Missing rate: 7.10%
-Sensor 19:
-  Total missing values: 127,183
-  Missing rate: 7.10%
-Sensor 20:
-  Total missing values: 127,183
-  Missing rate: 7.10%
-Sensor 21:
-  Total missing values: 127,183
-  Missing rate: 7.10%
-Sensor 22:
-  Total missing values: 127,183
-  Missing rate: 7.10%
+  Descriptive Statistics:
+    Mean: 26.96 °C
+    Std: 3.66 °C
+    Min: 19.44 °C
+    25%: 23.88 °C
+    Median: 28.25 °C
+    75%: 29.75 °C
+    Max: 32.19 °C
+  Missing Values:
+    Count: 127,183
+    Rate: 7.10%
+  Outliers:
+    Count: 105,502
+    Rate: 6.34%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199976.93 °C
+      Std: 400011.53 °C
+    Sitting:
+      Mean: -199976.52 °C
+      Std: 400011.74 °C
+    Standing:
+      Mean: -66268.80 °C
+      Std: 246456.85 °C
+    Walking very slow:
+      Mean: 27.21 °C
+      Std: 0.81 °C
+    Normal walking:
+      Mean: -136181.02 °C
+      Std: 340112.29 °C
+    Nordic walking:
+      Mean: 24.91 °C
+      Std: 2.52 °C
+    Running:
+      Mean: -59095.12 °C
+      Std: 234386.33 °C
+    Ascending stairs:
+      Mean: 29.71 °C
+      Std: 0.95 °C
+    Descending stairs:
+      Mean: 29.57 °C
+      Std: 0.98 °C
+    Cycling:
+      Mean: 22.21 °C
+      Std: 1.19 °C
+    Ironing:
+      Mean: 30.56 °C
+      Std: 0.96 °C
+    Vacuum cleaning:
+      Mean: 30.76 °C
+      Std: 0.93 °C
+    Rope jumping:
+      Mean: 21.92 °C
+      Std: 1.98 °C
+    Playing soccer:
+      Mean: -331985.05 °C
+      Std: 470941.52 °C
+
 Sensor 23:
-  Total missing values: 284,966
-  Missing rate: 15.90%
+  Descriptive Statistics:
+    Mean: 28.42 °C
+    Std: 3.93 °C
+    Min: 19.69 °C
+    25%: 26.94 °C
+    Median: 29.25 °C
+    75%: 30.62 °C
+    Max: 35.25 °C
+  Missing Values:
+    Count: 284,966
+    Rate: 15.90%
+  Outliers:
+    Count: 23,673
+    Rate: 1.57%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199975.82 °C
+      Std: 400012.08 °C
+    Sitting:
+      Mean: -199975.37 °C
+      Std: 400012.31 °C
+    Standing:
+      Mean: -66267.64 °C
+      Std: 246457.16 °C
+    Walking very slow:
+      Mean: 27.32 °C
+      Std: 1.54 °C
+    Normal walking:
+      Mean: -351983.44 °C
+      Std: 477606.17 °C
+    Nordic walking:
+      Mean: -247980.66 °C
+      Std: 431862.93 °C
+    Running:
+      Mean: -495988.26 °C
+      Std: 499995.64 °C
+    Ascending stairs:
+      Mean: 31.04 °C
+      Std: 1.89 °C
+    Descending stairs:
+      Mean: 30.96 °C
+      Std: 1.86 °C
+    Cycling:
+      Mean: -331984.14 °C
+      Std: 470942.17 °C
+    Ironing:
+      Mean: 31.61 °C
+      Std: 2.00 °C
+    Vacuum cleaning:
+      Mean: 31.81 °C
+      Std: 1.98 °C
+    Rope jumping:
+      Mean: 24.46 °C
+      Std: 2.79 °C
+    Playing soccer:
+      Mean: -331984.12 °C
+      Std: 470942.18 °C
+
+
+=== ACCELERATION SENSORS ===
+
+Sensor 4:
+  Descriptive Statistics:
+    Mean: -5.35 m/s²
+    Std: 6.30 m/s²
+    Min: -89.33 m/s²
+    25%: -9.22 m/s²
+    Median: -5.92 m/s²
+    75%: -1.03 m/s²
+    Max: 46.86 m/s²
+  Missing Values:
+    Count: 83,650
+    Rate: 4.67%
+  Outliers:
+    Count: 286
+    Rate: 0.02%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199996.36 m/s²
+      Std: 400001.82 m/s²
+    Sitting:
+      Mean: -199999.67 m/s²
+      Std: 400000.16 m/s²
+    Standing:
+      Mean: -66301.48 m/s²
+      Std: 246448.23 m/s²
+    Walking very slow:
+      Mean: -6.72 m/s²
+      Std: 3.28 m/s²
+    Normal walking:
+      Mean: -10.20 m/s²
+      Std: 2.46 m/s²
+    Nordic walking:
+      Mean: -5.15 m/s²
+      Std: 2.30 m/s²
+    Running:
+      Mean: -5.19 m/s²
+      Std: 1.51 m/s²
+    Ascending stairs:
+      Mean: -8.89 m/s²
+      Std: 1.81 m/s²
+    Descending stairs:
+      Mean: -7.58 m/s²
+      Std: 2.44 m/s²
+    Cycling:
+      Mean: -4.86 m/s²
+      Std: 0.94 m/s²
+    Ironing:
+      Mean: -2.87 m/s²
+      Std: 1.73 m/s²
+    Vacuum cleaning:
+      Mean: -187225.18 m/s²
+      Std: 387100.00 m/s²
+    Rope jumping:
+      Mean: -4.09 m/s²
+      Std: 1.22 m/s²
+    Playing soccer:
+      Mean: -8.83 m/s²
+      Std: 2.35 m/s²
+
+Sensor 5:
+  Descriptive Statistics:
+    Mean: 4.42 m/s²
+    Std: 6.78 m/s²
+    Min: -112.46 m/s²
+    25%: 1.15 m/s²
+    Median: 2.91 m/s²
+    75%: 6.70 m/s²
+    Max: 152.49 m/s²
+  Missing Values:
+    Count: 83,650
+    Rate: 4.67%
+  Outliers:
+    Count: 1,299
+    Rate: 0.08%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199997.26 m/s²
+      Std: 400001.37 m/s²
+    Sitting:
+      Mean: -199998.45 m/s²
+      Std: 400000.77 m/s²
+    Standing:
+      Mean: -66292.96 m/s²
+      Std: 246450.46 m/s²
+    Walking very slow:
+      Mean: 5.19 m/s²
+      Std: 2.40 m/s²
+    Normal walking:
+      Mean: 3.01 m/s²
+      Std: 1.30 m/s²
+    Nordic walking:
+      Mean: 7.72 m/s²
+      Std: 0.91 m/s²
+    Running:
+      Mean: 9.69 m/s²
+      Std: 2.14 m/s²
+    Ascending stairs:
+      Mean: 2.74 m/s²
+      Std: 1.84 m/s²
+    Descending stairs:
+      Mean: 2.35 m/s²
+      Std: 1.65 m/s²
+    Cycling:
+      Mean: 0.96 m/s²
+      Std: 1.85 m/s²
+    Ironing:
+      Mean: 3.39 m/s²
+      Std: 2.59 m/s²
+    Vacuum cleaning:
+      Mean: -187215.74 m/s²
+      Std: 387104.49 m/s²
+    Rope jumping:
+      Mean: 8.87 m/s²
+      Std: 1.04 m/s²
+    Playing soccer:
+      Mean: 3.85 m/s²
+      Std: 1.84 m/s²
+
+Sensor 6:
+  Descriptive Statistics:
+    Mean: 3.46 m/s²
+    Std: 4.45 m/s²
+    Min: -48.71 m/s²
+    25%: 0.96 m/s²
+    Median: 3.17 m/s²
+    75%: 7.05 m/s²
+    Max: 73.64 m/s²
+  Missing Values:
+    Count: 83,650
+    Rate: 4.67%
+  Outliers:
+    Count: 20
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199995.47 m/s²
+      Std: 400002.26 m/s²
+    Sitting:
+      Mean: -199993.54 m/s²
+      Std: 400003.22 m/s²
+    Standing:
+      Mean: -66294.62 m/s²
+      Std: 246450.02 m/s²
+    Walking very slow:
+      Mean: 1.45 m/s²
+      Std: 1.74 m/s²
+    Normal walking:
+      Mean: 2.53 m/s²
+      Std: 1.30 m/s²
+    Nordic walking:
+      Mean: 3.06 m/s²
+      Std: 0.66 m/s²
+    Running:
+      Mean: 1.08 m/s²
+      Std: 2.13 m/s²
+    Ascending stairs:
+      Mean: 2.20 m/s²
+      Std: 1.54 m/s²
+    Descending stairs:
+      Mean: 3.59 m/s²
+      Std: 1.93 m/s²
+    Cycling:
+      Mean: 7.80 m/s²
+      Std: 0.64 m/s²
+    Ironing:
+      Mean: 6.82 m/s²
+      Std: 1.76 m/s²
+    Vacuum cleaning:
+      Mean: -187216.65 m/s²
+      Std: 387104.08 m/s²
+    Rope jumping:
+      Mean: -0.41 m/s²
+      Std: 1.53 m/s²
+    Playing soccer:
+      Mean: 2.74 m/s²
+      Std: 2.50 m/s²
+
+Sensor 14:
+  Descriptive Statistics:
+    Mean: 8.85 m/s²
+    Std: 6.84 m/s²
+    Min: -43.42 m/s²
+    25%: 6.70 m/s²
+    Median: 9.38 m/s²
+    75%: 9.98 m/s²
+    Max: 154.70 m/s²
+  Missing Values:
+    Count: 127,183
+    Rate: 7.10%
+  Outliers:
+    Count: 3,851
+    Rate: 0.23%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199999.30 m/s²
+      Std: 400000.35 m/s²
+    Sitting:
+      Mean: -199992.69 m/s²
+      Std: 400003.65 m/s²
+    Standing:
+      Mean: -66287.85 m/s²
+      Std: 246451.81 m/s²
+    Walking very slow:
+      Mean: 9.69 m/s²
+      Std: 0.10 m/s²
+    Normal walking:
+      Mean: -136194.74 m/s²
+      Std: 340106.88 m/s²
+    Nordic walking:
+      Mean: 9.78 m/s²
+      Std: 0.09 m/s²
+    Running:
+      Mean: -59108.08 m/s²
+      Std: 234383.10 m/s²
+    Ascending stairs:
+      Mean: 9.58 m/s²
+      Std: 0.18 m/s²
+    Descending stairs:
+      Mean: 9.71 m/s²
+      Std: 0.16 m/s²
+    Cycling:
+      Mean: 9.56 m/s²
+      Std: 0.23 m/s²
+    Ironing:
+      Mean: 9.46 m/s²
+      Std: 0.44 m/s²
+    Vacuum cleaning:
+      Mean: 6.63 m/s²
+      Std: 2.55 m/s²
+    Rope jumping:
+      Mean: 9.77 m/s²
+      Std: 0.31 m/s²
+    Playing soccer:
+      Mean: -331993.58 m/s²
+      Std: 470935.51 m/s²
+
+Sensor 15:
+  Descriptive Statistics:
+    Mean: 0.13 m/s²
+    Std: 2.36 m/s²
+    Min: -58.55 m/s²
+    25%: -0.97 m/s²
+    Median: -0.03 m/s²
+    75%: 1.02 m/s²
+    Max: 68.75 m/s²
+  Missing Values:
+    Count: 127,183
+    Rate: 7.10%
+  Outliers:
+    Count: 20
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200001.29 m/s²
+      Std: 399999.35 m/s²
+    Sitting:
+      Mean: -199999.82 m/s²
+      Std: 400000.08 m/s²
+    Standing:
+      Mean: -66297.04 m/s²
+      Std: 246449.39 m/s²
+    Walking very slow:
+      Mean: -0.23 m/s²
+      Std: 0.38 m/s²
+    Normal walking:
+      Mean: -136203.09 m/s²
+      Std: 340103.60 m/s²
+    Nordic walking:
+      Mean: -0.14 m/s²
+      Std: 0.53 m/s²
+    Running:
+      Mean: -59116.67 m/s²
+      Std: 234380.96 m/s²
+    Ascending stairs:
+      Mean: -0.03 m/s²
+      Std: 0.50 m/s²
+    Descending stairs:
+      Mean: 0.43 m/s²
+      Std: 0.77 m/s²
+    Cycling:
+      Mean: -0.30 m/s²
+      Std: 0.42 m/s²
+    Ironing:
+      Mean: 0.73 m/s²
+      Std: 0.80 m/s²
+    Vacuum cleaning:
+      Mean: 1.79 m/s²
+      Std: 1.81 m/s²
+    Rope jumping:
+      Mean: 0.01 m/s²
+      Std: 0.64 m/s²
+    Playing soccer:
+      Mean: -331999.89 m/s²
+      Std: 470931.06 m/s²
+
+Sensor 16:
+  Descriptive Statistics:
+    Mean: -0.80 m/s²
+    Std: 3.90 m/s²
+    Min: -106.12 m/s²
+    25%: -2.70 m/s²
+    Median: -0.80 m/s²
+    75%: 0.71 m/s²
+    Max: 57.04 m/s²
+  Missing Values:
+    Count: 127,183
+    Rate: 7.10%
+  Outliers:
+    Count: 3
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199993.17 m/s²
+      Std: 400003.41 m/s²
+    Sitting:
+      Mean: -200001.10 m/s²
+      Std: 399999.45 m/s²
+    Standing:
+      Mean: -66297.49 m/s²
+      Std: 246449.27 m/s²
+    Walking very slow:
+      Mean: 0.75 m/s²
+      Std: 0.69 m/s²
+    Normal walking:
+      Mean: -136203.10 m/s²
+      Std: 340103.59 m/s²
+    Nordic walking:
+      Mean: -0.36 m/s²
+      Std: 0.87 m/s²
+    Running:
+      Mean: -59118.59 m/s²
+      Std: 234380.48 m/s²
+    Ascending stairs:
+      Mean: -2.04 m/s²
+      Std: 1.30 m/s²
+    Descending stairs:
+      Mean: -0.35 m/s²
+      Std: 1.15 m/s²
+    Cycling:
+      Mean: -2.36 m/s²
+      Std: 1.06 m/s²
+    Ironing:
+      Mean: -1.81 m/s²
+      Std: 1.74 m/s²
+    Vacuum cleaning:
+      Mean: -5.90 m/s²
+      Std: 2.79 m/s²
+    Rope jumping:
+      Mean: -0.63 m/s²
+      Std: 0.82 m/s²
+    Playing soccer:
+      Mean: -332001.41 m/s²
+      Std: 470929.99 m/s²
+
 Sensor 24:
-  Total missing values: 284,966
-  Missing rate: 15.90%
+  Descriptive Statistics:
+    Mean: -6.78 m/s²
+    Std: 11.47 m/s²
+    Min: -154.80 m/s²
+    25%: -7.14 m/s²
+    Median: -4.96 m/s²
+    75%: -3.85 m/s²
+    Max: 153.16 m/s²
+  Missing Values:
+    Count: 284,966
+    Rate: 15.90%
+  Outliers:
+    Count: 15,263
+    Rate: 1.01%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199996.41 m/s²
+      Std: 400001.79 m/s²
+    Sitting:
+      Mean: -200003.65 m/s²
+      Std: 399998.17 m/s²
+    Standing:
+      Mean: -66301.35 m/s²
+      Std: 246448.25 m/s²
+    Walking very slow:
+      Mean: -6.34 m/s²
+      Std: 0.38 m/s²
+    Normal walking:
+      Mean: -352006.64 m/s²
+      Std: 477589.07 m/s²
+    Nordic walking:
+      Mean: -248008.71 m/s²
+      Std: 431846.82 m/s²
+    Running:
+      Mean: -496007.92 m/s²
+      Std: 499976.14 m/s²
+    Ascending stairs:
+      Mean: -7.96 m/s²
+      Std: 1.90 m/s²
+    Descending stairs:
+      Mean: -7.28 m/s²
+      Std: 1.56 m/s²
+    Cycling:
+      Mean: -332005.65 m/s²
+      Std: 470927.01 m/s²
+    Ironing:
+      Mean: -4.85 m/s²
+      Std: 0.82 m/s²
+    Vacuum cleaning:
+      Mean: -5.19 m/s²
+      Std: 0.86 m/s²
+    Rope jumping:
+      Mean: -7.03 m/s²
+      Std: 0.76 m/s²
+    Playing soccer:
+      Mean: -332007.71 m/s²
+      Std: 470925.55 m/s²
+
 Sensor 25:
-  Total missing values: 284,966
-  Missing rate: 15.90%
+  Descriptive Statistics:
+    Mean: 2.29 m/s²
+    Std: 7.03 m/s²
+    Min: -151.40 m/s²
+    25%: 0.40 m/s²
+    Median: 1.94 m/s²
+    75%: 3.31 m/s²
+    Max: 152.32 m/s²
+  Missing Values:
+    Count: 284,966
+    Rate: 15.90%
+  Outliers:
+    Count: 4,041
+    Rate: 0.27%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199993.24 m/s²
+      Std: 400003.38 m/s²
+    Sitting:
+      Mean: -199998.72 m/s²
+      Std: 400000.63 m/s²
+    Standing:
+      Mean: -66295.48 m/s²
+      Std: 246449.80 m/s²
+    Walking very slow:
+      Mean: 1.57 m/s²
+      Std: 0.93 m/s²
+    Normal walking:
+      Mean: -351998.77 m/s²
+      Std: 477594.87 m/s²
+    Nordic walking:
+      Mean: -247998.81 m/s²
+      Std: 431852.51 m/s²
+    Running:
+      Mean: -495998.51 m/s²
+      Std: 499985.47 m/s²
+    Ascending stairs:
+      Mean: 2.72 m/s²
+      Std: 1.27 m/s²
+    Descending stairs:
+      Mean: 1.29 m/s²
+      Std: 1.33 m/s²
+    Cycling:
+      Mean: -331999.09 m/s²
+      Std: 470931.62 m/s²
+    Ironing:
+      Mean: 1.48 m/s²
+      Std: 1.10 m/s²
+    Vacuum cleaning:
+      Mean: 1.60 m/s²
+      Std: 1.09 m/s²
+    Rope jumping:
+      Mean: 2.03 m/s²
+      Std: 0.85 m/s²
+    Playing soccer:
+      Mean: -331997.95 m/s²
+      Std: 470932.43 m/s²
+
 Sensor 26:
-  Total missing values: 284,966
-  Missing rate: 15.90%
+  Descriptive Statistics:
+    Mean: 7.53 m/s²
+    Std: 8.64 m/s²
+    Min: -161.44 m/s²
+    25%: 6.52 m/s²
+    Median: 8.10 m/s²
+    75%: 8.73 m/s²
+    Max: 163.77 m/s²
+  Missing Values:
+    Count: 284,966
+    Rate: 15.90%
+  Outliers:
+    Count: 6,476
+    Rate: 0.43%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199999.58 m/s²
+      Std: 400000.20 m/s²
+    Sitting:
+      Mean: -199993.46 m/s²
+      Std: 400003.27 m/s²
+    Standing:
+      Mean: -66289.40 m/s²
+      Std: 246451.40 m/s²
+    Walking very slow:
+      Mean: 8.08 m/s²
+      Std: 0.17 m/s²
+    Normal walking:
+      Mean: -351993.54 m/s²
+      Std: 477598.72 m/s²
+    Nordic walking:
+      Mean: -247991.91 m/s²
+      Std: 431856.47 m/s²
+    Running:
+      Mean: -495994.33 m/s²
+      Std: 499989.61 m/s²
+    Ascending stairs:
+      Mean: 6.80 m/s²
+      Std: 0.70 m/s²
+    Descending stairs:
+      Mean: 7.45 m/s²
+      Std: 0.78 m/s²
+    Cycling:
+      Mean: -331996.39 m/s²
+      Std: 470933.53 m/s²
+    Ironing:
+      Mean: 7.94 m/s²
+      Std: 0.41 m/s²
+    Vacuum cleaning:
+      Mean: 7.81 m/s²
+      Std: 0.49 m/s²
+    Rope jumping:
+      Mean: 5.95 m/s²
+      Std: 0.86 m/s²
+    Playing soccer:
+      Mean: -331993.63 m/s²
+      Std: 470935.48 m/s²
+
+
+=== GYROSCOPE SENSORS ===
+
+Sensor 7:
+  Descriptive Statistics:
+    Mean: 0.05 rad/s
+    Std: 1.19 rad/s
+    Min: -21.03 rad/s
+    25%: -0.36 rad/s
+    Median: 0.02 rad/s
+    75%: 0.39 rad/s
+    Max: 13.38 rad/s
+  Missing Values:
+    Count: 83,650
+    Rate: 4.67%
+  Outliers:
+    Count: 2
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199999.98 rad/s
+      Std: 400000.00 rad/s
+    Sitting:
+      Mean: -199999.98 rad/s
+      Std: 400000.00 rad/s
+    Standing:
+      Mean: -66296.84 rad/s
+      Std: 246449.44 rad/s
+    Walking very slow:
+      Mean: -0.00 rad/s
+      Std: 0.10 rad/s
+    Normal walking:
+      Mean: 0.02 rad/s
+      Std: 0.14 rad/s
+    Nordic walking:
+      Mean: 0.03 rad/s
+      Std: 0.13 rad/s
+    Running:
+      Mean: 0.22 rad/s
+      Std: 0.20 rad/s
+    Ascending stairs:
+      Mean: -0.35 rad/s
+      Std: 0.23 rad/s
+    Descending stairs:
+      Mean: 0.37 rad/s
+      Std: 0.27 rad/s
+    Cycling:
+      Mean: 0.01 rad/s
+      Std: 0.13 rad/s
+    Ironing:
+      Mean: 0.03 rad/s
+      Std: 0.11 rad/s
+    Vacuum cleaning:
+      Mean: -187218.73 rad/s
+      Std: 387103.09 rad/s
+    Rope jumping:
+      Mean: 0.29 rad/s
+      Std: 0.24 rad/s
+    Playing soccer:
+      Mean: -0.03 rad/s
+      Std: 0.44 rad/s
+
+Sensor 8:
+  Descriptive Statistics:
+    Mean: 0.01 rad/s
+    Std: 0.99 rad/s
+    Min: -7.01 rad/s
+    25%: -0.31 rad/s
+    Median: -0.03 rad/s
+    75%: 0.32 rad/s
+    Max: 9.96 rad/s
+  Missing Values:
+    Count: 83,650
+    Rate: 4.67%
+  Outliers:
+    Count: 0
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200000.02 rad/s
+      Std: 399999.98 rad/s
+    Sitting:
+      Mean: -200000.02 rad/s
+      Std: 399999.98 rad/s
+    Standing:
+      Mean: -66296.90 rad/s
+      Std: 246449.42 rad/s
+    Walking very slow:
+      Mean: 0.00 rad/s
+      Std: 0.09 rad/s
+    Normal walking:
+      Mean: 0.07 rad/s
+      Std: 0.13 rad/s
+    Nordic walking:
+      Mean: 0.06 rad/s
+      Std: 0.23 rad/s
+    Running:
+      Mean: 0.08 rad/s
+      Std: 0.20 rad/s
+    Ascending stairs:
+      Mean: 0.12 rad/s
+      Std: 0.15 rad/s
+    Descending stairs:
+      Mean: -0.19 rad/s
+      Std: 0.19 rad/s
+    Cycling:
+      Mean: -0.06 rad/s
+      Std: 0.10 rad/s
+    Ironing:
+      Mean: -0.05 rad/s
+      Std: 0.09 rad/s
+    Vacuum cleaning:
+      Mean: -187218.76 rad/s
+      Std: 387103.07 rad/s
+    Rope jumping:
+      Mean: 0.21 rad/s
+      Std: 0.16 rad/s
+    Playing soccer:
+      Mean: 0.01 rad/s
+      Std: 0.22 rad/s
+
+Sensor 9:
+  Descriptive Statistics:
+    Mean: 0.01 rad/s
+    Std: 1.57 rad/s
+    Min: -14.60 rad/s
+    25%: -0.47 rad/s
+    Median: 0.00 rad/s
+    75%: 0.48 rad/s
+    Max: 11.48 rad/s
+  Missing Values:
+    Count: 83,650
+    Rate: 4.67%
+  Outliers:
+    Count: 0
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199999.99 rad/s
+      Std: 400000.00 rad/s
+    Sitting:
+      Mean: -200000.00 rad/s
+      Std: 400000.00 rad/s
+    Standing:
+      Mean: -66296.88 rad/s
+      Std: 246449.43 rad/s
+    Walking very slow:
+      Mean: 0.01 rad/s
+      Std: 0.06 rad/s
+    Normal walking:
+      Mean: 0.02 rad/s
+      Std: 0.17 rad/s
+    Nordic walking:
+      Mean: 0.03 rad/s
+      Std: 0.12 rad/s
+    Running:
+      Mean: 0.06 rad/s
+      Std: 0.18 rad/s
+    Ascending stairs:
+      Mean: 0.19 rad/s
+      Std: 0.15 rad/s
+    Descending stairs:
+      Mean: -0.23 rad/s
+      Std: 0.24 rad/s
+    Cycling:
+      Mean: -0.00 rad/s
+      Std: 0.19 rad/s
+    Ironing:
+      Mean: 0.02 rad/s
+      Std: 0.12 rad/s
+    Vacuum cleaning:
+      Mean: -187218.75 rad/s
+      Std: 387103.08 rad/s
+    Rope jumping:
+      Mean: 0.04 rad/s
+      Std: 0.11 rad/s
+    Playing soccer:
+      Mean: 0.01 rad/s
+      Std: 0.28 rad/s
+
+Sensor 17:
+  Descriptive Statistics:
+    Mean: -0.01 rad/s
+    Std: 0.77 rad/s
+    Min: -10.54 rad/s
+    25%: -0.26 rad/s
+    Median: -0.01 rad/s
+    75%: 0.24 rad/s
+    Max: 19.12 rad/s
+  Missing Values:
+    Count: 127,183
+    Rate: 7.10%
+  Outliers:
+    Count: 0
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200000.01 rad/s
+      Std: 399999.99 rad/s
+    Sitting:
+      Mean: -200000.00 rad/s
+      Std: 399999.99 rad/s
+    Standing:
+      Mean: -66296.89 rad/s
+      Std: 246449.43 rad/s
+    Walking very slow:
+      Mean: 0.02 rad/s
+      Std: 0.11 rad/s
+    Normal walking:
+      Mean: -136203.13 rad/s
+      Std: 340103.58 rad/s
+    Nordic walking:
+      Mean: 0.01 rad/s
+      Std: 0.26 rad/s
+    Running:
+      Mean: -59117.21 rad/s
+      Std: 234380.82 rad/s
+    Ascending stairs:
+      Mean: 0.44 rad/s
+      Std: 0.26 rad/s
+    Descending stairs:
+      Mean: -0.49 rad/s
+      Std: 0.36 rad/s
+    Cycling:
+      Mean: -0.03 rad/s
+      Std: 0.23 rad/s
+    Ironing:
+      Mean: -0.01 rad/s
+      Std: 0.07 rad/s
+    Vacuum cleaning:
+      Mean: -0.01 rad/s
+      Std: 0.14 rad/s
+    Rope jumping:
+      Mean: 0.01 rad/s
+      Std: 0.04 rad/s
+    Playing soccer:
+      Mean: -332000.00 rad/s
+      Std: 470930.99 rad/s
+
+Sensor 18:
+  Descriptive Statistics:
+    Mean: 0.03 rad/s
+    Std: 0.46 rad/s
+    Min: -11.24 rad/s
+    25%: -0.10 rad/s
+    Median: 0.03 rad/s
+    75%: 0.15 rad/s
+    Max: 11.84 rad/s
+  Missing Values:
+    Count: 127,183
+    Rate: 7.10%
+  Outliers:
+    Count: 0
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199999.98 rad/s
+      Std: 400000.01 rad/s
+    Sitting:
+      Mean: -199999.97 rad/s
+      Std: 400000.01 rad/s
+    Standing:
+      Mean: -66296.85 rad/s
+      Std: 246449.44 rad/s
+    Walking very slow:
+      Mean: 0.03 rad/s
+      Std: 0.01 rad/s
+    Normal walking:
+      Mean: -136203.11 rad/s
+      Std: 340103.59 rad/s
+    Nordic walking:
+      Mean: 0.03 rad/s
+      Std: 0.03 rad/s
+    Running:
+      Mean: -59117.19 rad/s
+      Std: 234380.82 rad/s
+    Ascending stairs:
+      Mean: 0.05 rad/s
+      Std: 0.04 rad/s
+    Descending stairs:
+      Mean: 0.01 rad/s
+      Std: 0.05 rad/s
+    Cycling:
+      Mean: 0.04 rad/s
+      Std: 0.05 rad/s
+    Ironing:
+      Mean: 0.03 rad/s
+      Std: 0.03 rad/s
+    Vacuum cleaning:
+      Mean: 0.03 rad/s
+      Std: 0.07 rad/s
+    Rope jumping:
+      Mean: 0.01 rad/s
+      Std: 0.02 rad/s
+    Playing soccer:
+      Mean: -331999.97 rad/s
+      Std: 470931.00 rad/s
+
+Sensor 19:
+  Descriptive Statistics:
+    Mean: 0.00 rad/s
+    Std: 0.29 rad/s
+    Min: -4.50 rad/s
+    25%: -0.11 rad/s
+    Median: 0.01 rad/s
+    75%: 0.12 rad/s
+    Max: 4.65 rad/s
+  Missing Values:
+    Count: 127,183
+    Rate: 7.10%
+  Outliers:
+    Count: 0
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199999.99 rad/s
+      Std: 400000.00 rad/s
+    Sitting:
+      Mean: -199999.99 rad/s
+      Std: 400000.00 rad/s
+    Standing:
+      Mean: -66296.87 rad/s
+      Std: 246449.43 rad/s
+    Walking very slow:
+      Mean: 0.01 rad/s
+      Std: 0.02 rad/s
+    Normal walking:
+      Mean: -136203.11 rad/s
+      Std: 340103.59 rad/s
+    Nordic walking:
+      Mean: 0.00 rad/s
+      Std: 0.02 rad/s
+    Running:
+      Mean: -59117.18 rad/s
+      Std: 234380.83 rad/s
+    Ascending stairs:
+      Mean: -0.04 rad/s
+      Std: 0.08 rad/s
+    Descending stairs:
+      Mean: -0.00 rad/s
+      Std: 0.06 rad/s
+    Cycling:
+      Mean: 0.01 rad/s
+      Std: 0.06 rad/s
+    Ironing:
+      Mean: 0.01 rad/s
+      Std: 0.03 rad/s
+    Vacuum cleaning:
+      Mean: 0.01 rad/s
+      Std: 0.11 rad/s
+    Rope jumping:
+      Mean: 0.00 rad/s
+      Std: 0.02 rad/s
+    Playing soccer:
+      Mean: -331999.99 rad/s
+      Std: 470930.99 rad/s
+
 Sensor 27:
-  Total missing values: 284,966
-  Missing rate: 15.90%
+  Descriptive Statistics:
+    Mean: 0.06 rad/s
+    Std: 1.23 rad/s
+    Min: -28.38 rad/s
+    25%: -0.10 rad/s
+    Median: 0.01 rad/s
+    75%: 0.17 rad/s
+    Max: 25.19 rad/s
+  Missing Values:
+    Count: 284,966
+    Rate: 15.90%
+  Outliers:
+    Count: 80
+    Rate: 0.01%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200000.00 rad/s
+      Std: 400000.00 rad/s
+    Sitting:
+      Mean: -200000.00 rad/s
+      Std: 400000.00 rad/s
+    Standing:
+      Mean: -66296.87 rad/s
+      Std: 246449.43 rad/s
+    Walking very slow:
+      Mean: 0.13 rad/s
+      Std: 0.07 rad/s
+    Normal walking:
+      Mean: -351999.89 rad/s
+      Std: 477594.04 rad/s
+    Nordic walking:
+      Mean: -247999.84 rad/s
+      Std: 431851.91 rad/s
+    Running:
+      Mean: -495999.86 rad/s
+      Std: 499984.13 rad/s
+    Ascending stairs:
+      Mean: -0.25 rad/s
+      Std: 0.18 rad/s
+    Descending stairs:
+      Mean: 0.37 rad/s
+      Std: 0.29 rad/s
+    Cycling:
+      Mean: -332000.00 rad/s
+      Std: 470930.98 rad/s
+    Ironing:
+      Mean: 0.00 rad/s
+      Std: 0.03 rad/s
+    Vacuum cleaning:
+      Mean: 0.01 rad/s
+      Std: 0.09 rad/s
+    Rope jumping:
+      Mean: -0.02 rad/s
+      Std: 0.06 rad/s
+    Playing soccer:
+      Mean: -331999.92 rad/s
+      Std: 470931.05 rad/s
+
 Sensor 28:
-  Total missing values: 284,966
-  Missing rate: 15.90%
+  Descriptive Statistics:
+    Mean: -0.02 rad/s
+    Std: 2.80 rad/s
+    Min: -24.09 rad/s
+    25%: -0.12 rad/s
+    Median: 0.00 rad/s
+    75%: 0.41 rad/s
+    Max: 25.93 rad/s
+  Missing Values:
+    Count: 284,966
+    Rate: 15.90%
+  Outliers:
+    Count: 31
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200000.01 rad/s
+      Std: 399999.99 rad/s
+    Sitting:
+      Mean: -200000.01 rad/s
+      Std: 399999.99 rad/s
+    Standing:
+      Mean: -66296.89 rad/s
+      Std: 246449.43 rad/s
+    Walking very slow:
+      Mean: 0.01 rad/s
+      Std: 0.08 rad/s
+    Normal walking:
+      Mean: -351999.99 rad/s
+      Std: 477593.97 rad/s
+    Nordic walking:
+      Mean: -248000.01 rad/s
+      Std: 431851.81 rad/s
+    Running:
+      Mean: -496000.03 rad/s
+      Std: 499983.96 rad/s
+    Ascending stairs:
+      Mean: -0.00 rad/s
+      Std: 0.11 rad/s
+    Descending stairs:
+      Mean: -0.07 rad/s
+      Std: 0.11 rad/s
+    Cycling:
+      Mean: -332000.03 rad/s
+      Std: 470930.96 rad/s
+    Ironing:
+      Mean: -0.02 rad/s
+      Std: 0.02 rad/s
+    Vacuum cleaning:
+      Mean: -0.02 rad/s
+      Std: 0.06 rad/s
+    Rope jumping:
+      Mean: -0.00 rad/s
+      Std: 0.06 rad/s
+    Playing soccer:
+      Mean: -332000.05 rad/s
+      Std: 470930.95 rad/s
+
 Sensor 29:
-  Total missing values: 284,966
-  Missing rate: 15.90%
+  Descriptive Statistics:
+    Mean: 0.01 rad/s
+    Std: 1.41 rad/s
+    Min: -24.64 rad/s
+    25%: -0.24 rad/s
+    Median: -0.01 rad/s
+    75%: 0.06 rad/s
+    Max: 18.96 rad/s
+  Missing Values:
+    Count: 284,966
+    Rate: 15.90%
+  Outliers:
+    Count: 1
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200000.00 rad/s
+      Std: 399999.99 rad/s
+    Sitting:
+      Mean: -200000.00 rad/s
+      Std: 399999.99 rad/s
+    Standing:
+      Mean: -66296.88 rad/s
+      Std: 246449.43 rad/s
+    Walking very slow:
+      Mean: 0.08 rad/s
+      Std: 0.08 rad/s
+    Normal walking:
+      Mean: -351999.97 rad/s
+      Std: 477593.99 rad/s
+    Nordic walking:
+      Mean: -247999.96 rad/s
+      Std: 431851.84 rad/s
+    Running:
+      Mean: -496000.04 rad/s
+      Std: 499983.95 rad/s
+    Ascending stairs:
+      Mean: 0.17 rad/s
+      Std: 0.12 rad/s
+    Descending stairs:
+      Mean: -0.13 rad/s
+      Std: 0.13 rad/s
+    Cycling:
+      Mean: -332000.00 rad/s
+      Std: 470930.99 rad/s
+    Ironing:
+      Mean: -0.01 rad/s
+      Std: 0.04 rad/s
+    Vacuum cleaning:
+      Mean: -0.02 rad/s
+      Std: 0.14 rad/s
+    Rope jumping:
+      Mean: 0.02 rad/s
+      Std: 0.05 rad/s
+    Playing soccer:
+      Mean: -332000.02 rad/s
+      Std: 470930.97 rad/s
+
+
+=== MAGNETOMETER SENSORS ===
+
+Sensor 10:
+  Descriptive Statistics:
+    Mean: 19.27 µT
+    Std: 24.79 µT
+    Min: -462.39 µT
+    25%: 4.06 µT
+    Median: 21.64 µT
+    75%: 37.57 µT
+    Max: 122.14 µT
+  Missing Values:
+    Count: 83,650
+    Rate: 4.67%
+  Outliers:
+    Count: 161
+    Rate: 0.01%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200005.28 µT
+      Std: 399997.36 µT
+    Sitting:
+      Mean: -200004.23 µT
+      Std: 399997.88 µT
+    Standing:
+      Mean: -66282.36 µT
+      Std: 246453.06 µT
+    Walking very slow:
+      Mean: 30.16 µT
+      Std: 16.92 µT
+    Normal walking:
+      Mean: 34.18 µT
+      Std: 10.14 µT
+    Nordic walking:
+      Mean: 16.16 µT
+      Std: 13.30 µT
+    Running:
+      Mean: 12.99 µT
+      Std: 17.98 µT
+    Ascending stairs:
+      Mean: 32.85 µT
+      Std: 9.22 µT
+    Descending stairs:
+      Mean: 29.59 µT
+      Std: 12.85 µT
+    Cycling:
+      Mean: 23.89 µT
+      Std: 14.70 µT
+    Ironing:
+      Mean: 15.03 µT
+      Std: 11.37 µT
+    Vacuum cleaning:
+      Mean: -187197.14 µT
+      Std: 387113.42 µT
+    Rope jumping:
+      Mean: -1.16 µT
+      Std: 17.12 µT
+    Playing soccer:
+      Mean: 36.90 µT
+      Std: 15.16 µT
+
+Sensor 11:
+  Descriptive Statistics:
+    Mean: -18.23 µT
+    Std: 39.04 µT
+    Min: -27586.21 µT
+    25%: -38.72 µT
+    Median: -21.20 µT
+    75%: 0.89 µT
+    Max: 178.09 µT
+  Missing Values:
+    Count: 83,650
+    Rate: 4.67%
+  Outliers:
+    Count: 2,090
+    Rate: 0.12%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199988.27 µT
+      Std: 400005.86 µT
+    Sitting:
+      Mean: -200023.26 µT
+      Std: 399988.36 µT
+    Standing:
+      Mean: -66312.86 µT
+      Std: 246445.18 µT
+    Walking very slow:
+      Mean: -28.16 µT
+      Std: 17.79 µT
+    Normal walking:
+      Mean: -10.09 µT
+      Std: 15.47 µT
+    Nordic walking:
+      Mean: -32.27 µT
+      Std: 8.04 µT
+    Running:
+      Mean: -36.38 µT
+      Std: 10.51 µT
+    Ascending stairs:
+      Mean: -6.56 µT
+      Std: 18.07 µT
+    Descending stairs:
+      Mean: -12.90 µT
+      Std: 18.88 µT
+    Cycling:
+      Mean: -2.70 µT
+      Std: 15.66 µT
+    Ironing:
+      Mean: -17.46 µT
+      Std: 21.94 µT
+    Vacuum cleaning:
+      Mean: -187230.21 µT
+      Std: 387097.81 µT
+    Rope jumping:
+      Mean: -44.62 µT
+      Std: 5.59 µT
+    Playing soccer:
+      Mean: -13.24 µT
+      Std: 14.38 µT
+
+Sensor 12:
+  Descriptive Statistics:
+    Mean: -20.93 µT
+    Std: 53.53 µT
+    Min: -32091.38 µT
+    25%: -35.45 µT
+    Median: -21.65 µT
+    75%: -5.34 µT
+    Max: 95.00 µT
+  Missing Values:
+    Count: 83,650
+    Rate: 4.67%
+  Outliers:
+    Count: 8,420
+    Rate: 0.49%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200026.19 µT
+      Std: 399986.90 µT
+    Sitting:
+      Mean: -200036.71 µT
+      Std: 399981.64 µT
+    Standing:
+      Mean: -66312.18 µT
+      Std: 246445.36 µT
+    Walking very slow:
+      Mean: -10.32 µT
+      Std: 16.14 µT
+    Normal walking:
+      Mean: -17.32 µT
+      Std: 11.60 µT
+    Nordic walking:
+      Mean: -18.12 µT
+      Std: 17.84 µT
+    Running:
+      Mean: -14.61 µT
+      Std: 12.71 µT
+    Ascending stairs:
+      Mean: -17.15 µT
+      Std: 15.45 µT
+    Descending stairs:
+      Mean: -15.37 µT
+      Std: 15.57 µT
+    Cycling:
+      Mean: -38.82 µT
+      Std: 8.82 µT
+    Ironing:
+      Mean: -34.40 µT
+      Std: 13.33 µT
+    Vacuum cleaning:
+      Mean: -187227.46 µT
+      Std: 387098.80 µT
+    Rope jumping:
+      Mean: -8.25 µT
+      Std: 12.41 µT
+    Playing soccer:
+      Mean: -18.12 µT
+      Std: 11.11 µT
+
+Sensor 20:
+  Descriptive Statistics:
+    Mean: -39.02 µT
+    Std: 17.69 µT
+    Min: -169.99 µT
+    25%: -49.50 µT
+    Median: -43.06 µT
+    75%: -32.12 µT
+    Max: 1713.45 µT
+  Missing Values:
+    Count: 127,183
+    Rate: 7.10%
+  Outliers:
+    Count: 44
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -199993.77 µT
+      Std: 400003.11 µT
+    Sitting:
+      Mean: -200038.41 µT
+      Std: 399980.79 µT
+    Standing:
+      Mean: -66342.25 µT
+      Std: 246437.45 µT
+    Walking very slow:
+      Mean: -45.81 µT
+      Std: 8.21 µT
+    Normal walking:
+      Mean: -136241.74 µT
+      Std: 340088.44 µT
+    Nordic walking:
+      Mean: -43.81 µT
+      Std: 3.85 µT
+    Running:
+      Mean: -59159.32 µT
+      Std: 234370.33 µT
+    Ascending stairs:
+      Mean: -38.54 µT
+      Std: 7.39 µT
+    Descending stairs:
+      Mean: -39.12 µT
+      Std: 8.41 µT
+    Cycling:
+      Mean: -45.34 µT
+      Std: 5.54 µT
+    Ironing:
+      Mean: -34.30 µT
+      Std: 12.37 µT
+    Vacuum cleaning:
+      Mean: -23.80 µT
+      Std: 15.92 µT
+    Rope jumping:
+      Mean: -47.66 µT
+      Std: 7.47 µT
+    Playing soccer:
+      Mean: -332030.79 µT
+      Std: 470909.28 µT
+
+Sensor 21:
+  Descriptive Statistics:
+    Mean: -4.86 µT
+    Std: 47.59 µT
+    Min: -27521.47 µT
+    25%: -20.56 µT
+    Median: -4.24 µT
+    75%: 9.18 µT
+    Max: 53.91 µT
+  Missing Values:
+    Count: 127,183
+    Rate: 7.10%
+  Outliers:
+    Count: 29
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200020.86 µT
+      Std: 399989.57 µT
+    Sitting:
+      Mean: -199990.53 µT
+      Std: 400004.73 µT
+    Standing:
+      Mean: -66298.69 µT
+      Std: 246449.06 µT
+    Walking very slow:
+      Mean: 0.93 µT
+      Std: 11.82 µT
+    Normal walking:
+      Mean: -136208.11 µT
+      Std: 340101.70 µT
+    Nordic walking:
+      Mean: -4.07 µT
+      Std: 17.54 µT
+    Running:
+      Mean: -59121.15 µT
+      Std: 234379.82 µT
+    Ascending stairs:
+      Mean: -7.23 µT
+      Std: 18.45 µT
+    Descending stairs:
+      Mean: -0.52 µT
+      Std: 15.16 µT
+    Cycling:
+      Mean: -2.25 µT
+      Std: 14.07 µT
+    Ironing:
+      Mean: -5.73 µT
+      Std: 10.19 µT
+    Vacuum cleaning:
+      Mean: -4.46 µT
+      Std: 18.54 µT
+    Rope jumping:
+      Mean: -15.24 µT
+      Std: 12.07 µT
+    Playing soccer:
+      Mean: -332002.49 µT
+      Std: 470929.23 µT
+
+Sensor 22:
+  Descriptive Statistics:
+    Mean: 0.00 µT
+    Std: 20.89 µT
+    Min: -931.31 µT
+    25%: -15.41 µT
+    Median: -0.22 µT
+    75%: 15.96 µT
+    Max: 877.41 µT
+  Missing Values:
+    Count: 127,183
+    Rate: 7.10%
+  Outliers:
+    Count: 19
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200029.72 µT
+      Std: 399985.13 µT
+    Sitting:
+      Mean: -200001.12 µT
+      Std: 399999.43 µT
+    Standing:
+      Mean: -66306.08 µT
+      Std: 246446.86 µT
+    Walking very slow:
+      Mean: -5.78 µT
+      Std: 18.23 µT
+    Normal walking:
+      Mean: -136203.33 µT
+      Std: 340103.50 µT
+    Nordic walking:
+      Mean: -0.29 µT
+      Std: 12.61 µT
+    Running:
+      Mean: -59115.83 µT
+      Std: 234381.21 µT
+    Ascending stairs:
+      Mean: 5.19 µT
+      Std: 8.54 µT
+    Descending stairs:
+      Mean: 0.07 µT
+      Std: 9.87 µT
+    Cycling:
+      Mean: 8.46 µT
+      Std: 15.61 µT
+    Ironing:
+      Mean: 9.50 µT
+      Std: 10.70 µT
+    Vacuum cleaning:
+      Mean: 23.98 µT
+      Std: 22.15 µT
+    Rope jumping:
+      Mean: -7.77 µT
+      Std: 7.97 µT
+    Playing soccer:
+      Mean: -331994.45 µT
+      Std: 470934.90 µT
+
 Sensor 30:
-  Total missing values: 284,966
-  Missing rate: 15.90%
+  Descriptive Statistics:
+    Mean: 18.79 µT
+    Std: 19.98 µT
+    Min: -1722.06 µT
+    25%: 4.47 µT
+    Median: 21.13 µT
+    75%: 32.39 µT
+    Max: 313.22 µT
+  Missing Values:
+    Count: 284,966
+    Rate: 15.90%
+  Outliers:
+    Count: 151
+    Rate: 0.01%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200012.07 µT
+      Std: 399993.96 µT
+    Sitting:
+      Mean: -199984.67 µT
+      Std: 400007.66 µT
+    Standing:
+      Mean: -66285.75 µT
+      Std: 246452.32 µT
+    Walking very slow:
+      Mean: 20.50 µT
+      Std: 11.39 µT
+    Normal walking:
+      Mean: -351985.16 µT
+      Std: 477604.90 µT
+    Nordic walking:
+      Mean: -247984.32 µT
+      Std: 431860.82 µT
+    Running:
+      Mean: -495986.61 µT
+      Std: 499997.27 µT
+    Ascending stairs:
+      Mean: 22.06 µT
+      Std: 9.04 µT
+    Descending stairs:
+      Mean: 21.17 µT
+      Std: 11.23 µT
+    Cycling:
+      Mean: -331978.82 µT
+      Std: 470945.92 µT
+    Ironing:
+      Mean: 17.93 µT
+      Std: 16.85 µT
+    Vacuum cleaning:
+      Mean: 18.08 µT
+      Std: 19.42 µT
+    Rope jumping:
+      Mean: 23.73 µT
+      Std: 9.29 µT
+    Playing soccer:
+      Mean: -331981.73 µT
+      Std: 470943.87 µT
+
 Sensor 31:
-  Total missing values: 284,966
-  Missing rate: 15.90%
+  Descriptive Statistics:
+    Mean: -7.27 µT
+    Std: 39.88 µT
+    Min: -21489.28 µT
+    25%: -19.71 µT
+    Median: -7.31 µT
+    75%: 4.70 µT
+    Max: 102.61 µT
+  Missing Values:
+    Count: 284,966
+    Rate: 15.90%
+  Outliers:
+    Count: 68
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200007.20 µT
+      Std: 399996.40 µT
+    Sitting:
+      Mean: -200017.88 µT
+      Std: 399991.06 µT
+    Standing:
+      Mean: -66313.53 µT
+      Std: 246444.89 µT
+    Walking very slow:
+      Mean: -8.77 µT
+      Std: 11.50 µT
+    Normal walking:
+      Mean: -352001.05 µT
+      Std: 477593.19 µT
+    Nordic walking:
+      Mean: -248002.80 µT
+      Std: 431850.21 µT
+    Running:
+      Mean: -496003.56 µT
+      Std: 499980.46 µT
+    Ascending stairs:
+      Mean: -4.42 µT
+      Std: 17.34 µT
+    Descending stairs:
+      Mean: -6.47 µT
+      Std: 14.15 µT
+    Cycling:
+      Mean: -332003.24 µT
+      Std: 470928.70 µT
+    Ironing:
+      Mean: -2.88 µT
+      Std: 12.96 µT
+    Vacuum cleaning:
+      Mean: -4.39 µT
+      Std: 19.77 µT
+    Rope jumping:
+      Mean: -1.21 µT
+      Std: 11.19 µT
+    Playing soccer:
+      Mean: -332005.06 µT
+      Std: 470927.42 µT
+
 Sensor 32:
-  Total missing values: 284,966
-  Missing rate: 15.90%
+  Descriptive Statistics:
+    Mean: -27.86 µT
+    Std: 17.90 µT
+    Min: -199.50 µT
+    25%: -39.64 µT
+    Median: -29.38 µT
+    75%: -17.69 µT
+    Max: 64.68 µT
+  Missing Values:
+    Count: 284,966
+    Rate: 15.90%
+  Outliers:
+    Count: 64
+    Rate: 0.00%
+  Activity-specific Statistics:
+    Lying:
+      Mean: -200019.21 µT
+      Std: 399990.39 µT
+    Sitting:
+      Mean: -200022.19 µT
+      Std: 399988.90 µT
+    Standing:
+      Mean: -66341.76 µT
+      Std: 246437.53 µT
+    Walking very slow:
+      Mean: -28.41 µT
+      Std: 8.69 µT
+    Normal walking:
+      Mean: -352015.84 µT
+      Std: 477582.29 µT
+    Nordic walking:
+      Mean: -248017.67 µT
+      Std: 431841.67 µT
+    Running:
+      Mean: -496010.70 µT
+      Std: 499973.37 µT
+    Ascending stairs:
+      Mean: -20.32 µT
+      Std: 9.92 µT
+    Descending stairs:
+      Mean: -19.33 µT
+      Std: 8.65 µT
+    Cycling:
+      Mean: -332016.71 µT
+      Std: 470919.20 µT
+    Ironing:
+      Mean: -35.92 µT
+      Std: 9.68 µT
+    Vacuum cleaning:
+      Mean: -24.04 µT
+      Std: 16.86 µT
+    Rope jumping:
+      Mean: -36.49 µT
+      Std: 8.18 µT
+    Playing soccer:
+      Mean: -332016.26 µT
+      Std: 470919.52 µT
 
-=== OUTLIER ANALYSIS ===
-
-HEART_RATE:
-  Sensor 2:
-    Range outliers: 0 (0.00%)
-    Statistical outliers: 0 (0.00%)
-TEMPERATURE:
-  Sensor 3:
-    Range outliers: 0 (0.00%)
-    Statistical outliers: 0 (0.00%)
-  Sensor 13:
-    Range outliers: 105,502 (6.34%)
-    Statistical outliers: 0 (0.00%)
-  Sensor 23:
-    Range outliers: 23,673 (1.57%)
-    Statistical outliers: 126,593 (8.40%)
-ACCELERATION:
-  Sensor 4:
-    Range outliers: 286 (0.02%)
-    Statistical outliers: 23,603 (1.38%)
-  Sensor 5:
-    Range outliers: 1,299 (0.08%)
-    Statistical outliers: 123,134 (7.21%)
-  Sensor 6:
-    Range outliers: 20 (0.00%)
-    Statistical outliers: 32,358 (1.89%)
-  Sensor 14:
-    Range outliers: 3,851 (0.23%)
-    Statistical outliers: 325,619 (19.56%)
-  Sensor 15:
-    Range outliers: 20 (0.00%)
-    Statistical outliers: 115,142 (6.92%)
-  Sensor 16:
-    Range outliers: 3 (0.00%)
-    Statistical outliers: 174,425 (10.48%)
-  Sensor 24:
-    Range outliers: 15,263 (1.01%)
-    Statistical outliers: 390,573 (25.92%)
-  Sensor 25:
-    Range outliers: 4,041 (0.27%)
-    Statistical outliers: 278,122 (18.45%)
-  Sensor 26:
-    Range outliers: 6,476 (0.43%)
-    Statistical outliers: 434,547 (28.83%)
-GYROSCOPE:
-  Sensor 7:
-    Range outliers: 2 (0.00%)
-    Statistical outliers: 252,898 (14.80%)
-  Sensor 8:
-    Range outliers: 0 (0.00%)
-    Statistical outliers: 268,322 (15.71%)
-  Sensor 9:
-    Range outliers: 0 (0.00%)
-    Statistical outliers: 309,876 (18.14%)
-  Sensor 17:
-    Range outliers: 0 (0.00%)
-    Statistical outliers: 212,981 (12.79%)
-  Sensor 18:
-    Range outliers: 0 (0.00%)
-    Statistical outliers: 240,406 (14.44%)
-  Sensor 19:
-    Range outliers: 0 (0.00%)
-    Statistical outliers: 172,072 (10.34%)
-  Sensor 27:
-    Range outliers: 80 (0.01%)
-    Statistical outliers: 440,538 (29.23%)
-  Sensor 28:
-    Range outliers: 31 (0.00%)
-    Statistical outliers: 538,396 (35.73%)
-  Sensor 29:
-    Range outliers: 1 (0.00%)
-    Statistical outliers: 478,227 (31.73%)
-MAGNETOMETER:
-  Sensor 10:
-    Range outliers: 161 (0.01%)
-    Statistical outliers: 27,141 (1.59%)
-  Sensor 11:
-    Range outliers: 2,090 (0.12%)
-    Statistical outliers: 4,997 (0.29%)
-  Sensor 12:
-    Range outliers: 8,420 (0.49%)
-    Statistical outliers: 15,311 (0.90%)
-  Sensor 20:
-    Range outliers: 44 (0.00%)
-    Statistical outliers: 128,065 (7.69%)
-  Sensor 21:
-    Range outliers: 29 (0.00%)
-    Statistical outliers: 146 (0.01%)
-  Sensor 22:
-    Range outliers: 19 (0.00%)
-    Statistical outliers: 240 (0.01%)
-  Sensor 30:
-    Range outliers: 151 (0.01%)
-    Statistical outliers: 2,486 (0.16%)
-  Sensor 31:
-    Range outliers: 68 (0.00%)
-    Statistical outliers: 11,315 (0.75%)
-  Sensor 32:
-    Range outliers: 64 (0.00%)
-    Statistical outliers: 38,867 (2.58%)

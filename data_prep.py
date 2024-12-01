@@ -325,6 +325,117 @@ def save_visualizations(activities):
         plt.savefig(f'output/{sensor_type}_distribution.png')
         plt.close()
 
+def save_enhanced_analysis(sensors, activities, output_dir='output'):
+    """Save comprehensive analysis results including descriptive stats and visualizations"""
+    os.makedirs(output_dir, exist_ok=True)
+    
+    with open(os.path.join(output_dir, 'analysis_results.txt'), 'w') as f:
+        # Activity Distribution section remains the same
+        f.write("=== ACTIVITY DISTRIBUTION ===\n\n")
+        activity_counts = pd.Series(activities).value_counts().sort_index()
+        for act_id, count in activity_counts.items():
+            percentage = (count/len(activities))*100
+            f.write(f"{ACTIVITY_NAMES[act_id]}: {count} samples ({percentage:.2f}%)\n")
+        
+        # Sensor Analysis by Type
+        for sensor_type, info in SENSOR_RANGES.items():
+            f.write(f"\n=== {sensor_type.upper()} SENSORS ===\n\n")
+            
+            for sensor_id in info['sensors']:
+                data = sensors[sensor_id]  # Shape: (3500, 512)
+                valid_mask = data != -999999.99
+                valid_data = data[valid_mask]
+                
+                # Descriptive Statistics
+                f.write(f"Sensor {sensor_id}:\n")
+                f.write("  Descriptive Statistics:\n")
+                f.write(f"    Mean: {np.mean(valid_data):.2f} {info['unit']}\n")
+                f.write(f"    Std: {np.std(valid_data):.2f} {info['unit']}\n")
+                f.write(f"    Min: {np.min(valid_data):.2f} {info['unit']}\n")
+                f.write(f"    25%: {np.percentile(valid_data, 25):.2f} {info['unit']}\n")
+                f.write(f"    Median: {np.median(valid_data):.2f} {info['unit']}\n")
+                f.write(f"    75%: {np.percentile(valid_data, 75):.2f} {info['unit']}\n")
+                f.write(f"    Max: {np.max(valid_data):.2f} {info['unit']}\n")
+                
+                # Missing Values
+                missing_count = np.sum(~valid_mask)
+                missing_rate = (missing_count / data.size) * 100
+                f.write("  Missing Values:\n")
+                f.write(f"    Count: {missing_count:,}\n")
+                f.write(f"    Rate: {missing_rate:.2f}%\n")
+                
+                # Outliers (excluding missing values)
+                range_outliers = valid_data[(valid_data < info['range'][0]) | 
+                                         (valid_data > info['range'][1])]
+                f.write("  Outliers:\n")
+                f.write(f"    Count: {len(range_outliers):,}\n")
+                f.write(f"    Rate: {(len(range_outliers)/len(valid_data))*100:.2f}%\n")
+                
+                # Activity-specific statistics
+                f.write("  Activity-specific Statistics:\n")
+                for activity in range(1, 15):
+                    # Calculate mean for each time series
+                    activity_mask = activities == activity
+                    activity_data = data[activity_mask]
+                    activity_means = np.mean(activity_data, axis=1)
+                    valid_means = activity_means[activity_means != -999999.99]
+                    
+                    if len(valid_means) > 0:
+                        f.write(f"    {ACTIVITY_NAMES[activity]}:\n")
+                        f.write(f"      Mean: {np.mean(valid_means):.2f} {info['unit']}\n")
+                        f.write(f"      Std: {np.std(valid_means):.2f} {info['unit']}\n")
+                f.write("\n")
+
+    # Sensor characteristics visualization
+    selected_sensors = {
+        'Heart Rate': 2,
+        'Hand Acceleration': 4,
+        'Chest Temperature': 13,
+        'Foot Acceleration': 24,
+        'Foot Magnetometer': 30
+    }
+    
+    fig, axes = plt.subplots(len(selected_sensors), 1, figsize=(15, 20))
+    fig.suptitle('Sensor Data Across Different Activities', fontsize=16)
+    
+    for i, (sensor_name, sensor_id) in enumerate(selected_sensors.items()):
+        sensor_data = sensors[sensor_id]
+        
+        box_data = []
+        for activity in range(1, 15):
+            activity_mask = activities == activity
+            activity_data = sensor_data[activity_mask]
+            # Calculate mean for each time series, excluding missing values
+            series_means = np.ma.masked_equal(activity_data, -999999.99).mean(axis=1)
+            box_data.append(series_means.compressed())
+        
+        axes[i].boxplot(box_data, labels=[ACTIVITY_NAMES[j] for j in range(1, 15)])
+        axes[i].set_title(f'{sensor_name} (Sensor {sensor_id})')
+        axes[i].set_xlabel('Activities')
+        axes[i].set_ylabel('Average Sensor Value')
+        plt.setp(axes[i].get_xticklabels(), rotation=45, ha='right')
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(output_dir, 'sensor_characteristics.png'))
+    plt.close()
+
+    # Distribution plots
+    for sensor_type, info in SENSOR_RANGES.items():
+        plt.figure(figsize=(15, 5))
+        for sensor_id in info['sensors']:
+            data = sensors[sensor_id]
+            valid_data = data[data != -999999.99]
+            sns.kdeplot(valid_data, label=f'Sensor {sensor_id}')
+        
+        plt.axvline(info['range'][0], color='r', linestyle='--', alpha=0.5)
+        plt.axvline(info['range'][1], color='r', linestyle='--', alpha=0.5)
+        plt.title(f'{sensor_type.capitalize()} Distribution')
+        plt.xlabel(f'Value ({info["unit"]})')
+        plt.legend()
+        plt.tight_layout()
+        plt.savefig(os.path.join(output_dir, f'{sensor_type}_distribution.png'))
+        plt.close()
+
 if __name__ == "__main__":
     # Setup argument parser
     parser = argparse.ArgumentParser(description='Sensor Data Analysis and Processing Tool')
@@ -346,5 +457,6 @@ if __name__ == "__main__":
         missing_stats, outlier_stats = explore_data(analyzer)
         save_analysis_results(analyzer.sensors, analyzer.activities)
         save_visualizations(analyzer.activities)
+        save_enhanced_analysis(analyzer.sensors, analyzer.activities)
     else:  # process mode
         process_data(analyzer, args.method)
