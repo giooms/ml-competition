@@ -1,4 +1,34 @@
-# Imports
+"""
+This script provides functionality for exploring and preprocessing sensor data from a dataset. The script can operate in two modes: 'explore' and 'process'.
+
+- In 'explore' mode, the script performs a comprehensive analysis of the sensor data, including:
+    - Loading sensor data, activities, and subject IDs.
+    - Analyzing missing values and outliers.
+    - Visualizing distributions of sensor data and activity distribution.
+    - Saving analysis results and visualizations to the 'output' directory.
+
+- In 'process' mode, the script preprocesses the sensor data using various imputation methods and outlier removal strategies:
+    - Imputing missing values using one of the following methods: 'mean', 'mode', 'knn', or 'interpolation'.
+    - Replacing outliers based on physical constraints and statistical methods with median value.
+    - Standardizing the sensor data.
+    - Saving the preprocessed data and scalers to the 'processed' directory.
+
+Classes:
+- SensorDataAnalyzer: Main class for analyzing and preprocessing sensor data.
+- SensorDataPreprocessor: Class for preprocessing sensor data with various imputation strategies.
+
+Functions:
+- explore_data(analyzer): Run full data exploration workflow.
+- process_data(analyzer, method='all'): Run data preprocessing workflow.
+- save_analysis_results(sensors, activities, output_file='output/analysis_results.txt'): Save analysis results to a text file.
+- save_visualizations(activities): Save all visualizations.
+- save_enhanced_analysis(sensors, activities, output_dir='output'): Save comprehensive analysis results including descriptive stats and visualizations.
+
+Usage:
+- To explore data: python script.py explore --data_path <path_to_data>
+- To process data: python script.py process --method <imputation_method> --data_path <path_to_data>
+"""
+
 import os
 import numpy as np
 import pandas as pd
@@ -7,6 +37,7 @@ import seaborn as sns
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer, KNNImputer
 from scipy.interpolate import interp1d
+from scipy.ndimage import median_filter
 import joblib
 from tqdm import tqdm
 from typing import Dict, Tuple, List, Optional
@@ -158,9 +189,8 @@ class SensorDataPreprocessor:
     def __init__(self, analyzer: SensorDataAnalyzer):
         self.analyzer = analyzer
         self.scalers = {}
-        
-    def preprocess(self, imputation_method: str = 'knn', 
-                  remove_outliers: bool = True) -> Dict:
+
+    def preprocess(self, imputation_method: str = 'knn', remove_outliers: bool = True) -> Dict:
         """
         Preprocess sensor data with specified imputation method.
         
@@ -171,8 +201,7 @@ class SensorDataPreprocessor:
         logger.info(f"Preprocessing data using {imputation_method} imputation...")
         
         processed_sensors = {}
-        for sensor_id, data in tqdm(self.analyzer.sensors.items(), 
-                                  desc="Processing sensors"):
+        for sensor_id, data in tqdm(self.analyzer.sensors.items(), desc="Processing sensors"):
             # Handle missing values
             if imputation_method == 'knn':
                 processed_data = self._knn_impute(data)
@@ -190,7 +219,7 @@ class SensorDataPreprocessor:
             processed_sensors[sensor_id] = self.scalers[sensor_id].fit_transform(processed_data)
             
         return processed_sensors
-    
+
     def _knn_impute(self, data: np.ndarray) -> np.ndarray:
         """KNN imputation for missing values."""
         imputer = KNNImputer(n_neighbors=5)
@@ -202,36 +231,68 @@ class SensorDataPreprocessor:
         for i in range(processed.shape[1]):
             mask = processed[:, i] != -999999.99
             if np.any(mask):
-                f = interp1d(np.where(mask)[0], processed[mask, i], 
-                           bounds_error=False, fill_value="extrapolate")
+                f = interp1d(np.where(mask)[0], processed[mask, i], bounds_error=False, fill_value="extrapolate")
                 processed[~mask, i] = f(np.where(~mask)[0])
         return processed
     
-    def _simple_impute(self, data: np.ndarray, 
-                      strategy: str) -> np.ndarray:
+    def _simple_impute(self, data: np.ndarray, strategy: str) -> np.ndarray:
         """Simple imputation using mean or mode."""
         imputer = SimpleImputer(strategy=strategy)
         return imputer.fit_transform(data)
     
-    def _remove_outliers(self, data: np.ndarray, 
-                        sensor_id: int) -> np.ndarray:
-        """Remove statistical outliers using IQR method."""
-        q1, q3 = np.percentile(data, [25, 75])
-        iqr = q3 - q1
-        mask = (data >= q1 - 1.5*iqr) & (data <= q3 + 1.5*iqr)
-        return np.where(mask, data, np.nan)
+    def _remove_outliers(self, data: np.ndarray, sensor_id: int) -> np.ndarray:
+        """Remove outliers using physical constraints and statistical methods."""
+        sensor_type = next(key for key, value in SENSOR_RANGES.items() if sensor_id in value['sensors'])
+        valid_range = SENSOR_RANGES[sensor_type]['range']
+        
+        # Remove physically impossible values
+        data = np.where((data < valid_range[0]) | (data > valid_range[1]), np.nan, data)
+        
+        # Remove statistical outliers using IQR method
+        for i in range(data.shape[0]):
+            valid_data = data[i, ~np.isnan(data[i])]
+            if len(valid_data) > 0:
+                q1, q3 = np.percentile(valid_data, [25, 75])
+                iqr = q3 - q1
+                mask = (data[i] >= q1 - 1.5*iqr) & (data[i] <= q3 + 1.5*iqr)
+                data[i, ~mask] = np.nan
+        
+        # Fill remaining NaNs using rolling window median
+        for i in range(data.shape[0]):
+            data[i] = self._fill_nans_with_rolling_median(data[i])
+        
+        return data
     
-    def save_preprocessed_data(self, processed_sensors: Dict, 
-                             method: str) -> None:
+    def _fill_nans_with_rolling_median(self, data: np.ndarray, window_size: int = 5) -> np.ndarray:
+        """Fill NaNs using rolling window median."""
+        nan_mask = np.isnan(data)
+        data[nan_mask] = median_filter(data, size=window_size)[nan_mask]
+        return data
+    
+    def save_preprocessed_data(self, processed_sensors: Dict, method: str) -> None:
         """Save preprocessed data and scalers."""
         logger.info("Saving preprocessed data...")
         output_dir = os.path.join(self.analyzer.root_path, 'processed')
         os.makedirs(output_dir, exist_ok=True)
         
-        joblib.dump(processed_sensors, 
-                   os.path.join(output_dir, f'{method}_sensors.pkl'))
-        joblib.dump(self.scalers, 
-                   os.path.join(output_dir, f'{method}_scalers.pkl'))
+        joblib.dump(processed_sensors, os.path.join(output_dir, f'{method}_sensors.pkl'))
+        joblib.dump(self.scalers, os.path.join(output_dir, f'{method}_scalers.pkl'))
+
+        # Generate and save summary statistics
+        summary_file = os.path.join(output_dir, f'{method}_summary.txt')
+        with open(summary_file, 'w') as f:
+            for sensor_id, data in processed_sensors.items():
+                num_time_series = data.shape[0]
+                num_values = np.prod(data.shape)
+                mean_value = np.nanmean(data)
+                std_value = np.nanstd(data)
+                
+                f.write(f'Sensor {sensor_id}:\n')
+                f.write(f'  Number of time series: {num_time_series}\n')
+                f.write(f'  Number of values: {num_values}\n')
+                f.write(f'  Mean: {mean_value:.2f}\n')
+                f.write(f'  Std: {std_value:.2f}\n')
+                f.write('\n')
 
 def explore_data(analyzer):
     """Run full data exploration workflow"""
@@ -243,7 +304,7 @@ def explore_data(analyzer):
 def process_data(analyzer, method='all'):
     """Run data preprocessing workflow"""
     preprocessor = SensorDataPreprocessor(analyzer)
-    methods = ['mean', 'mode', 'knn', 'interpolation'] if method == 'all' else [method]
+    methods = ['mean', 'most_frequent', 'knn', 'interpolation'] if method == 'all' else [method]
     
     for m in methods:
         processed_data = preprocessor.preprocess(m)
@@ -374,16 +435,25 @@ def save_enhanced_analysis(sensors, activities, output_dir='output'):
                 # Activity-specific statistics
                 f.write("  Activity-specific Statistics:\n")
                 for activity in range(1, 15):
-                    # Calculate mean for each time series
+                    # Get data for specific activity
                     activity_mask = activities == activity
                     activity_data = data[activity_mask]
-                    activity_means = np.mean(activity_data, axis=1)
-                    valid_means = activity_means[activity_means != -999999.99]
                     
-                    if len(valid_means) > 0:
+                    # Create mask for valid values
+                    valid_mask = activity_data != -999999.99
+                    
+                    if np.any(valid_mask):
+                        # Calculate statistics on valid data only
+                        valid_data = activity_data[valid_mask]
+                        
+                        # Calculate percentage of valid data points
+                        validity_rate = (np.sum(valid_mask) / valid_mask.size) * 100
+                        
                         f.write(f"    {ACTIVITY_NAMES[activity]}:\n")
-                        f.write(f"      Mean: {np.mean(valid_means):.2f} {info['unit']}\n")
-                        f.write(f"      Std: {np.std(valid_means):.2f} {info['unit']}\n")
+                        f.write(f"      Mean: {np.mean(valid_data):.2f} {info['unit']}\n")
+                        f.write(f"      Std: {np.std(valid_data):.2f} {info['unit']}\n")
+                        f.write(f"      Valid data: {validity_rate:.1f}%\n")
+                        f.write(f"      Samples: {np.sum(valid_mask):,} / {valid_mask.size:,}\n")
                 f.write("\n")
 
     # Sensor characteristics visualization

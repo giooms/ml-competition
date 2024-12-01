@@ -35,46 +35,74 @@ Sensor 2:
   Activity-specific Statistics:
     Lying:
       Mean: 63.41 bpm
-      Std: 9.67 bpm
+      Std: 9.69 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Sitting:
       Mean: 69.74 bpm
-      Std: 10.24 bpm
+      Std: 10.26 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Standing:
       Mean: 78.95 bpm
-      Std: 14.37 bpm
+      Std: 14.41 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Walking very slow:
       Mean: 79.24 bpm
-      Std: 7.61 bpm
+      Std: 7.65 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
       Mean: 112.83 bpm
-      Std: 24.75 bpm
+      Std: 25.05 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Nordic walking:
       Mean: 108.59 bpm
-      Std: 16.59 bpm
+      Std: 16.62 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
       Mean: 139.82 bpm
-      Std: 20.07 bpm
+      Std: 20.48 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ascending stairs:
       Mean: 110.00 bpm
-      Std: 23.87 bpm
+      Std: 24.10 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 108.49 bpm
-      Std: 26.65 bpm
+      Std: 27.15 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: 110.17 bpm
-      Std: 8.69 bpm
+      Std: 8.72 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 81.38 bpm
-      Std: 11.61 bpm
+      Std: 11.63 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 94.69 bpm
-      Std: 9.15 bpm
+      Std: 9.19 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 161.71 bpm
-      Std: 19.34 bpm
+      Std: 19.38 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
       Mean: 167.61 bpm
-      Std: 21.21 bpm
+      Std: 21.25 bpm
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
 
 
 === TEMPERATURE SENSORS ===
@@ -96,47 +124,75 @@ Sensor 3:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -199975.95 °C
-      Std: 400012.02 °C
+      Mean: 30.05 °C
+      Std: 0.56 °C
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199975.39 °C
-      Std: 400012.30 °C
+      Mean: 30.76 °C
+      Std: 0.65 °C
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66267.48 °C
-      Std: 246457.19 °C
+      Mean: 31.48 °C
+      Std: 0.75 °C
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 27.99 °C
       Std: 1.27 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
       Mean: 25.44 °C
       Std: 2.86 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Nordic walking:
       Mean: 25.59 °C
       Std: 2.34 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
       Mean: 24.16 °C
       Std: 2.62 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ascending stairs:
       Mean: 30.71 °C
       Std: 0.82 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 30.59 °C
       Std: 0.82 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: 22.70 °C
       Std: 0.86 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 31.70 °C
       Std: 0.91 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
-      Mean: -187192.77 °C
-      Std: 387115.46 °C
+      Mean: 31.96 °C
+      Std: 0.73 °C
+      Valid data: 81.3%
+      Samples: 104,036 / 128,000
     Rope jumping:
       Mean: 22.64 °C
       Std: 1.35 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
       Mean: 22.75 °C
       Std: 1.39 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
 
 Sensor 13:
   Descriptive Statistics:
@@ -155,47 +211,75 @@ Sensor 13:
     Rate: 6.34%
   Activity-specific Statistics:
     Lying:
-      Mean: -199976.93 °C
-      Std: 400011.53 °C
+      Mean: 28.84 °C
+      Std: 0.78 °C
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199976.52 °C
-      Std: 400011.74 °C
+      Mean: 29.35 °C
+      Std: 0.67 °C
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66268.80 °C
-      Std: 246456.85 °C
+      Mean: 30.07 °C
+      Std: 0.80 °C
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 27.21 °C
       Std: 0.81 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -136181.02 °C
-      Std: 340112.29 °C
+      Mean: 25.58 °C
+      Std: 2.87 °C
+      Valid data: 86.4%
+      Samples: 110,566 / 128,000
     Nordic walking:
       Mean: 24.91 °C
       Std: 2.52 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
-      Mean: -59095.12 °C
-      Std: 234386.33 °C
+      Mean: 23.45 °C
+      Std: 2.81 °C
+      Valid data: 94.1%
+      Samples: 120,433 / 128,000
     Ascending stairs:
       Mean: 29.71 °C
       Std: 0.95 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 29.57 °C
       Std: 0.98 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: 22.21 °C
       Std: 1.19 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 30.56 °C
       Std: 0.96 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 30.76 °C
       Std: 0.93 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 21.92 °C
       Std: 1.98 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -331985.05 °C
-      Std: 470941.52 °C
+      Mean: 22.37 °C
+      Std: 2.73 °C
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 23:
   Descriptive Statistics:
@@ -214,47 +298,75 @@ Sensor 23:
     Rate: 1.57%
   Activity-specific Statistics:
     Lying:
-      Mean: -199975.82 °C
-      Std: 400012.08 °C
+      Mean: 30.22 °C
+      Std: 1.40 °C
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199975.37 °C
-      Std: 400012.31 °C
+      Mean: 30.78 °C
+      Std: 1.25 °C
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66267.64 °C
-      Std: 246457.16 °C
+      Mean: 31.32 °C
+      Std: 1.67 °C
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 27.32 °C
       Std: 1.54 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -351983.44 °C
-      Std: 477606.17 °C
+      Mean: 25.55 °C
+      Std: 3.47 °C
+      Valid data: 64.8%
+      Samples: 82,944 / 128,000
     Nordic walking:
-      Mean: -247980.66 °C
-      Std: 431862.93 °C
+      Mean: 25.72 °C
+      Std: 3.07 °C
+      Valid data: 75.2%
+      Samples: 96,256 / 128,000
     Running:
-      Mean: -495988.26 °C
-      Std: 499995.64 °C
+      Mean: 23.29 °C
+      Std: 3.05 °C
+      Valid data: 50.4%
+      Samples: 64,512 / 128,000
     Ascending stairs:
       Mean: 31.04 °C
       Std: 1.89 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 30.96 °C
       Std: 1.86 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
-      Mean: -331984.14 °C
-      Std: 470942.17 °C
+      Mean: 23.74 °C
+      Std: 2.76 °C
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
     Ironing:
       Mean: 31.61 °C
       Std: 2.00 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 31.81 °C
       Std: 1.98 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 24.46 °C
       Std: 2.79 °C
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -331984.12 °C
-      Std: 470942.18 °C
+      Mean: 23.77 °C
+      Std: 3.25 °C
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 
 === ACCELERATION SENSORS ===
@@ -276,47 +388,75 @@ Sensor 4:
     Rate: 0.02%
   Activity-specific Statistics:
     Lying:
-      Mean: -199996.36 m/s²
-      Std: 400001.82 m/s²
+      Mean: 4.55 m/s²
+      Std: 2.12 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199999.67 m/s²
-      Std: 400000.16 m/s²
+      Mean: 0.41 m/s²
+      Std: 1.53 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66301.48 m/s²
-      Std: 246448.23 m/s²
+      Mean: -4.93 m/s²
+      Std: 5.36 m/s²
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: -6.72 m/s²
-      Std: 3.28 m/s²
+      Std: 3.47 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
       Mean: -10.20 m/s²
-      Std: 2.46 m/s²
+      Std: 3.86 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Nordic walking:
       Mean: -5.15 m/s²
-      Std: 2.30 m/s²
+      Std: 4.71 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
       Mean: -5.19 m/s²
-      Std: 1.51 m/s²
+      Std: 8.90 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ascending stairs:
       Mean: -8.89 m/s²
-      Std: 1.81 m/s²
+      Std: 3.35 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -7.58 m/s²
-      Std: 2.44 m/s²
+      Std: 4.42 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: -4.86 m/s²
-      Std: 0.94 m/s²
+      Std: 3.31 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: -2.87 m/s²
-      Std: 1.73 m/s²
+      Std: 2.98 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
-      Mean: -187225.18 m/s²
-      Std: 387100.00 m/s²
+      Mean: -7.91 m/s²
+      Std: 3.89 m/s²
+      Valid data: 81.3%
+      Samples: 104,036 / 128,000
     Rope jumping:
       Mean: -4.09 m/s²
-      Std: 1.22 m/s²
+      Std: 7.92 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
       Mean: -8.83 m/s²
-      Std: 2.35 m/s²
+      Std: 8.38 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
 
 Sensor 5:
   Descriptive Statistics:
@@ -335,47 +475,75 @@ Sensor 5:
     Rate: 0.08%
   Activity-specific Statistics:
     Lying:
-      Mean: -199997.26 m/s²
-      Std: 400001.37 m/s²
+      Mean: 3.42 m/s²
+      Std: 3.31 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199998.45 m/s²
-      Std: 400000.77 m/s²
+      Mean: 1.94 m/s²
+      Std: 3.20 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66292.96 m/s²
-      Std: 246450.46 m/s²
+      Mean: 4.20 m/s²
+      Std: 3.14 m/s²
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 5.19 m/s²
-      Std: 2.40 m/s²
+      Std: 2.64 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
       Mean: 3.01 m/s²
-      Std: 1.30 m/s²
+      Std: 3.01 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Nordic walking:
       Mean: 7.72 m/s²
-      Std: 0.91 m/s²
+      Std: 8.87 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
       Mean: 9.69 m/s²
-      Std: 2.14 m/s²
+      Std: 12.94 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ascending stairs:
       Mean: 2.74 m/s²
-      Std: 1.84 m/s²
+      Std: 2.96 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 2.35 m/s²
-      Std: 1.65 m/s²
+      Std: 2.90 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: 0.96 m/s²
-      Std: 1.85 m/s²
+      Std: 3.86 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 3.39 m/s²
-      Std: 2.59 m/s²
+      Std: 3.57 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
-      Mean: -187215.74 m/s²
-      Std: 387104.49 m/s²
+      Mean: 3.70 m/s²
+      Std: 3.75 m/s²
+      Valid data: 81.3%
+      Samples: 104,036 / 128,000
     Rope jumping:
       Mean: 8.87 m/s²
-      Std: 1.04 m/s²
+      Std: 11.04 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
       Mean: 3.85 m/s²
-      Std: 1.84 m/s²
+      Std: 7.68 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
 
 Sensor 6:
   Descriptive Statistics:
@@ -394,47 +562,75 @@ Sensor 6:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -199995.47 m/s²
-      Std: 400002.26 m/s²
+      Mean: 5.66 m/s²
+      Std: 3.14 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199993.54 m/s²
-      Std: 400003.22 m/s²
+      Mean: 8.07 m/s²
+      Std: 2.18 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66294.62 m/s²
-      Std: 246450.02 m/s²
+      Mean: 2.41 m/s²
+      Std: 2.79 m/s²
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 1.45 m/s²
-      Std: 1.74 m/s²
+      Std: 2.06 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
       Mean: 2.53 m/s²
-      Std: 1.30 m/s²
+      Std: 2.39 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Nordic walking:
       Mean: 3.06 m/s²
-      Std: 0.66 m/s²
+      Std: 3.92 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
       Mean: 1.08 m/s²
-      Std: 2.13 m/s²
+      Std: 4.44 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ascending stairs:
       Mean: 2.20 m/s²
-      Std: 1.54 m/s²
+      Std: 2.31 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 3.59 m/s²
-      Std: 1.93 m/s²
+      Std: 2.98 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: 7.80 m/s²
-      Std: 0.64 m/s²
+      Std: 2.40 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 6.82 m/s²
-      Std: 1.76 m/s²
+      Std: 2.69 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
-      Mean: -187216.65 m/s²
-      Std: 387104.08 m/s²
+      Mean: 2.58 m/s²
+      Std: 3.26 m/s²
+      Valid data: 81.3%
+      Samples: 104,036 / 128,000
     Rope jumping:
       Mean: -0.41 m/s²
-      Std: 1.53 m/s²
+      Std: 7.01 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
       Mean: 2.74 m/s²
-      Std: 2.50 m/s²
+      Std: 5.85 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
 
 Sensor 14:
   Descriptive Statistics:
@@ -453,47 +649,75 @@ Sensor 14:
     Rate: 0.23%
   Activity-specific Statistics:
     Lying:
-      Mean: -199999.30 m/s²
-      Std: 400000.35 m/s²
+      Mean: 0.88 m/s²
+      Std: 1.02 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199992.69 m/s²
-      Std: 400003.65 m/s²
+      Mean: 9.14 m/s²
+      Std: 0.50 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66287.85 m/s²
-      Std: 246451.81 m/s²
+      Mean: 9.66 m/s²
+      Std: 0.50 m/s²
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 9.69 m/s²
-      Std: 0.10 m/s²
+      Std: 0.81 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -136194.74 m/s²
-      Std: 340106.88 m/s²
+      Mean: 9.71 m/s²
+      Std: 3.76 m/s²
+      Valid data: 86.4%
+      Samples: 110,566 / 128,000
     Nordic walking:
       Mean: 9.78 m/s²
-      Std: 0.09 m/s²
+      Std: 3.90 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
-      Mean: -59108.08 m/s²
-      Std: 234383.10 m/s²
+      Mean: 9.68 m/s²
+      Std: 10.09 m/s²
+      Valid data: 94.1%
+      Samples: 120,433 / 128,000
     Ascending stairs:
       Mean: 9.58 m/s²
-      Std: 0.18 m/s²
+      Std: 3.12 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 9.71 m/s²
-      Std: 0.16 m/s²
+      Std: 4.40 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: 9.56 m/s²
-      Std: 0.23 m/s²
+      Std: 1.51 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 9.46 m/s²
-      Std: 0.44 m/s²
+      Std: 0.55 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 6.63 m/s²
-      Std: 2.55 m/s²
+      Std: 2.88 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 9.77 m/s²
-      Std: 0.31 m/s²
+      Std: 17.99 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -331993.58 m/s²
-      Std: 470935.51 m/s²
+      Mean: 9.60 m/s²
+      Std: 9.16 m/s²
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 15:
   Descriptive Statistics:
@@ -512,47 +736,75 @@ Sensor 15:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -200001.29 m/s²
-      Std: 399999.35 m/s²
+      Mean: -1.61 m/s²
+      Std: 2.02 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199999.82 m/s²
-      Std: 400000.08 m/s²
+      Mean: 0.22 m/s²
+      Std: 1.35 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66297.04 m/s²
-      Std: 246449.39 m/s²
+      Mean: -0.18 m/s²
+      Std: 0.87 m/s²
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: -0.23 m/s²
-      Std: 0.38 m/s²
+      Std: 0.95 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -136203.09 m/s²
-      Std: 340103.60 m/s²
+      Mean: 0.04 m/s²
+      Std: 2.03 m/s²
+      Valid data: 86.4%
+      Samples: 110,566 / 128,000
     Nordic walking:
       Mean: -0.14 m/s²
-      Std: 0.53 m/s²
+      Std: 1.72 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
-      Mean: -59116.67 m/s²
-      Std: 234380.96 m/s²
+      Mean: 0.55 m/s²
+      Std: 3.35 m/s²
+      Valid data: 94.1%
+      Samples: 120,433 / 128,000
     Ascending stairs:
       Mean: -0.03 m/s²
-      Std: 0.50 m/s²
+      Std: 1.56 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 0.43 m/s²
-      Std: 0.77 m/s²
+      Std: 1.96 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: -0.30 m/s²
-      Std: 0.42 m/s²
+      Std: 0.89 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 0.73 m/s²
-      Std: 0.80 m/s²
+      Std: 1.10 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 1.79 m/s²
-      Std: 1.81 m/s²
+      Std: 2.37 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 0.01 m/s²
-      Std: 0.64 m/s²
+      Std: 3.62 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -331999.89 m/s²
-      Std: 470931.06 m/s²
+      Mean: 0.16 m/s²
+      Std: 4.89 m/s²
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 16:
   Descriptive Statistics:
@@ -571,47 +823,75 @@ Sensor 16:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -199993.17 m/s²
-      Std: 400003.41 m/s²
+      Mean: 8.54 m/s²
+      Std: 2.31 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200001.10 m/s²
-      Std: 399999.45 m/s²
+      Mean: -1.37 m/s²
+      Std: 3.19 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66297.49 m/s²
-      Std: 246449.27 m/s²
+      Mean: -0.66 m/s²
+      Std: 1.41 m/s²
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 0.75 m/s²
-      Std: 0.69 m/s²
+      Std: 1.05 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -136203.10 m/s²
-      Std: 340103.59 m/s²
+      Mean: 0.02 m/s²
+      Std: 2.91 m/s²
+      Valid data: 86.4%
+      Samples: 110,566 / 128,000
     Nordic walking:
       Mean: -0.36 m/s²
-      Std: 0.87 m/s²
+      Std: 2.83 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
-      Mean: -59118.59 m/s²
-      Std: 234380.48 m/s²
+      Mean: -1.50 m/s²
+      Std: 3.18 m/s²
+      Valid data: 94.1%
+      Samples: 120,433 / 128,000
     Ascending stairs:
       Mean: -2.04 m/s²
-      Std: 1.30 m/s²
+      Std: 2.23 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -0.35 m/s²
-      Std: 1.15 m/s²
+      Std: 2.15 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: -2.36 m/s²
-      Std: 1.06 m/s²
+      Std: 1.49 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: -1.81 m/s²
-      Std: 1.74 m/s²
+      Std: 1.90 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: -5.90 m/s²
-      Std: 2.79 m/s²
+      Std: 3.15 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: -0.63 m/s²
-      Std: 0.82 m/s²
+      Std: 3.61 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -332001.41 m/s²
-      Std: 470929.99 m/s²
+      Mean: -2.12 m/s²
+      Std: 4.45 m/s²
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 24:
   Descriptive Statistics:
@@ -630,47 +910,75 @@ Sensor 24:
     Rate: 1.01%
   Activity-specific Statistics:
     Lying:
-      Mean: -199996.41 m/s²
-      Std: 400001.79 m/s²
+      Mean: 4.49 m/s²
+      Std: 0.99 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200003.65 m/s²
-      Std: 399998.17 m/s²
+      Mean: -4.57 m/s²
+      Std: 0.75 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66301.35 m/s²
-      Std: 246448.25 m/s²
+      Mean: -4.80 m/s²
+      Std: 0.94 m/s²
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: -6.34 m/s²
-      Std: 0.38 m/s²
+      Std: 3.77 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -352006.64 m/s²
-      Std: 477589.07 m/s²
+      Mean: -10.25 m/s²
+      Std: 12.19 m/s²
+      Valid data: 64.8%
+      Samples: 82,944 / 128,000
     Nordic walking:
-      Mean: -248008.71 m/s²
-      Std: 431846.82 m/s²
+      Mean: -11.59 m/s²
+      Std: 13.98 m/s²
+      Valid data: 75.2%
+      Samples: 96,256 / 128,000
     Running:
-      Mean: -496007.92 m/s²
-      Std: 499976.14 m/s²
+      Mean: -15.72 m/s²
+      Std: 18.37 m/s²
+      Valid data: 50.4%
+      Samples: 64,512 / 128,000
     Ascending stairs:
       Mean: -7.96 m/s²
-      Std: 1.90 m/s²
+      Std: 10.04 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -7.28 m/s²
-      Std: 1.56 m/s²
+      Std: 13.17 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
-      Mean: -332005.65 m/s²
-      Std: 470927.01 m/s²
+      Mean: -8.46 m/s²
+      Std: 3.99 m/s²
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
     Ironing:
       Mean: -4.85 m/s²
-      Std: 0.82 m/s²
+      Std: 0.99 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: -5.19 m/s²
-      Std: 0.86 m/s²
+      Std: 2.64 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: -7.03 m/s²
-      Std: 0.76 m/s²
+      Std: 17.38 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -332007.71 m/s²
-      Std: 470925.55 m/s²
+      Mean: -11.55 m/s²
+      Std: 22.09 m/s²
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 25:
   Descriptive Statistics:
@@ -689,47 +997,75 @@ Sensor 25:
     Rate: 0.27%
   Activity-specific Statistics:
     Lying:
-      Mean: -199993.24 m/s²
-      Std: 400003.38 m/s²
+      Mean: 8.45 m/s²
+      Std: 0.68 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199998.72 m/s²
-      Std: 400000.63 m/s²
+      Mean: 1.59 m/s²
+      Std: 0.81 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66295.48 m/s²
-      Std: 246449.80 m/s²
+      Mean: 1.49 m/s²
+      Std: 1.04 m/s²
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 1.57 m/s²
-      Std: 0.93 m/s²
+      Std: 2.52 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -351998.77 m/s²
-      Std: 477594.87 m/s²
+      Mean: 1.90 m/s²
+      Std: 6.50 m/s²
+      Valid data: 64.8%
+      Samples: 82,944 / 128,000
     Nordic walking:
-      Mean: -247998.81 m/s²
-      Std: 431852.51 m/s²
+      Mean: 1.58 m/s²
+      Std: 6.80 m/s²
+      Valid data: 75.2%
+      Samples: 96,256 / 128,000
     Running:
-      Mean: -495998.51 m/s²
-      Std: 499985.47 m/s²
+      Mean: 2.96 m/s²
+      Std: 8.74 m/s²
+      Valid data: 50.4%
+      Samples: 64,512 / 128,000
     Ascending stairs:
       Mean: 2.72 m/s²
-      Std: 1.27 m/s²
+      Std: 6.34 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 1.29 m/s²
-      Std: 1.33 m/s²
+      Std: 8.30 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
-      Mean: -331999.09 m/s²
-      Std: 470931.62 m/s²
+      Mean: 1.35 m/s²
+      Std: 2.13 m/s²
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
     Ironing:
       Mean: 1.48 m/s²
-      Std: 1.10 m/s²
+      Std: 1.28 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 1.60 m/s²
-      Std: 1.09 m/s²
+      Std: 2.86 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 2.03 m/s²
-      Std: 0.85 m/s²
+      Std: 8.44 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -331997.95 m/s²
-      Std: 470932.43 m/s²
+      Mean: 3.07 m/s²
+      Std: 19.11 m/s²
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 26:
   Descriptive Statistics:
@@ -748,47 +1084,75 @@ Sensor 26:
     Rate: 0.43%
   Activity-specific Statistics:
     Lying:
-      Mean: -199999.58 m/s²
-      Std: 400000.20 m/s²
+      Mean: 0.52 m/s²
+      Std: 1.87 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199993.46 m/s²
-      Std: 400003.27 m/s²
+      Mean: 8.18 m/s²
+      Std: 0.31 m/s²
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66289.40 m/s²
-      Std: 246451.40 m/s²
+      Mean: 8.01 m/s²
+      Std: 0.58 m/s²
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 8.08 m/s²
-      Std: 0.17 m/s²
+      Std: 2.86 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -351993.54 m/s²
-      Std: 477598.72 m/s²
+      Mean: 9.96 m/s²
+      Std: 9.31 m/s²
+      Valid data: 64.8%
+      Samples: 82,944 / 128,000
     Nordic walking:
-      Mean: -247991.91 m/s²
-      Std: 431856.47 m/s²
+      Mean: 10.76 m/s²
+      Std: 10.59 m/s²
+      Valid data: 75.2%
+      Samples: 96,256 / 128,000
     Running:
-      Mean: -495994.33 m/s²
-      Std: 499989.61 m/s²
+      Mean: 11.23 m/s²
+      Std: 15.36 m/s²
+      Valid data: 50.4%
+      Samples: 64,512 / 128,000
     Ascending stairs:
       Mean: 6.80 m/s²
-      Std: 0.70 m/s²
+      Std: 7.21 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 7.45 m/s²
-      Std: 0.78 m/s²
+      Std: 10.58 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
-      Mean: -331996.39 m/s²
-      Std: 470933.53 m/s²
+      Mean: 5.39 m/s²
+      Std: 3.28 m/s²
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
     Ironing:
       Mean: 7.94 m/s²
-      Std: 0.41 m/s²
+      Std: 0.65 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 7.81 m/s²
-      Std: 0.49 m/s²
+      Std: 2.36 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 5.95 m/s²
-      Std: 0.86 m/s²
+      Std: 11.82 m/s²
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -331993.63 m/s²
-      Std: 470935.48 m/s²
+      Mean: 9.54 m/s²
+      Std: 18.33 m/s²
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 
 === GYROSCOPE SENSORS ===
@@ -810,47 +1174,75 @@ Sensor 7:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -199999.98 rad/s
-      Std: 400000.00 rad/s
+      Mean: 0.02 rad/s
+      Std: 0.06 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199999.98 rad/s
-      Std: 400000.00 rad/s
+      Mean: 0.02 rad/s
+      Std: 0.16 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66296.84 rad/s
-      Std: 246449.44 rad/s
+      Mean: 0.04 rad/s
+      Std: 0.39 rad/s
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: -0.00 rad/s
-      Std: 0.10 rad/s
+      Std: 0.60 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
       Mean: 0.02 rad/s
-      Std: 0.14 rad/s
+      Std: 1.50 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Nordic walking:
       Mean: 0.03 rad/s
-      Std: 0.13 rad/s
+      Std: 0.72 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
       Mean: 0.22 rad/s
-      Std: 0.20 rad/s
+      Std: 1.61 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ascending stairs:
       Mean: -0.35 rad/s
-      Std: 0.23 rad/s
+      Std: 1.10 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 0.37 rad/s
-      Std: 0.27 rad/s
+      Std: 1.15 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: 0.01 rad/s
-      Std: 0.13 rad/s
+      Std: 0.58 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 0.03 rad/s
-      Std: 0.11 rad/s
+      Std: 1.03 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
-      Mean: -187218.73 rad/s
-      Std: 387103.09 rad/s
+      Mean: 0.02 rad/s
+      Std: 1.06 rad/s
+      Valid data: 81.3%
+      Samples: 104,036 / 128,000
     Rope jumping:
       Mean: 0.29 rad/s
-      Std: 0.24 rad/s
+      Std: 2.12 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
       Mean: -0.03 rad/s
-      Std: 0.44 rad/s
+      Std: 1.85 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
 
 Sensor 8:
   Descriptive Statistics:
@@ -869,47 +1261,75 @@ Sensor 8:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -200000.02 rad/s
-      Std: 399999.98 rad/s
+      Mean: -0.03 rad/s
+      Std: 0.04 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200000.02 rad/s
-      Std: 399999.98 rad/s
+      Mean: -0.03 rad/s
+      Std: 0.12 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66296.90 rad/s
-      Std: 246449.42 rad/s
+      Mean: -0.03 rad/s
+      Std: 0.29 rad/s
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 0.00 rad/s
-      Std: 0.09 rad/s
+      Std: 0.44 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
       Mean: 0.07 rad/s
-      Std: 0.13 rad/s
+      Std: 1.21 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Nordic walking:
       Mean: 0.06 rad/s
-      Std: 0.23 rad/s
+      Std: 0.83 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
       Mean: 0.08 rad/s
-      Std: 0.20 rad/s
+      Std: 1.63 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ascending stairs:
       Mean: 0.12 rad/s
-      Std: 0.15 rad/s
+      Std: 0.91 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -0.19 rad/s
-      Std: 0.19 rad/s
+      Std: 0.99 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: -0.06 rad/s
-      Std: 0.10 rad/s
+      Std: 0.41 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: -0.05 rad/s
-      Std: 0.09 rad/s
+      Std: 0.64 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
-      Mean: -187218.76 rad/s
-      Std: 387103.07 rad/s
+      Mean: -0.02 rad/s
+      Std: 0.78 rad/s
+      Valid data: 81.3%
+      Samples: 104,036 / 128,000
     Rope jumping:
       Mean: 0.21 rad/s
-      Std: 0.16 rad/s
+      Std: 1.89 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
       Mean: 0.01 rad/s
-      Std: 0.22 rad/s
+      Std: 1.24 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
 
 Sensor 9:
   Descriptive Statistics:
@@ -928,47 +1348,75 @@ Sensor 9:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -199999.99 rad/s
-      Std: 400000.00 rad/s
+      Mean: 0.00 rad/s
+      Std: 0.03 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200000.00 rad/s
-      Std: 400000.00 rad/s
+      Mean: -0.00 rad/s
+      Std: 0.22 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66296.88 rad/s
-      Std: 246449.43 rad/s
+      Mean: -0.00 rad/s
+      Std: 0.38 rad/s
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 0.01 rad/s
-      Std: 0.06 rad/s
+      Std: 0.53 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
       Mean: 0.02 rad/s
-      Std: 0.17 rad/s
+      Std: 2.72 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Nordic walking:
       Mean: 0.03 rad/s
-      Std: 0.12 rad/s
+      Std: 1.96 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
       Mean: 0.06 rad/s
-      Std: 0.18 rad/s
+      Std: 2.57 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ascending stairs:
       Mean: 0.19 rad/s
-      Std: 0.15 rad/s
+      Std: 1.33 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -0.23 rad/s
-      Std: 0.24 rad/s
+      Std: 0.99 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: -0.00 rad/s
-      Std: 0.19 rad/s
+      Std: 0.52 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 0.02 rad/s
-      Std: 0.12 rad/s
+      Std: 0.80 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
-      Mean: -187218.75 rad/s
-      Std: 387103.08 rad/s
+      Mean: 0.00 rad/s
+      Std: 1.32 rad/s
+      Valid data: 81.3%
+      Samples: 104,036 / 128,000
     Rope jumping:
       Mean: 0.04 rad/s
-      Std: 0.11 rad/s
+      Std: 2.31 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
       Mean: 0.01 rad/s
-      Std: 0.28 rad/s
+      Std: 2.08 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
 
 Sensor 17:
   Descriptive Statistics:
@@ -987,47 +1435,75 @@ Sensor 17:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -200000.01 rad/s
-      Std: 399999.99 rad/s
+      Mean: -0.01 rad/s
+      Std: 0.06 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200000.00 rad/s
-      Std: 399999.99 rad/s
+      Mean: -0.01 rad/s
+      Std: 0.05 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66296.89 rad/s
-      Std: 246449.43 rad/s
+      Mean: -0.01 rad/s
+      Std: 0.17 rad/s
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 0.02 rad/s
-      Std: 0.11 rad/s
+      Std: 0.55 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -136203.13 rad/s
-      Std: 340103.58 rad/s
+      Mean: -0.01 rad/s
+      Std: 0.49 rad/s
+      Valid data: 86.4%
+      Samples: 110,566 / 128,000
     Nordic walking:
       Mean: 0.01 rad/s
-      Std: 0.26 rad/s
+      Std: 0.58 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
-      Mean: -59117.21 rad/s
-      Std: 234380.82 rad/s
+      Mean: -0.03 rad/s
+      Std: 1.27 rad/s
+      Valid data: 94.1%
+      Samples: 120,433 / 128,000
     Ascending stairs:
       Mean: 0.44 rad/s
-      Std: 0.26 rad/s
+      Std: 0.82 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -0.49 rad/s
-      Std: 0.36 rad/s
+      Std: 0.97 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: -0.03 rad/s
-      Std: 0.23 rad/s
+      Std: 0.45 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: -0.01 rad/s
-      Std: 0.07 rad/s
+      Std: 0.33 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: -0.01 rad/s
-      Std: 0.14 rad/s
+      Std: 0.49 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 0.01 rad/s
-      Std: 0.04 rad/s
+      Std: 0.74 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -332000.00 rad/s
-      Std: 470930.99 rad/s
+      Mean: -0.00 rad/s
+      Std: 1.77 rad/s
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 18:
   Descriptive Statistics:
@@ -1046,47 +1522,75 @@ Sensor 18:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -199999.98 rad/s
-      Std: 400000.01 rad/s
+      Mean: 0.02 rad/s
+      Std: 0.04 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199999.97 rad/s
-      Std: 400000.01 rad/s
+      Mean: 0.03 rad/s
+      Std: 0.05 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66296.85 rad/s
-      Std: 246449.44 rad/s
+      Mean: 0.03 rad/s
+      Std: 0.11 rad/s
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 0.03 rad/s
-      Std: 0.01 rad/s
+      Std: 0.17 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -136203.11 rad/s
-      Std: 340103.59 rad/s
+      Mean: 0.02 rad/s
+      Std: 0.35 rad/s
+      Valid data: 86.4%
+      Samples: 110,566 / 128,000
     Nordic walking:
       Mean: 0.03 rad/s
-      Std: 0.03 rad/s
+      Std: 0.30 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
-      Mean: -59117.19 rad/s
-      Std: 234380.82 rad/s
+      Mean: -0.00 rad/s
+      Std: 0.67 rad/s
+      Valid data: 94.1%
+      Samples: 120,433 / 128,000
     Ascending stairs:
       Mean: 0.05 rad/s
-      Std: 0.04 rad/s
+      Std: 0.33 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 0.01 rad/s
-      Std: 0.05 rad/s
+      Std: 0.39 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: 0.04 rad/s
-      Std: 0.05 rad/s
+      Std: 0.28 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 0.03 rad/s
-      Std: 0.03 rad/s
+      Std: 0.16 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 0.03 rad/s
-      Std: 0.07 rad/s
+      Std: 0.34 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 0.01 rad/s
-      Std: 0.02 rad/s
+      Std: 1.01 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -331999.97 rad/s
-      Std: 470931.00 rad/s
+      Mean: 0.04 rad/s
+      Std: 0.94 rad/s
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 19:
   Descriptive Statistics:
@@ -1105,47 +1609,75 @@ Sensor 19:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -199999.99 rad/s
-      Std: 400000.00 rad/s
-    Sitting:
-      Mean: -199999.99 rad/s
-      Std: 400000.00 rad/s
-    Standing:
-      Mean: -66296.87 rad/s
-      Std: 246449.43 rad/s
-    Walking very slow:
-      Mean: 0.01 rad/s
-      Std: 0.02 rad/s
-    Normal walking:
-      Mean: -136203.11 rad/s
-      Std: 340103.59 rad/s
-    Nordic walking:
-      Mean: 0.00 rad/s
-      Std: 0.02 rad/s
-    Running:
-      Mean: -59117.18 rad/s
-      Std: 234380.83 rad/s
-    Ascending stairs:
-      Mean: -0.04 rad/s
-      Std: 0.08 rad/s
-    Descending stairs:
-      Mean: -0.00 rad/s
-      Std: 0.06 rad/s
-    Cycling:
-      Mean: 0.01 rad/s
-      Std: 0.06 rad/s
-    Ironing:
       Mean: 0.01 rad/s
       Std: 0.03 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
+    Sitting:
+      Mean: 0.01 rad/s
+      Std: 0.03 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
+    Standing:
+      Mean: 0.01 rad/s
+      Std: 0.09 rad/s
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
+    Walking very slow:
+      Mean: 0.01 rad/s
+      Std: 0.22 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
+    Normal walking:
+      Mean: 0.01 rad/s
+      Std: 0.21 rad/s
+      Valid data: 86.4%
+      Samples: 110,566 / 128,000
+    Nordic walking:
+      Mean: 0.00 rad/s
+      Std: 0.23 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
+    Running:
+      Mean: 0.00 rad/s
+      Std: 0.43 rad/s
+      Valid data: 94.1%
+      Samples: 120,433 / 128,000
+    Ascending stairs:
+      Mean: -0.04 rad/s
+      Std: 0.32 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
+    Descending stairs:
+      Mean: -0.00 rad/s
+      Std: 0.26 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
+    Cycling:
+      Mean: 0.01 rad/s
+      Std: 0.20 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
+    Ironing:
+      Mean: 0.01 rad/s
+      Std: 0.15 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 0.01 rad/s
-      Std: 0.11 rad/s
+      Std: 0.33 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 0.00 rad/s
-      Std: 0.02 rad/s
+      Std: 0.42 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -331999.99 rad/s
-      Std: 470930.99 rad/s
+      Mean: 0.01 rad/s
+      Std: 0.63 rad/s
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 27:
   Descriptive Statistics:
@@ -1164,47 +1696,75 @@ Sensor 27:
     Rate: 0.01%
   Activity-specific Statistics:
     Lying:
-      Mean: -200000.00 rad/s
-      Std: 400000.00 rad/s
+      Mean: 0.00 rad/s
+      Std: 0.05 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200000.00 rad/s
-      Std: 400000.00 rad/s
+      Mean: 0.00 rad/s
+      Std: 0.04 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66296.87 rad/s
-      Std: 246449.43 rad/s
+      Mean: 0.00 rad/s
+      Std: 0.15 rad/s
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 0.13 rad/s
-      Std: 0.07 rad/s
+      Std: 0.72 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -351999.89 rad/s
-      Std: 477594.04 rad/s
+      Mean: 0.16 rad/s
+      Std: 1.30 rad/s
+      Valid data: 64.8%
+      Samples: 82,944 / 128,000
     Nordic walking:
-      Mean: -247999.84 rad/s
-      Std: 431851.91 rad/s
+      Mean: 0.21 rad/s
+      Std: 1.33 rad/s
+      Valid data: 75.2%
+      Samples: 96,256 / 128,000
     Running:
-      Mean: -495999.86 rad/s
-      Std: 499984.13 rad/s
+      Mean: 0.26 rad/s
+      Std: 1.52 rad/s
+      Valid data: 50.4%
+      Samples: 64,512 / 128,000
     Ascending stairs:
       Mean: -0.25 rad/s
-      Std: 0.18 rad/s
+      Std: 1.25 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 0.37 rad/s
-      Std: 0.29 rad/s
+      Std: 1.91 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
-      Mean: -332000.00 rad/s
-      Std: 470930.98 rad/s
+      Mean: -0.01 rad/s
+      Std: 0.45 rad/s
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
     Ironing:
       Mean: 0.00 rad/s
-      Std: 0.03 rad/s
+      Std: 0.16 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 0.01 rad/s
-      Std: 0.09 rad/s
+      Std: 0.59 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: -0.02 rad/s
-      Std: 0.06 rad/s
+      Std: 1.35 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -331999.92 rad/s
-      Std: 470931.05 rad/s
+      Mean: 0.12 rad/s
+      Std: 3.00 rad/s
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 28:
   Descriptive Statistics:
@@ -1223,47 +1783,75 @@ Sensor 28:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -200000.01 rad/s
-      Std: 399999.99 rad/s
+      Mean: -0.02 rad/s
+      Std: 0.05 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200000.01 rad/s
-      Std: 399999.99 rad/s
+      Mean: -0.02 rad/s
+      Std: 0.04 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66296.89 rad/s
-      Std: 246449.43 rad/s
+      Mean: -0.02 rad/s
+      Std: 0.11 rad/s
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 0.01 rad/s
-      Std: 0.08 rad/s
+      Std: 2.04 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -351999.99 rad/s
-      Std: 477593.97 rad/s
+      Mean: 0.01 rad/s
+      Std: 4.39 rad/s
+      Valid data: 64.8%
+      Samples: 82,944 / 128,000
     Nordic walking:
-      Mean: -248000.01 rad/s
-      Std: 431851.81 rad/s
+      Mean: -0.02 rad/s
+      Std: 4.94 rad/s
+      Valid data: 75.2%
+      Samples: 96,256 / 128,000
     Running:
-      Mean: -496000.03 rad/s
-      Std: 499983.96 rad/s
+      Mean: -0.06 rad/s
+      Std: 5.48 rad/s
+      Valid data: 50.4%
+      Samples: 64,512 / 128,000
     Ascending stairs:
       Mean: -0.00 rad/s
-      Std: 0.11 rad/s
+      Std: 2.56 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -0.07 rad/s
-      Std: 0.11 rad/s
+      Std: 3.34 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
-      Mean: -332000.03 rad/s
-      Std: 470930.96 rad/s
+      Mean: -0.05 rad/s
+      Std: 1.27 rad/s
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
     Ironing:
       Mean: -0.02 rad/s
-      Std: 0.02 rad/s
+      Std: 0.13 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: -0.02 rad/s
-      Std: 0.06 rad/s
+      Std: 0.68 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: -0.00 rad/s
-      Std: 0.06 rad/s
+      Std: 3.04 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -332000.05 rad/s
-      Std: 470930.95 rad/s
+      Mean: -0.08 rad/s
+      Std: 4.50 rad/s
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 29:
   Descriptive Statistics:
@@ -1282,47 +1870,75 @@ Sensor 29:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -200000.00 rad/s
-      Std: 399999.99 rad/s
+      Mean: -0.00 rad/s
+      Std: 0.04 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200000.00 rad/s
-      Std: 399999.99 rad/s
+      Mean: -0.00 rad/s
+      Std: 0.05 rad/s
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66296.88 rad/s
-      Std: 246449.43 rad/s
+      Mean: -0.01 rad/s
+      Std: 0.21 rad/s
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 0.08 rad/s
-      Std: 0.08 rad/s
+      Std: 1.00 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -351999.97 rad/s
-      Std: 477593.99 rad/s
+      Mean: 0.04 rad/s
+      Std: 1.69 rad/s
+      Valid data: 64.8%
+      Samples: 82,944 / 128,000
     Nordic walking:
-      Mean: -247999.96 rad/s
-      Std: 431851.84 rad/s
+      Mean: 0.04 rad/s
+      Std: 1.58 rad/s
+      Valid data: 75.2%
+      Samples: 96,256 / 128,000
     Running:
-      Mean: -496000.04 rad/s
-      Std: 499983.95 rad/s
+      Mean: -0.08 rad/s
+      Std: 2.36 rad/s
+      Valid data: 50.4%
+      Samples: 64,512 / 128,000
     Ascending stairs:
       Mean: 0.17 rad/s
-      Std: 0.12 rad/s
+      Std: 1.62 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -0.13 rad/s
-      Std: 0.13 rad/s
+      Std: 1.58 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
-      Mean: -332000.00 rad/s
-      Std: 470930.99 rad/s
+      Mean: 0.00 rad/s
+      Std: 0.68 rad/s
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
     Ironing:
       Mean: -0.01 rad/s
-      Std: 0.04 rad/s
+      Std: 0.23 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: -0.02 rad/s
-      Std: 0.14 rad/s
+      Std: 0.90 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 0.02 rad/s
-      Std: 0.05 rad/s
+      Std: 1.38 rad/s
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -332000.02 rad/s
-      Std: 470930.97 rad/s
+      Mean: -0.03 rad/s
+      Std: 3.34 rad/s
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 
 === MAGNETOMETER SENSORS ===
@@ -1344,47 +1960,75 @@ Sensor 10:
     Rate: 0.01%
   Activity-specific Statistics:
     Lying:
-      Mean: -200005.28 µT
-      Std: 399997.36 µT
+      Mean: -6.60 µT
+      Std: 9.71 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200004.23 µT
-      Std: 399997.88 µT
+      Mean: -5.29 µT
+      Std: 17.33 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66282.36 µT
-      Std: 246453.06 µT
+      Mean: 15.54 µT
+      Std: 42.08 µT
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 30.16 µT
-      Std: 16.92 µT
+      Std: 18.04 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
       Mean: 34.18 µT
-      Std: 10.14 µT
+      Std: 16.71 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Nordic walking:
       Mean: 16.16 µT
-      Std: 13.30 µT
+      Std: 19.03 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
       Mean: 12.99 µT
-      Std: 17.98 µT
+      Std: 22.37 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ascending stairs:
       Mean: 32.85 µT
-      Std: 9.22 µT
+      Std: 15.12 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 29.59 µT
-      Std: 12.85 µT
+      Std: 19.54 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: 23.89 µT
-      Std: 14.70 µT
+      Std: 16.68 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 15.03 µT
-      Std: 11.37 µT
+      Std: 17.02 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
-      Mean: -187197.14 µT
-      Std: 387113.42 µT
+      Mean: 26.58 µT
+      Std: 17.86 µT
+      Valid data: 81.3%
+      Samples: 104,036 / 128,000
     Rope jumping:
       Mean: -1.16 µT
-      Std: 17.12 µT
+      Std: 20.11 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
       Mean: 36.90 µT
-      Std: 15.16 µT
+      Std: 19.94 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
 
 Sensor 11:
   Descriptive Statistics:
@@ -1403,47 +2047,75 @@ Sensor 11:
     Rate: 0.12%
   Activity-specific Statistics:
     Lying:
-      Mean: -199988.27 µT
-      Std: 400005.86 µT
+      Mean: 14.66 µT
+      Std: 14.85 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200023.26 µT
-      Std: 399988.36 µT
+      Mean: -29.08 µT
+      Std: 21.91 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66312.86 µT
-      Std: 246445.18 µT
+      Mean: -17.12 µT
+      Std: 25.74 µT
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: -28.16 µT
-      Std: 17.79 µT
+      Std: 18.85 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
       Mean: -10.09 µT
-      Std: 15.47 µT
+      Std: 22.02 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Nordic walking:
       Mean: -32.27 µT
-      Std: 8.04 µT
+      Std: 12.08 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
       Mean: -36.38 µT
-      Std: 10.51 µT
+      Std: 14.39 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ascending stairs:
       Mean: -6.56 µT
-      Std: 18.07 µT
+      Std: 25.92 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -12.90 µT
-      Std: 18.88 µT
+      Std: 28.27 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: -2.70 µT
-      Std: 15.66 µT
+      Std: 17.91 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: -17.46 µT
-      Std: 21.94 µT
+      Std: 111.67 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
-      Mean: -187230.21 µT
-      Std: 387097.81 µT
+      Mean: -14.10 µT
+      Std: 20.82 µT
+      Valid data: 81.3%
+      Samples: 104,036 / 128,000
     Rope jumping:
       Mean: -44.62 µT
-      Std: 5.59 µT
+      Std: 8.53 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
       Mean: -13.24 µT
-      Std: 14.38 µT
+      Std: 22.05 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
 
 Sensor 12:
   Descriptive Statistics:
@@ -1462,47 +2134,75 @@ Sensor 12:
     Rate: 0.49%
   Activity-specific Statistics:
     Lying:
-      Mean: -200026.19 µT
-      Std: 399986.90 µT
+      Mean: -32.74 µT
+      Std: 9.81 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200036.71 µT
-      Std: 399981.64 µT
+      Mean: -45.89 µT
+      Std: 26.31 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66312.18 µT
-      Std: 246445.36 µT
+      Mean: -16.39 µT
+      Std: 16.46 µT
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: -10.32 µT
-      Std: 16.14 µT
+      Std: 179.86 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
       Mean: -17.32 µT
-      Std: 11.60 µT
+      Std: 14.91 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Nordic walking:
       Mean: -18.12 µT
-      Std: 17.84 µT
+      Std: 19.69 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
       Mean: -14.61 µT
-      Std: 12.71 µT
+      Std: 15.99 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ascending stairs:
       Mean: -17.15 µT
-      Std: 15.45 µT
+      Std: 24.02 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -15.37 µT
-      Std: 15.57 µT
+      Std: 24.43 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: -38.82 µT
-      Std: 8.82 µT
+      Std: 11.31 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: -34.40 µT
-      Std: 13.33 µT
+      Std: 19.00 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
-      Mean: -187227.46 µT
-      Std: 387098.80 µT
+      Mean: -10.72 µT
+      Std: 20.01 µT
+      Valid data: 81.3%
+      Samples: 104,036 / 128,000
     Rope jumping:
       Mean: -8.25 µT
-      Std: 12.41 µT
+      Std: 15.45 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
       Mean: -18.12 µT
-      Std: 11.11 µT
+      Std: 17.74 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
 
 Sensor 20:
   Descriptive Statistics:
@@ -1521,47 +2221,75 @@ Sensor 20:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -199993.77 µT
-      Std: 400003.11 µT
+      Mean: 7.79 µT
+      Std: 6.55 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200038.41 µT
-      Std: 399980.79 µT
+      Mean: -48.01 µT
+      Std: 13.84 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66342.25 µT
-      Std: 246437.45 µT
+      Mean: -48.59 µT
+      Std: 13.26 µT
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: -45.81 µT
-      Std: 8.21 µT
+      Std: 9.67 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -136241.74 µT
-      Std: 340088.44 µT
+      Mean: -44.70 µT
+      Std: 8.24 µT
+      Valid data: 86.4%
+      Samples: 110,566 / 128,000
     Nordic walking:
       Mean: -43.81 µT
-      Std: 3.85 µT
+      Std: 5.22 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
-      Mean: -59159.32 µT
-      Std: 234370.33 µT
+      Mean: -44.78 µT
+      Std: 9.61 µT
+      Valid data: 94.1%
+      Samples: 120,433 / 128,000
     Ascending stairs:
       Mean: -38.54 µT
-      Std: 7.39 µT
+      Std: 10.10 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -39.12 µT
-      Std: 8.41 µT
+      Std: 11.78 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: -45.34 µT
-      Std: 5.54 µT
+      Std: 10.88 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: -34.30 µT
-      Std: 12.37 µT
+      Std: 12.95 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: -23.80 µT
-      Std: 15.92 µT
+      Std: 17.45 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: -47.66 µT
-      Std: 7.47 µT
+      Std: 8.09 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -332030.79 µT
-      Std: 470909.28 µT
+      Mean: -46.10 µT
+      Std: 13.54 µT
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 21:
   Descriptive Statistics:
@@ -1580,47 +2308,75 @@ Sensor 21:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -200020.86 µT
-      Std: 399989.57 µT
+      Mean: -26.08 µT
+      Std: 13.07 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199990.53 µT
-      Std: 400004.73 µT
+      Mean: 11.84 µT
+      Std: 10.86 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66298.69 µT
-      Std: 246449.06 µT
+      Mean: -1.95 µT
+      Std: 120.08 µT
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 0.93 µT
-      Std: 11.82 µT
+      Std: 13.95 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -136208.11 µT
-      Std: 340101.70 µT
+      Mean: -5.77 µT
+      Std: 15.48 µT
+      Valid data: 86.4%
+      Samples: 110,566 / 128,000
     Nordic walking:
       Mean: -4.07 µT
-      Std: 17.54 µT
+      Std: 18.90 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
-      Mean: -59121.15 µT
-      Std: 234379.82 µT
+      Mean: -4.21 µT
+      Std: 14.24 µT
+      Valid data: 94.1%
+      Samples: 120,433 / 128,000
     Ascending stairs:
       Mean: -7.23 µT
-      Std: 18.45 µT
+      Std: 25.05 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -0.52 µT
-      Std: 15.16 µT
+      Std: 22.52 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: -2.25 µT
-      Std: 14.07 µT
+      Std: 109.68 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: -5.73 µT
-      Std: 10.19 µT
+      Std: 11.01 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: -4.46 µT
-      Std: 18.54 µT
+      Std: 20.05 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: -15.24 µT
-      Std: 12.07 µT
+      Std: 12.53 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -332002.49 µT
-      Std: 470929.23 µT
+      Mean: -3.73 µT
+      Std: 17.25 µT
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 22:
   Descriptive Statistics:
@@ -1639,47 +2395,75 @@ Sensor 22:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -200029.72 µT
-      Std: 399985.13 µT
+      Mean: -37.15 µT
+      Std: 3.19 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200001.12 µT
-      Std: 399999.43 µT
+      Mean: -1.41 µT
+      Std: 16.40 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66306.08 µT
-      Std: 246446.86 µT
+      Mean: -9.86 µT
+      Std: 18.78 µT
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: -5.78 µT
-      Std: 18.23 µT
+      Std: 19.49 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -136203.33 µT
-      Std: 340103.50 µT
+      Mean: -0.24 µT
+      Std: 18.78 µT
+      Valid data: 86.4%
+      Samples: 110,566 / 128,000
     Nordic walking:
       Mean: -0.29 µT
-      Std: 12.61 µT
+      Std: 14.00 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Running:
-      Mean: -59115.83 µT
-      Std: 234381.21 µT
+      Mean: 1.44 µT
+      Std: 19.83 µT
+      Valid data: 94.1%
+      Samples: 120,433 / 128,000
     Ascending stairs:
       Mean: 5.19 µT
-      Std: 8.54 µT
+      Std: 13.98 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 0.07 µT
-      Std: 9.87 µT
+      Std: 15.52 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
       Mean: 8.46 µT
-      Std: 15.61 µT
+      Std: 17.55 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Ironing:
       Mean: 9.50 µT
-      Std: 10.70 µT
+      Std: 11.77 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 23.98 µT
-      Std: 22.15 µT
+      Std: 23.01 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: -7.77 µT
-      Std: 7.97 µT
+      Std: 8.87 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -331994.45 µT
-      Std: 470934.90 µT
+      Mean: 8.31 µT
+      Std: 20.42 µT
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 30:
   Descriptive Statistics:
@@ -1698,47 +2482,75 @@ Sensor 30:
     Rate: 0.01%
   Activity-specific Statistics:
     Lying:
-      Mean: -200012.07 µT
-      Std: 399993.96 µT
+      Mean: -15.09 µT
+      Std: 2.25 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -199984.67 µT
-      Std: 400007.66 µT
+      Mean: 19.16 µT
+      Std: 17.55 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66285.75 µT
-      Std: 246452.32 µT
+      Mean: 11.92 µT
+      Std: 21.88 µT
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: 20.50 µT
-      Std: 11.39 µT
+      Std: 15.36 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -351985.16 µT
-      Std: 477604.90 µT
+      Mean: 22.89 µT
+      Std: 16.83 µT
+      Valid data: 64.8%
+      Samples: 82,944 / 128,000
     Nordic walking:
-      Mean: -247984.32 µT
-      Std: 431860.82 µT
+      Mean: 20.84 µT
+      Std: 16.29 µT
+      Valid data: 75.2%
+      Samples: 96,256 / 128,000
     Running:
-      Mean: -495986.61 µT
-      Std: 499997.27 µT
+      Mean: 26.56 µT
+      Std: 19.10 µT
+      Valid data: 50.4%
+      Samples: 64,512 / 128,000
     Ascending stairs:
       Mean: 22.06 µT
-      Std: 9.04 µT
+      Std: 17.29 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: 21.17 µT
-      Std: 11.23 µT
+      Std: 18.83 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
-      Mean: -331978.82 µT
-      Std: 470945.92 µT
+      Mean: 31.70 µT
+      Std: 12.59 µT
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
     Ironing:
       Mean: 17.93 µT
-      Std: 16.85 µT
+      Std: 21.00 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: 18.08 µT
-      Std: 19.42 µT
+      Std: 21.57 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: 23.73 µT
-      Std: 9.29 µT
+      Std: 11.79 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -331981.73 µT
-      Std: 470943.87 µT
+      Mean: 27.35 µT
+      Std: 16.58 µT
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 31:
   Descriptive Statistics:
@@ -1757,47 +2569,75 @@ Sensor 31:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -200007.20 µT
-      Std: 399996.40 µT
+      Mean: -9.00 µT
+      Std: 4.08 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200017.88 µT
-      Std: 399991.06 µT
+      Mean: -22.35 µT
+      Std: 17.80 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66313.53 µT
-      Std: 246444.89 µT
+      Mean: -17.84 µT
+      Std: 17.21 µT
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: -8.77 µT
-      Std: 11.50 µT
+      Std: 17.88 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -352001.05 µT
-      Std: 477593.19 µT
+      Mean: -1.63 µT
+      Std: 14.59 µT
+      Valid data: 64.8%
+      Samples: 82,944 / 128,000
     Nordic walking:
-      Mean: -248002.80 µT
-      Std: 431850.21 µT
+      Mean: -3.73 µT
+      Std: 20.54 µT
+      Valid data: 75.2%
+      Samples: 96,256 / 128,000
     Running:
-      Mean: -496003.56 µT
-      Std: 499980.46 µT
+      Mean: -7.07 µT
+      Std: 14.90 µT
+      Valid data: 50.4%
+      Samples: 64,512 / 128,000
     Ascending stairs:
       Mean: -4.42 µT
-      Std: 17.34 µT
+      Std: 122.32 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -6.47 µT
-      Std: 14.15 µT
+      Std: 21.07 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
-      Mean: -332003.24 µT
-      Std: 470928.70 µT
+      Mean: -4.86 µT
+      Std: 14.89 µT
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
     Ironing:
       Mean: -2.88 µT
-      Std: 12.96 µT
+      Std: 13.52 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: -4.39 µT
-      Std: 19.77 µT
+      Std: 21.61 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: -1.21 µT
-      Std: 11.19 µT
+      Std: 20.92 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -332005.06 µT
-      Std: 470927.42 µT
+      Mean: -7.59 µT
+      Std: 19.45 µT
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
 Sensor 32:
   Descriptive Statistics:
@@ -1816,45 +2656,73 @@ Sensor 32:
     Rate: 0.00%
   Activity-specific Statistics:
     Lying:
-      Mean: -200019.21 µT
-      Std: 399990.39 µT
+      Mean: -24.02 µT
+      Std: 4.75 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Sitting:
-      Mean: -200022.19 µT
-      Std: 399988.90 µT
+      Mean: -27.74 µT
+      Std: 16.16 µT
+      Valid data: 80.0%
+      Samples: 102,400 / 128,000
     Standing:
-      Mean: -66341.76 µT
-      Std: 246437.53 µT
+      Mean: -48.07 µT
+      Std: 14.77 µT
+      Valid data: 93.4%
+      Samples: 119,514 / 128,000
     Walking very slow:
       Mean: -28.41 µT
-      Std: 8.69 µT
+      Std: 13.31 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Normal walking:
-      Mean: -352015.84 µT
-      Std: 477582.29 µT
+      Mean: -24.45 µT
+      Std: 18.56 µT
+      Valid data: 64.8%
+      Samples: 82,944 / 128,000
     Nordic walking:
-      Mean: -248017.67 µT
-      Std: 431841.67 µT
+      Mean: -23.51 µT
+      Std: 17.98 µT
+      Valid data: 75.2%
+      Samples: 96,256 / 128,000
     Running:
-      Mean: -496010.70 µT
-      Std: 499973.37 µT
+      Mean: -21.25 µT
+      Std: 25.09 µT
+      Valid data: 50.4%
+      Samples: 64,512 / 128,000
     Ascending stairs:
       Mean: -20.32 µT
-      Std: 9.92 µT
+      Std: 17.16 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Descending stairs:
       Mean: -19.33 µT
-      Std: 8.65 µT
+      Std: 18.32 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Cycling:
-      Mean: -332016.71 µT
-      Std: 470919.20 µT
+      Mean: -25.02 µT
+      Std: 15.43 µT
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
     Ironing:
       Mean: -35.92 µT
-      Std: 9.68 µT
+      Std: 10.31 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Vacuum cleaning:
       Mean: -24.04 µT
-      Std: 16.86 µT
+      Std: 18.70 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Rope jumping:
       Mean: -36.49 µT
-      Std: 8.18 µT
+      Std: 10.44 µT
+      Valid data: 100.0%
+      Samples: 128,000 / 128,000
     Playing soccer:
-      Mean: -332016.26 µT
-      Std: 470919.52 µT
+      Mean: -24.35 µT
+      Std: 20.89 µT
+      Valid data: 66.8%
+      Samples: 85,504 / 128,000
 
