@@ -18,7 +18,7 @@ Your task is to design a solution, based on the machine learning methods seen in
 
 The dataset is composed of two parts, a learning and a test set. Each one contains 3,500 time series for each of the 31 sensors, possibly with missing values, encoded as -999999.99. The learning set was measured on 5 different subjects performing any of the 14 activites, and the test set was measured on 3 other subjects.
 
-Each time series is a vector of size 512, corresponding to a duration of 5 seconds. Each sample is associated with one of the subjects. Both sets contain 31 files called ``LS_sensor_i.txt``, where each line is a time series,``LS`` is for the learning set (respectively ``TS`` for the test set), and ``i`` is the id of the sensor, from 2 to 32. Additionally, both sets contain asubject_Id.txtfile, which contains the subject ID for
+Each time series is a vector of size 512, corresponding to a duration of 5 seconds. Each sample is associated with one of the subjects. Both sets contain 31 files called ``LS_sensor_i.txt``, where each line is a time series,``LS`` is for the learning set (respectively ``TS`` for the test set), and ``i`` is the id of the sensor, from 2 to 32. Additionally, both sets contain a ``subject_Id.txt`` file, which contains the subject ID for
 each of the 3,500 time series of the corresponding set.
 
 In the learning set, you will find another file named ``activity_Id.txt``, which contains the activity being performed for each time series. This is your target to predict. The 14 activites and 31 sensors are respectively described in $Table 1$ and $Table 2$.
