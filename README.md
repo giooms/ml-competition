@@ -35,7 +35,7 @@ Given the subject’s ID (``subject_Id.txt``) and the time series for each of th
 
 The data format is the same for the learning set and the test set. We recommend you to think for some time and be creative with feature engineering and how you will locally evaluate your method.
 
-The submission file is a simple CSV table with two columns,IdandPrediction. The ID is an integer from 1 to 3500, and the prediction an integer between 1 and 14, included, corresponding to the predicted activity for theIdthsample. We provide an example submission file, ``example_submission.csv``, as well as the script used to generate it, ``toy_script.py``.
+The submission file is a simple CSV table with two columns, ``Id`` and ``Prediction``. The ID is an integer from 1 to 3500, and the prediction an integer between 1 and 14, included, corresponding to the predicted activity for the ``Id``$^t$$^h$ sample. We provide an example submission file, ``example_submission.csv``, as well as the script used to generate it, ``toy_script.py``.
 
 ## 4. Submission
 
