@@ -44,7 +44,7 @@ provided in ``LS``.
 
 Your predictions computed on the data in ``LS`` can be submitted multiple times on Gradescope, where a leaderboard will allow you to compare your methods with other groups. A function to write your results in a CSV file is provided in ``toy_script.py``.
 
-When submitting _during the competition_ , public scores will be computed on 10% of the total test set. We will obviously not disclose which subset this is. _Once the competition is over_ , new private scores will be computed on the other 90% of the set. The private scores will count as the final scores.
+When submitting _during the competition_, public scores will be computed on 10% of the total test set. We will obviously not disclose which subset this is. _Once the competition is over_, new private scores will be computed on the other 90% of the set. The private scores will count as the final scores.
 
 **_Important Note_** : Submissions are limited to _3 per group per day_. This choice is deliberate, in order to avoid overfitting the public test set. As the _private_ score is the one that counts and is computed after the end of the competition, you have no interest in overfitting the public test score. We ask you to respect this rule, even if Gradescope does not entirely enforce it. All submissions must be conscientiously done on behalf of all the members of your group. Note that you _can_ submit past the limit, but they will not count and show on the public leaderboard. However, they could count for the private leaderboard! This might be useful in case you run out of submissions on the last day. **The competition will end on December 13th at 23:59.**
 
