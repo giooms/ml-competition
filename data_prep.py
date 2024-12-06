@@ -234,12 +234,15 @@ class SensorDataPreprocessor:
         processed_sensors = {}
         outlier_handler = StatisticalOutlierHandler()
         for sensor_id, data in tqdm(self.analyzer.sensors.items(), desc="Processing sensors"):
+            # Handle missing values
+            data[data == MISSING_VALUE] = np.nan
+
             # Remove rows with excessive missing values
             PERCENTAGE_THRESHOLD = 0.20
-            missing_proportion = np.mean(data == MISSING_VALUE, axis=1)
+            missing_proportion = np.mean(np.isnan(data), axis=1)
             data = data[missing_proportion <= PERCENTAGE_THRESHOLD]
 
-            # Handle missing values
+            # Impute missing values
             if imputation_method == 'knn':
                 processed_data = self._knn_impute(data)
             elif imputation_method == 'interpolation':
@@ -252,6 +255,10 @@ class SensorDataPreprocessor:
 
             # Remove outliers if specified
             if remove_outliers:
+                # If still missing values after imputation, log a warning
+                if np.isnan(processed_data).any():
+                    logger.warning(
+                        f"Sensor {sensor_id} has missing values after imputation")
                 processed_data = self._remove_outliers(
                     outlier_handler, processed_data, sensor_id, imputation_method)
 
@@ -264,30 +271,33 @@ class SensorDataPreprocessor:
         return processed_sensors
 
     def _knn_impute(self, data: np.ndarray) -> np.ndarray:
-        """KNN imputation for missing values."""
+        """KNN imputation for missing values treating rows independently."""
         imputer = KNNImputer(n_neighbors=5)
-        return imputer.fit_transform(data)
+        # Transpose the data to treat rows independently (imputation along columns)
+        transposed_data = data.T
+        imputed_data = imputer.fit_transform(transposed_data)
+        # Transpose back to the original shape
+        return imputed_data.T
 
     def _interpolate(self, data: np.ndarray) -> np.ndarray:
-        """Linear interpolation for missing values."""
+        """Linear interpolation for missing values in each row independently."""
         processed = data.copy()
-        for i in range(processed.shape[1]):
-            mask = processed[:, i] != MISSING_VALUE
+        for i in range(processed.shape[0]):
+            mask = ~np.isnan(processed[i, :])
             if np.any(mask):
-                f = interp1d(np.where(mask)[
-                             0], processed[mask, i], bounds_error=False, fill_value="extrapolate")
-                processed[~mask, i] = f(np.where(~mask)[0])
+                f = interp1d(np.where(mask)[0], processed[i, mask], bounds_error=False, fill_value="extrapolate")
+                processed[i, ~mask] = f(np.where(~mask)[0])
         return processed
 
     def _spline_impute(self, data: np.ndarray) -> np.ndarray:
-        """Spline interpolation for missing values."""
+        """Spline interpolation for missing values for each unique row independently."""
         processed = data.copy()
-        for i in range(processed.shape[1]):
-            mask = processed[:, i] != MISSING_VALUE
-            if np.any(mask):
-                spline = UnivariateSpline(
-                    np.where(mask)[0], processed[mask, i], s=0)
-                processed[~mask, i] = spline(np.where(~mask)[0])
+        for i in range(processed.shape[0]):
+            row = processed[i, :]
+            if np.any(~np.isnan(row)):
+                spline = UnivariateSpline(np.where(~np.isnan(row))[0], row[~np.isnan(row)], s=0)
+                row[np.isnan(row)] = spline(np.where(np.isnan(row))[0])
+            processed[i, :] = row
         return processed
 
     def _remove_outliers(self, handler: StatisticalOutlierHandler, data: np.ndarray, sensor_id: int, imputation_method: str) -> np.ndarray:
@@ -296,10 +306,16 @@ class SensorDataPreprocessor:
             key for key, value in SENSOR_RANGES.items() if sensor_id in value['sensors'])
         valid_range = SENSOR_RANGES[sensor_type]['range']
 
-        # Physically impossible values replaced with NaN
-        def _remove_physical_outliers(row, valid_range):    # preserves data shape
+        # Physically impossible values replaced with the value at time t-1
+        def _remove_physical_outliers(row, valid_range):
             lower_bound, upper_bound = valid_range
-            return np.where((row >= lower_bound) & (row <= upper_bound), row, np.nan)
+            previous_value = lower_bound
+            for i in range(len(row)):
+                if lower_bound <= row[i] <= upper_bound:
+                    previous_value = row[i]
+                else:
+                    row[i] = previous_value
+            return row
 
         data = np.apply_along_axis(
             _remove_physical_outliers, 1, data, valid_range)

@@ -35,6 +35,9 @@ class StatisticalOutlierHandler:
 
     def handle_outliers(self, data: np.ndarray, sensor_id: int) -> np.ndarray:
         assert sensor_id in self.sensor_distributions, 'Sensor ID not found'
+        # check that data doesn't contain NaNs
+        assert not np.isnan(data).any(), 'Data contains NaNs'
+
         distribution = self.sensor_distributions[sensor_id]
         if distribution == 'symmetric':
             return self._handle_symmetric(data)
@@ -47,28 +50,21 @@ class StatisticalOutlierHandler:
         TUKEY_FACTOR = 1.5
         # Flatten the data to compute percentiles for whole dataset
         flattened_data = data.flatten()
-        q1, q3 = np.nanpercentile(flattened_data, [25, 75])
+        q1, q3 = np.percentile(flattened_data, [25, 75])
         iqr = q3 - q1
         lower_fence = q1 - TUKEY_FACTOR * iqr
         upper_fence = q3 + TUKEY_FACTOR * iqr
 
-        # Use np.where to preserve NaNs
-        data = np.where(np.isnan(data), data, np.clip(
-            data, lower_fence, upper_fence))
+        data = np.clip(data, lower_fence, upper_fence)
         return data
 
     def _handle_multimodal(self, data: np.ndarray, window_size: int = 5, n_sigma: float = 3.0) -> np.ndarray:
         """Hampel filter"""
-        def apply_hampel(x):
-            if np.isnan(x).any():
-                mask = np.isnan(x)
-                x_non_nan = x[~mask]
-                x_filtered = hampel(x_non_nan, window_size=window_size, n_sigma=n_sigma).filtered_data
-                x[~mask] = x_filtered
-                return x
-            return hampel(x, window_size=window_size, n_sigma=n_sigma).filtered_data
+        df = pd.DataFrame(data)
+        filtered_df = df.apply(lambda x: hampel(
+            x, window_size=window_size, n_sigma=n_sigma).filtered_data, axis=1)
 
-        return np.apply_along_axis(apply_hampel, axis=1, arr=data)
+        return filtered_df.to_numpy()
 
 
 if __name__ == '__main__':
@@ -77,4 +73,4 @@ if __name__ == '__main__':
     for i in range(2, 3):
         data = np.loadtxt(f'./LS/LS_sensor_{i}.txt')
         result = handler._handle_multimodal(data)
-        print(result)
+        # print(result)
