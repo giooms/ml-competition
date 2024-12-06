@@ -36,7 +36,7 @@ import os
 import pandas as pd
 import seaborn as sns
 import warnings
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.impute import KNNImputer
 from scipy.interpolate import interp1d, UnivariateSpline
 from stat_outliers import StatisticalOutlierHandler
@@ -255,10 +255,11 @@ class SensorDataPreprocessor:
                 processed_data = self._remove_outliers(
                     outlier_handler, processed_data, sensor_id, imputation_method)
 
-            # Standardize
-            self.scalers[sensor_id] = StandardScaler()
-            processed_sensors[sensor_id] = self.scalers[sensor_id].fit_transform(
-                processed_data)
+            # Normalize
+            normalizer = MinMaxScaler()
+            self.scalers[sensor_id] = normalizer
+            # processed_sensors[sensor_id] = normalizer.fit_transform(processed_data)
+            processed_sensors[sensor_id] = processed_data
 
         return processed_sensors
 
@@ -316,6 +317,47 @@ class SensorDataPreprocessor:
     #         lower, upper = np.percentile(column, [2.5, 97.5])
     #         processed_data[:, i] = np.clip(column, lower, upper)
     #     return processed_data
+
+    def save_preprocessed_data(self, processed_sensors: Dict, method: str) -> None:
+        """Save preprocessed data and scalers."""
+        output_dir = os.path.join(self.analyzer.root_path, 'processed')
+        os.makedirs(output_dir, exist_ok=True)
+
+        # Serialize processed sensor data and scalers to files
+        for sensor_id, sensor_data in processed_sensors.items():
+            directory = os.path.join(output_dir, method)
+            os.makedirs(directory, exist_ok=True)
+
+            filename = os.path.join(directory, f'sensor_{sensor_id}.pkl')
+            joblib.dump(sensor_data, filename)
+            joblib.dump(self.scalers[sensor_id],
+                        filename.replace('.pkl', '_scaler.pkl'))
+
+        # Generate and save summary statistics
+        summary_file = os.path.join(output_dir, f'{method}_summary.txt')
+        summary_data = []
+
+        for sensor_id, data in processed_sensors.items():
+            num_time_series = data.shape[0]
+            num_values = np.prod(data.shape)
+
+            row_means = np.nanmean(data, axis=1)
+            mean_of_means = np.nanmean(row_means)
+
+            row_stds = np.nanstd(data, axis=1)
+            mean_of_stds = np.nanmean(row_stds)
+
+            summary_data.append(
+                [sensor_id, num_time_series, num_values, mean_of_means, mean_of_stds])
+
+        headers = ["Sensor ID", "Number of time series",
+                   "Number of values", "Mean", "Std"]
+        table = tabulate(summary_data, headers,
+                         tablefmt="fancy_grid", floatfmt=".2f")
+
+        with open(summary_file, 'w', encoding='utf-8') as f:
+            f.write(table)
+            f.close()
 
 
 # EXPLORER ANALYSIS
@@ -526,44 +568,6 @@ def process_data(analyzer, method='all'):
         preprocessor.save_preprocessed_data(processed_data, m)
 
 
-def save_preprocessed_data(self, processed_sensors: Dict, method: str) -> None:
-    """Save preprocessed data and scalers."""
-    output_dir = os.path.join(self.analyzer.root_path, 'processed')
-    os.makedirs(output_dir, exist_ok=True)
-
-    # Serialize processed sensor data and scalers to files
-    for sensor_id, sensor_data in processed_sensors.items():
-        directory = os.path.join(output_dir, method)
-        os.makedirs(directory, exist_ok=True)
-
-        filename = os.path.join(directory, f'sensor_{sensor_id}.pkl')
-        joblib.dump(sensor_data, filename)
-        joblib.dump(self.scalers[sensor_id],
-                    filename.replace('.pkl', '_scaler.pkl'))
-
-    # Generate and save summary statistics
-    summary_file = os.path.join(output_dir, f'{method}_summary.txt')
-    summary_data = []
-
-    for sensor_id, data in processed_sensors.items():
-        num_time_series = data.shape[0]
-        num_values = np.prod(data.shape)
-        mean_value = np.nanmean(data)
-        std_value = np.nanstd(data)
-
-        summary_data.append([sensor_id, num_time_series,
-                            num_values, mean_value, std_value])
-
-    headers = ["Sensor ID", "Number of time series",
-               "Number of values", "Mean", "Std"]
-    table = tabulate(summary_data, headers,
-                     tablefmt="fancy_grid", floatfmt=".2f")
-
-    with open(summary_file, 'w', encoding='utf-8') as f:
-        f.write(table)
-        f.close()
-
-
 if __name__ == "__main__":
     # Setup argument parser
     parser = argparse.ArgumentParser(
@@ -583,14 +587,12 @@ if __name__ == "__main__":
     # Initialize analyzer
     analyzer = SensorDataAnalyzer(args.data_path)
     analyzer.load_data(args.dataset_type)
-    preprocessor = SensorDataPreprocessor(analyzer)
-    _ = preprocessor.preprocess('spline')
 
     # Run selected workflow
-    # if args.mode == 'explore':
-    #     missing_stats, outlier_stats = explore_data(
-    #         analyzer, args.visualization)   # check explore_data doc for args
-    #     explorer_analysis(analyzer, missing_stats=missing_stats,
-    #                       outlier_stats=outlier_stats)
-    # else:  # process mode
-    #     process_data(analyzer, args.method)
+    if args.mode == 'explore':
+        missing_stats, outlier_stats = explore_data(
+            analyzer, args.visualization)   # check explore_data doc for args
+        explorer_analysis(analyzer, missing_stats=missing_stats,
+                          outlier_stats=outlier_stats)
+    else:  # process mode
+        process_data(analyzer, args.method)
