@@ -321,7 +321,7 @@ class SensorDataPreprocessor:
 
         return data
 
-    def _remove_physical_outliers(row: pd.Series, valid_range: tuple) -> pd.Series:
+    def _remove_physical_outliers(self, row: pd.Series, valid_range: tuple) -> pd.Series:
         """Remove physically impossible values from a row based on range."""
         assert isinstance(row, pd.Series), "Row must be a pandas Series"
         assert len(valid_range) == 2, "Valid range must be a tuple of two values"
