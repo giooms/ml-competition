@@ -30,9 +30,9 @@ class StatisticalOutlierHandler:
             id: 'symmetric' if id in symmetric else 'multimodal' for id in range(2, 33)
         }
 
-    def handle_outliers(self, data: np.ndarray, sensor_id: int) -> np.ndarray:
+    def handle_outliers(self, data: pd.DataFrame, sensor_id: int) -> pd.DataFrame:
         assert sensor_id in self.sensor_distributions, 'Sensor ID not found'
-        assert not np.isnan(data).any(), 'Data still contains NaNs'
+        assert not data.isna().any().any(), 'Data still contains NaNs'
 
         distribution = self.sensor_distributions[sensor_id]
         if distribution == 'symmetric':
@@ -42,25 +42,25 @@ class StatisticalOutlierHandler:
         else:
             raise ValueError('Invalid distribution type')
 
-    def _handle_symmetric(self, data: np.ndarray) -> np.ndarray:
+    def _handle_symmetric(self, data: pd.DataFrame) -> pd.DataFrame:
         """Use Tukey's fences to detect and handle outliers"""
         TUKEY_FACTOR = 1.5
         for i in range(data.shape[0]):
-            row = data[i, :]
-            q1, q3 = np.percentile(row, [25, 75])
+            row = data.iloc[i, :]
+            quantiles = row.quantile([0.25, 0.75])
+            q1 = quantiles.loc[0.25]
+            q3 = quantiles.loc[0.75]
             iqr = q3 - q1
             lower_fence = q1 - TUKEY_FACTOR * iqr
             upper_fence = q3 + TUKEY_FACTOR * iqr
-            data[i, :] = np.clip(row, lower_fence, upper_fence)
+            data.iloc[i, :] = row.clip(lower_fence, upper_fence)
         return data
 
-    def _handle_multimodal(self, data: np.ndarray, window_size: int = 5, n_sigma: float = 3.0) -> np.ndarray:
+    def _handle_multimodal(self, data: pd.DataFrame, window_size: int = 5, n_sigma: float = 3.0) -> pd.DataFrame:
         """Hampel filter"""
-        df = pd.DataFrame(data)
-        filtered_df = df.apply(lambda x: hampel(
+        filtered_df = data.apply(lambda x: hampel(
             x, window_size=window_size, n_sigma=n_sigma).filtered_data, axis=1)
-
-        return filtered_df.to_numpy()
+        return filtered_df
 
 
 if __name__ == '__main__':
@@ -71,10 +71,12 @@ if __name__ == '__main__':
     mean = 0
     std_dev = 1
     data = np.random.normal(mean, std_dev, (100, 32))
-    result = handler._handle_symmetric(data)
+    df = pd.DataFrame(data)
+    result = handler._handle_symmetric(df)
     # print(result)
 
     # (potentially) Multimodal data
     data = np.random.randn(100, 32)
-    result = handler._handle_multimodal(data)
+    df = pd.DataFrame(data)
+    result = handler._handle_multimodal(df)
     # print(result)

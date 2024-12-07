@@ -1,27 +1,30 @@
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.interpolate import UnivariateSpline
+from scipy.interpolate import interp1d
 
-# Sample data points
-x = np.linspace(0, 10, 10)
-y = np.sin(x)
+def _interpolate(data: pd.DataFrame) -> pd.DataFrame:
+    """Linear interpolation for missing values in each row independently."""
+    processed = data.copy()
+    for i in range(processed.shape[0]):
+        row = processed.iloc[i]
+        mask = ~row.isna()
+        if mask.any():
+            f = interp1d(row.index[mask], row[mask], bounds_error=False, fill_value="extrapolate")
+            missing_indices = row.index[~mask]
+            replaced_values = f(missing_indices)
+            print(f"Row {i}, Indices {missing_indices}, Replaced Values {replaced_values}")
+            processed.iloc[i, ~mask] = replaced_values
+    return processed
 
-# Linear interpolation
-linear_interp = np.interp
-
-# Spline interpolation
-spline_interp = UnivariateSpline(x, y, s=0)
-
-# Points to evaluate
-x_eval = np.linspace(0, 10, 100)
-
-# Evaluate interpolations
-y_linear = linear_interp(x_eval, x, y)
-y_spline = spline_interp(x_eval)
-
-# Plotting
-plt.plot(x, y, 'ro', label='Data points')
-plt.plot(x_eval, y_linear, 'b-', label='Linear Interpolation')
-plt.plot(x_eval, y_spline, 'g-', label='Spline Interpolation')
-plt.legend()
-plt.show()
+np.random.seed(42)
+dataset = np.random.rand(100, 30)
+# print(dataset)
+df = pd.DataFrame(dataset)
+# print(df)
+df.iloc[0, 0] = np.nan
+df.iloc[1, 1] = np.nan
+df.iloc[2, 2] = np.nan
+df = _interpolate(df)
+print(df)

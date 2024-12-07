@@ -57,9 +57,9 @@ logger = logging.getLogger(__name__)
 SENSOR_RANGES = {
     'heart_rate': {'sensors': [2], 'range': (30, 220), 'unit': 'bpm'},
     'temperature': {'sensors': [3, 13, 23], 'range': (20, 40), 'unit': '°C'},
-    'acceleration': {'sensors': [4, 5, 6, 14, 15, 16, 24, 25, 26], 'range': (-50, 50), 'unit': 'm/s^2'},
-    'gyroscope': {'sensors': [7, 8, 9, 17, 18, 19, 27, 28, 29], 'range': (-10, 10), 'unit': 'rad/s'},
-    'magnetometer': {'sensors': [10, 11, 12, 20, 21, 22, 30, 31, 32], 'range': (-100, 100), 'unit': 'µT'}
+    'acceleration': {'sensors': [4, 5, 6, 14, 15, 16, 24, 25, 26], 'range': (-25, 25), 'unit': 'm/s^2'},
+    'gyroscope': {'sensors': [7, 8, 9, 17, 18, 19, 27, 28, 29], 'range': (-2.5, 2.5), 'unit': 'rad/s'},
+    'magnetometer': {'sensors': [10, 11, 12, 20, 21, 22, 30, 31, 32], 'range': (-150, 150), 'unit': 'µT'}
 }
 
 ACTIVITY_NAMES = {
@@ -81,9 +81,9 @@ class SensorDataAnalyzer:
         self.root_path = root_path
         self.learning_path = os.path.join(root_path, 'LS')
         self.test_path = os.path.join(root_path, 'TS')
-        self.sensors = None
-        self.activities = None
-        self.subjects = None
+        self.sensors: Dict[int, pd.DataFrame] = {}
+        self.activities = pd.Series(dtype=int)
+        self.subjects = pd.Series(dtype=int)
 
     def load_data(self, dataset_type: str = 'learning') -> None:
         """Load sensor data, activities, and subject IDs."""
@@ -95,14 +95,16 @@ class SensorDataAnalyzer:
         for i in tqdm(range(2, 33), desc="Loading sensors"):
             file_prefix = 'LS' if dataset_type == 'learning' else 'TS'
             sensor_file = os.path.join(path, f'{file_prefix}_sensor_{i}.txt')
-            self.sensors[i] = np.loadtxt(sensor_file)   # Shape: (3500, 512)
+            data = pd.read_csv(sensor_file, delimiter=' ', header=None)
+            data.replace(MISSING_VALUE, pd.NA, inplace=True)
+            self.sensors[i] = data
 
         # Load activities and subjects
-        self.subjects = np.loadtxt(os.path.join(
-            path, 'subject_Id.txt')).astype(int)
+        self.subjects = pd.read_csv(os.path.join(
+            path, 'subject_Id.txt'), header=None).squeeze()
         if dataset_type == 'learning':
-            self.activities = np.loadtxt(os.path.join(
-                path, 'activity_Id.txt')).astype(int)
+            self.activities = pd.read_csv(os.path.join(
+                path, 'activity_Id.txt'), delimiter=' ', header=None).squeeze()
 
     def analyze_missing_values(self) -> Dict:
         """Analyze missing values in sensor data."""
@@ -110,13 +112,15 @@ class SensorDataAnalyzer:
         missing_stats = {}
 
         for sensor_id, data in self.sensors.items():
-            # number of complete samples (rows) that are entirely missing
-            missing_samples = np.all(data == MISSING_VALUE, axis=1).sum()
+            # number of samples where all values are missing
+            missing_samples = data.isna().all(axis=1).sum()
+
             # number of missing points (values) in the entire dataset
-            missing_points = np.sum(data == MISSING_VALUE)
+            missing_points = data.isna().sum().sum()
+
             # number of samples with 20%+ missing values
-            missing_pct = np.mean(data == MISSING_VALUE, axis=1)
-            missing_samples_20pct = np.sum(missing_pct > 0.20)
+            missing_pct = data.isna().mean(axis=1)
+            missing_samples_20pct = (missing_pct > 0.20).sum()
 
             missing_stats[sensor_id] = {
                 'total_samples': data.shape[0],
@@ -136,7 +140,7 @@ class SensorDataAnalyzer:
         for sensor_type, info in SENSOR_RANGES.items():
             for sensor_id in info['sensors']:
                 data = self.sensors[sensor_id]
-                valid_data = data[data != MISSING_VALUE]
+                valid_data = data.dropna()
 
                 # Physical constraints
                 physical_outliers = valid_data[
@@ -145,7 +149,9 @@ class SensorDataAnalyzer:
                 ]
 
                 # Statistical outliers (Interquartile Range - IQR method)
-                q1, q3 = np.percentile(valid_data, [25, 75])
+                quantiles = valid_data.quantile([0.25, 0.75])
+                q1 = quantiles.loc[0.25]
+                q3 = quantiles.loc[0.75]
                 iqr = q3 - q1
                 TUKEY_CONSTANT = 1.5
                 stat_outliers = valid_data[  # Tukey's fences method
@@ -171,8 +177,7 @@ class SensorDataAnalyzer:
         if self.activities is not None:
             plt.figure(figsize=(15, 6))
             # Count the number of samples for each activity and sort by activity ID
-            activity_counts = pd.Series(
-                self.activities).value_counts().sort_index()
+            activity_counts = self.activities.value_counts().sort_index()
             sns.barplot(x=activity_counts.index, y=activity_counts.values)
             plt.title('Activity Distribution')
             plt.xlabel('Activity')
@@ -192,7 +197,7 @@ class SensorDataAnalyzer:
             plt.figure(figsize=(15, 5))
             for sensor_id in info['sensors']:
                 data = self.sensors[sensor_id]
-                valid_data = data[data != MISSING_VALUE].flatten()
+                valid_data = data.dropna().values.flatten()
                 sns.kdeplot(valid_data, label=f'Sensor {sensor_id}')
 
             plt.axvline(info['range'][0], color='r', linestyle='--', alpha=0.5)
@@ -233,22 +238,20 @@ class SensorDataPreprocessor:
         """
         processed_sensors = {}
         outlier_handler = StatisticalOutlierHandler()
-        for sensor_id, data in tqdm(self.analyzer.sensors.items(), desc="Processing sensors"):
-            # Handle missing values
-            data[data == MISSING_VALUE] = np.nan
+        PERCENTAGE_THRESHOLD = 0.20
 
-            # Remove rows with excessive missing values
-            PERCENTAGE_THRESHOLD = 0.20
-            missing_proportion = np.mean(np.isnan(data), axis=1)
-            data = data[missing_proportion <= PERCENTAGE_THRESHOLD]
+        for sensor_id, data in tqdm(self.analyzer.sensors.items(), desc="Processing sensors"):
+            # Drop rows with excessive missing values
+            threshold = int((1 - PERCENTAGE_THRESHOLD) * data.shape[1])
+            filtered_data = data.dropna(thresh=threshold)
 
             # Impute missing values
             if imputation_method == 'knn':
-                processed_data = self._knn_impute(data)
+                processed_data = self._knn_impute(filtered_data)
             elif imputation_method == 'interpolation':
-                processed_data = self._interpolate(data)
+                processed_data = self._interpolate(filtered_data)
             elif imputation_method == 'spline':
-                processed_data = self._spline_impute(data)
+                processed_data = self._spline_impute(filtered_data)
             else:
                 raise ValueError(
                     f"Invalid imputation method: {imputation_method}")
@@ -256,7 +259,7 @@ class SensorDataPreprocessor:
             # Remove outliers if specified
             if remove_outliers:
                 # If still missing values after imputation, log a warning
-                if np.isnan(processed_data).any():
+                if processed_data.isna().any().any():
                     logger.warning(
                         f"Sensor {sensor_id} has missing values after imputation")
                 processed_data = self._remove_outliers(
@@ -270,63 +273,66 @@ class SensorDataPreprocessor:
 
         return processed_sensors
 
-    def _knn_impute(self, data: np.ndarray) -> np.ndarray:
+    def _knn_impute(self, data: pd.DataFrame) -> pd.DataFrame:
         """KNN imputation for missing values treating rows independently."""
         imputer = KNNImputer(n_neighbors=5)
         # Transpose the data to treat rows independently (imputation along columns)
         transposed_data = data.T
         imputed_data = imputer.fit_transform(transposed_data)
-        # Transpose back to the original shape
-        return imputed_data.T
+        # Transpose back to the original shape and convert to DataFrame
+        imputed_df = pd.DataFrame(imputed_data.T)
+        return imputed_df
 
-    def _interpolate(self, data: np.ndarray) -> np.ndarray:
+    def _interpolate(self, data: pd.DataFrame) -> pd.DataFrame:
         """Linear interpolation for missing values in each row independently."""
         processed = data.copy()
         for i in range(processed.shape[0]):
-            mask = ~np.isnan(processed[i, :])
-            if np.any(mask):
-                f = interp1d(np.where(mask)[
-                             0], processed[i, mask], bounds_error=False, fill_value="extrapolate")
-                processed[i, ~mask] = f(np.where(~mask)[0])
+            row = processed.iloc[i]
+            mask = row.notna()
+            if mask.any():
+                f = interp1d(row.index[mask], row[mask],
+                             bounds_error=False, fill_value="extrapolate")
+                processed.iloc[i, ~mask] = f(row.index[~mask])
         return processed
 
-    def _spline_impute(self, data: np.ndarray) -> np.ndarray:
+    def _spline_impute(self, data: pd.DataFrame) -> pd.DataFrame:
         """Spline interpolation for missing values for each unique row independently."""
         processed = data.copy()
         for i in range(processed.shape[0]):
-            row = processed[i, :]
-            if np.any(~np.isnan(row)):
-                spline = UnivariateSpline(np.where(~np.isnan(row))[
-                                          0], row[~np.isnan(row)], s=0)
-                row[np.isnan(row)] = spline(np.where(np.isnan(row))[0])
-            processed[i, :] = row
+            row = processed.iloc[i, :]
+            mask_notna = row.notna()
+            if mask_notna.any():
+                spline = UnivariateSpline(
+                    np.where(mask_notna)[0], row[mask_notna], s=0)
+                row[~mask_notna] = spline(np.where(~mask_notna)[0])
+            processed.iloc[i, :] = row
         return processed
 
-    def _remove_outliers(self, handler: StatisticalOutlierHandler, data: np.ndarray, sensor_id: int, imputation_method: str) -> np.ndarray:
+    def _remove_outliers(self, handler: StatisticalOutlierHandler, data: pd.DataFrame, sensor_id: int, imputation_method: str) -> pd.DataFrame:
         """Remove outliers using physical constraints and statistical methods, then impute."""
         valid_range = get_sensor_range(sensor_id)
 
         # Physically impossible values replaced with the value at time t-1
-        data = np.apply_along_axis(
-            self._remove_physical_outliers, 1, data, valid_range)
+        data = data.apply(lambda row: self._remove_physical_outliers(
+            row, valid_range), axis=1)
 
         # Statistical outliers are imputed
         data = handler.handle_outliers(data, sensor_id)
 
         return data
 
-    # Physically impossible values replaced with the value at time t-1
-    def _remove_physical_outliers(row, valid_range):
-        assert row.ndim == 1, "Row must be 1D"
+    def _remove_physical_outliers(row: pd.Series, valid_range: tuple) -> pd.Series:
+        """Remove physically impossible values from a row based on range."""
+        assert isinstance(row, pd.Series), "Row must be a pandas Series"
         assert len(valid_range) == 2, "Valid range must be a tuple of two values"
 
         lower_bound, upper_bound = valid_range
         previous_value = lower_bound
         for i in range(len(row)):
-            if lower_bound <= row[i] <= upper_bound:
-                previous_value = row[i]
+            if lower_bound <= row.iloc[i] <= upper_bound:
+                previous_value = row.iloc[i]
             else:
-                row[i] = previous_value
+                row.iloc[i] = previous_value
         return row
 
     # def _winsorize_outliers(self, data: np.ndarray, sensor_id: int) -> np.ndarray:
@@ -349,7 +355,7 @@ class SensorDataPreprocessor:
             os.makedirs(directory, exist_ok=True)
 
             filename = os.path.join(directory, f'sensor_{sensor_id}.pkl')
-            joblib.dump(sensor_data, filename)
+            sensor_data.to_pickle(filename)
             joblib.dump(self.scalers[sensor_id],
                         filename.replace('.pkl', '_scaler.pkl'))
 
@@ -357,15 +363,15 @@ class SensorDataPreprocessor:
         summary_file = os.path.join(output_dir, f'{method}_summary.txt')
         summary_data = []
 
-        for sensor_id, data in processed_sensors.items():
-            num_time_series = data.shape[0]
-            num_values = np.prod(data.shape)
+        for sensor_id, sensor_data in processed_sensors.items():
+            num_time_series = sensor_data.shape[0]
+            num_values = sensor_data.size
 
-            row_means = np.nanmean(data, axis=1)
-            mean_of_means = np.nanmean(row_means)
+            row_means = sensor_data.mean(axis=1, skipna=True)
+            mean_of_means = row_means.mean()
 
-            row_stds = np.nanstd(data, axis=1)
-            mean_of_stds = np.nanmean(row_stds)
+            row_stds = sensor_data.std(axis=1, skipna=True)
+            mean_of_stds = row_stds.mean()
 
             summary_data.append(
                 [sensor_id, num_time_series, num_values, mean_of_means, mean_of_stds])
@@ -381,7 +387,7 @@ class SensorDataPreprocessor:
 
 
 # EXPLORER ANALYSIS
-def explore_data(analyzer, action='both'):
+def explore_data(analyzer: SensorDataAnalyzer, action: str = 'both') -> tuple:
     """
     Run full data exploration workflow.
 
@@ -408,7 +414,7 @@ def explore_data(analyzer, action='both'):
     return missing_stats, outlier_stats
 
 
-def explorer_analysis(analyzer, missing_stats=None, outlier_stats=None, output_dir='explorer'):
+def explorer_analysis(analyzer: SensorDataAnalyzer, missing_stats: dict = None, outlier_stats: dict = None, output_dir: str = 'explorer') -> None:
     """
     Save comprehensive analysis results including descriptive stats and visualizations.
     Parameters:
@@ -434,7 +440,7 @@ def explorer_analysis(analyzer, missing_stats=None, outlier_stats=None, output_d
     with open(os.path.join(output_dir, 'analysis_results.txt'), 'w', encoding='utf-8') as f:
         # Activity Distribution section remains the same
         f.write("=== ACTIVITY DISTRIBUTION ===\n\n")
-        activity_counts = pd.Series(activities).value_counts().sort_index()
+        activity_counts = activities.value_counts().sort_index()
         for act_id, count in activity_counts.items():
             percentage = (count/len(activities))*100
             f.write(
@@ -443,8 +449,8 @@ def explorer_analysis(analyzer, missing_stats=None, outlier_stats=None, output_d
         # Overall Missing Values Analysis
         f.write("\n=== MISSING VALUES ANALYSIS ===\n\n")
         for sensor_id, data in sensors.items():
-            missing_mask = data == MISSING_VALUE
-            missing_count = np.sum(missing_mask)
+            missing_mask = data.isna()
+            missing_count = missing_mask.sum().sum()
             missing_rate = (missing_count / data.size) * 100
             f.write(f"Sensor {sensor_id}:\n")
             f.write(f"  Total missing values: {missing_count:,}\n")
@@ -473,11 +479,11 @@ def explorer_analysis(analyzer, missing_stats=None, outlier_stats=None, output_d
         box_data = []
         for activity in range(1, 15):
             activity_mask = activities == activity
-            activity_data = sensor_data[activity_mask]
+            activity_data = sensor_data.loc[activity_mask]
             # Calculate mean for each time series, excluding missing values
-            series_means = np.ma.masked_equal(
-                activity_data, MISSING_VALUE).mean(axis=1)
-            box_data.append(series_means.compressed())
+            series_means = activity_data.replace(
+                MISSING_VALUE, np.nan).mean(axis=1)
+            box_data.append(series_means.dropna().values)
 
         axes[i].boxplot(box_data, labels=[ACTIVITY_NAMES[j]
                         for j in range(1, 15)])
@@ -491,7 +497,7 @@ def explorer_analysis(analyzer, missing_stats=None, outlier_stats=None, output_d
     plt.close()
 
 
-def _write_sensor_analysis(output_dir, sensors, activities, missing_stats, outlier_stats):
+def _write_sensor_analysis(output_dir: str, sensors: dict, activities: pd.Series, missing_stats: dict, outlier_stats: dict) -> None:
     """
     (Private) Writes a detailed analysis of sensor data to a text file.
     Parameters:
@@ -512,20 +518,17 @@ def _write_sensor_analysis(output_dir, sensors, activities, missing_stats, outli
             f.write(f"\n=== {sensor_type.upper()} SENSORS ===\n\n")
 
             for sensor_id in info['sensors']:
-                data = sensors[sensor_id]  # Shape: (3500, 512)
-                valid_mask = data != MISSING_VALUE
-                valid_data = data[valid_mask]
+                data = sensors[sensor_id]  # DataFrame
+                valid_data = data.dropna().values.flatten()
 
                 # Descriptive Statistics
                 descriptive_stats = [
                     ["Mean", f"{np.mean(valid_data):.2f} {info['unit']}"],
                     ["Std", f"{np.std(valid_data):.2f} {info['unit']}"],
                     ["Min", f"{np.min(valid_data):.2f} {info['unit']}"],
-                    ["25%",
-                        f"{np.percentile(valid_data, 25):.2f} {info['unit']}"],
+                    ["25%", f"{np.percentile(valid_data, 25):.2f} {info['unit']}"],
                     ["Median", f"{np.median(valid_data):.2f} {info['unit']}"],
-                    ["75%",
-                        f"{np.percentile(valid_data, 75):.2f} {info['unit']}"],
+                    ["75%", f"{np.percentile(valid_data, 75):.2f} {info['unit']}"],
                     ["Max", f"{np.max(valid_data):.2f} {info['unit']}"]
                 ]
                 f.write(f"Sensor {sensor_id}:\n")
@@ -554,19 +557,18 @@ def _write_sensor_analysis(output_dir, sensors, activities, missing_stats, outli
                 activity_stats = []
                 for activity in range(1, 15):
                     activity_mask = activities == activity
-                    activity_data = data[activity_mask]
-                    valid_mask = activity_data != MISSING_VALUE
+                    activity_data = data.loc[activity_mask]
 
-                    if np.any(valid_mask):
-                        valid_data = activity_data[valid_mask]
-                        validity_rate = (np.sum(valid_mask) /
-                                         valid_mask.size) * 100
+                    valid_data = activity_data.replace(MISSING_VALUE, pd.NA).dropna()
+
+                    if not valid_data.empty:
+                        validity_rate = (valid_data.count().sum() / activity_data.size) * 100
                         activity_stats.append([
                             ACTIVITY_NAMES[activity],
-                            f"{np.mean(valid_data):.2f} {info['unit']}",
-                            f"{np.std(valid_data):.2f} {info['unit']}",
+                            f"{valid_data.mean().mean():.2f} {info['unit']}",
+                            f"{valid_data.std().std():.2f} {info['unit']}",
                             f"{validity_rate:.1f}%",
-                            f"{np.sum(valid_mask):,} / {valid_mask.size:,}"
+                            f"{valid_data.count().sum():,} / {activity_data.size:,}"
                         ])
                 f.write(tabulate(activity_stats, headers=[
                         "Activity", "Mean", "Std", "Valid data", "Samples"], tablefmt="fancy_grid"))
@@ -575,7 +577,7 @@ def _write_sensor_analysis(output_dir, sensors, activities, missing_stats, outli
 
 
 # PROCESSOR ANALYSIS
-def process_data(analyzer, method='all'):
+def process_data(analyzer: SensorDataAnalyzer, method: str = 'all'):
     """Run data preprocessing workflow"""
     preprocessor = SensorDataPreprocessor(analyzer)
     methods = ['knn', 'interpolation',
