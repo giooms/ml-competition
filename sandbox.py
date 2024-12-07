@@ -64,13 +64,28 @@ def analyze_df_missing_patterns(df):
 # Usage example:
 # df is your DataFrame where each row is a 512-point time series
 MISSING_VALUE = -999999.99
+series_to_drop = pd.Series([False] * 3500)
+dataset = {}
 for i in range(2,33):
+    print(f"Processing sensor {i}")
     df = pd.read_csv(f'LS/LS_sensor_{i}.txt', delimiter=' ', header=None)
     df.replace(MISSING_VALUE, np.nan, inplace=True)
+    dataset[i] = df
     patterns_df = analyze_df_missing_patterns(df)
-    df = df[(patterns_df['missing_percentage'] < 25) & (patterns_df['longest_sequence'] < 50)]
-    patterns_df = analyze_df_missing_patterns(df)
-    print(f"Sensor {i}: ", (patterns_df['total_missing'] > 0).sum())
+    series_to_drop = series_to_drop | (
+                patterns_df['missing_percentage'] > 0.25)
+
+    series_to_drop = series_to_drop | (
+                patterns_df['num_sequences'] > 50)
+
+for sensor_id, df in dataset.items():
+    print(f"sensor {sensor_id}")
+    print(len(df))
+    processed_data = df[~series_to_drop]
+    print(len(processed_data))
+    # check if processed_data contains nans
+    print(processed_data.isna().values.any())
+    print("")
 
 # patterns_df = analyze_df_missing_patterns(df)
 # print((patterns_df['total_missing'] > 0).sum())

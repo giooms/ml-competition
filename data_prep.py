@@ -305,8 +305,10 @@ class SensorDataPreprocessor:
             assert len(series_to_drop) == len(data), "The length of series_to_drop must match the number of rows in data."
             processed_data = data[~series_to_drop]
 
-            # Impute missing values
-            if processed_data.isna().any().any():
+
+            # Impute missing values if any
+            still_nans = processed_data.isna().values.any()
+            if still_nans:
                 if imputation_method == 'knn':
                     processed_data = self._knn_impute(processed_data)
                 elif imputation_method == 'interpolation':
@@ -317,12 +319,13 @@ class SensorDataPreprocessor:
                     raise ValueError(
                         f"Invalid imputation method: {imputation_method}")
 
-            # Remove outliers if specified
-            if remove_outliers:
-                # If still missing values after imputation, log a warning
-                if processed_data.isna().any().any():
+                if process_data.isna().values.any():
+                    # If still missing values after imputation, log a warning
                     logger.warning(
                         f"Sensor {sensor_id} has missing values after imputation")
+
+
+            if remove_outliers:
                 processed_data = self._remove_outliers(
                     outlier_handler, processed_data, sensor_id)
 
