@@ -335,6 +335,10 @@ class SensorDataPreprocessor:
             # processed_sensors[sensor_id] = normalizer.fit_transform(processed_data)
             processed_sensors[sensor_id] = processed_data
 
+            # Drop time series with excessive missing values
+            self.analyzer.activities = self.analyzer.activities[~series_to_drop]
+            self.analyzer.subjects = self.analyzer.subjects[~series_to_drop]
+
         return processed_sensors
 
     def _knn_impute(self, data: pd.DataFrame) -> pd.DataFrame:
@@ -413,6 +417,12 @@ class SensorDataPreprocessor:
             sensor_data.to_pickle(filename)
             joblib.dump(self.scalers[sensor_id],
                         filename.replace('.pkl', '_scaler.pkl'))
+
+        # Serialize activities and subjects to files
+        filename = os.path.join(output_dir, f'activities.pkl')
+        joblib.dump(self.analyzer.activities, filename)
+        filename = os.path.join(output_dir, f'subjects.pkl')
+        joblib.dump(self.analyzer.subjects, filename)
 
         # Generate and save summary statistics
         summary_file = os.path.join(output_dir, f'{method}_summary.txt')
