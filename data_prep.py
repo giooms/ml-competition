@@ -285,7 +285,8 @@ class SensorDataPreprocessor:
         for i in range(processed.shape[0]):
             mask = ~np.isnan(processed[i, :])
             if np.any(mask):
-                f = interp1d(np.where(mask)[0], processed[i, mask], bounds_error=False, fill_value="extrapolate")
+                f = interp1d(np.where(mask)[
+                             0], processed[i, mask], bounds_error=False, fill_value="extrapolate")
                 processed[i, ~mask] = f(np.where(~mask)[0])
         return processed
 
@@ -295,35 +296,38 @@ class SensorDataPreprocessor:
         for i in range(processed.shape[0]):
             row = processed[i, :]
             if np.any(~np.isnan(row)):
-                spline = UnivariateSpline(np.where(~np.isnan(row))[0], row[~np.isnan(row)], s=0)
+                spline = UnivariateSpline(np.where(~np.isnan(row))[
+                                          0], row[~np.isnan(row)], s=0)
                 row[np.isnan(row)] = spline(np.where(np.isnan(row))[0])
             processed[i, :] = row
         return processed
 
     def _remove_outliers(self, handler: StatisticalOutlierHandler, data: np.ndarray, sensor_id: int, imputation_method: str) -> np.ndarray:
         """Remove outliers using physical constraints and statistical methods, then impute."""
-        sensor_type = next(
-            key for key, value in SENSOR_RANGES.items() if sensor_id in value['sensors'])
-        valid_range = SENSOR_RANGES[sensor_type]['range']
+        valid_range = get_sensor_range(sensor_id)
 
         # Physically impossible values replaced with the value at time t-1
-        def _remove_physical_outliers(row, valid_range):
-            lower_bound, upper_bound = valid_range
-            previous_value = lower_bound
-            for i in range(len(row)):
-                if lower_bound <= row[i] <= upper_bound:
-                    previous_value = row[i]
-                else:
-                    row[i] = previous_value
-            return row
-
         data = np.apply_along_axis(
-            _remove_physical_outliers, 1, data, valid_range)
+            self._remove_physical_outliers, 1, data, valid_range)
 
         # Statistical outliers are imputed
         data = handler.handle_outliers(data, sensor_id)
 
         return data
+
+    # Physically impossible values replaced with the value at time t-1
+    def _remove_physical_outliers(row, valid_range):
+        assert row.ndim == 1, "Row must be 1D"
+        assert len(valid_range) == 2, "Valid range must be a tuple of two values"
+
+        lower_bound, upper_bound = valid_range
+        previous_value = lower_bound
+        for i in range(len(row)):
+            if lower_bound <= row[i] <= upper_bound:
+                previous_value = row[i]
+            else:
+                row[i] = previous_value
+        return row
 
     # def _winsorize_outliers(self, data: np.ndarray, sensor_id: int) -> np.ndarray:
     #     """Winsorization: Cap outliers at percentiles"""
@@ -582,6 +586,14 @@ def process_data(analyzer, method='all'):
         processed_data = preprocessor.preprocess(m)
         logger.info(f"Saving preprocessed data for {m} imputation...")
         preprocessor.save_preprocessed_data(processed_data, m)
+
+
+# HELPER FUNCTIONS
+def get_sensor_range(sensor_id: int) -> tuple:
+    for _, properties in SENSOR_RANGES.items():
+        if sensor_id in properties['sensors']:
+            return properties['range']
+    raise ValueError(f"Sensor ID {sensor_id} not found in SENSOR_RANGES")
 
 
 if __name__ == "__main__":
