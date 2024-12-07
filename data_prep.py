@@ -263,7 +263,7 @@ class SensorDataPreprocessor:
                     logger.warning(
                         f"Sensor {sensor_id} has missing values after imputation")
                 processed_data = self._remove_outliers(
-                    outlier_handler, processed_data, sensor_id, imputation_method)
+                    outlier_handler, processed_data, sensor_id)
 
             # Normalize
             normalizer = MinMaxScaler()
@@ -308,7 +308,7 @@ class SensorDataPreprocessor:
             processed.iloc[i, :] = row
         return processed
 
-    def _remove_outliers(self, handler: StatisticalOutlierHandler, data: pd.DataFrame, sensor_id: int, imputation_method: str) -> pd.DataFrame:
+    def _remove_outliers(self, handler: StatisticalOutlierHandler, data: pd.DataFrame, sensor_id: int) -> pd.DataFrame:
         """Remove outliers using physical constraints and statistical methods, then impute."""
         valid_range = get_sensor_range(sensor_id)
 
@@ -526,9 +526,11 @@ def _write_sensor_analysis(output_dir: str, sensors: dict, activities: pd.Series
                     ["Mean", f"{np.mean(valid_data):.2f} {info['unit']}"],
                     ["Std", f"{np.std(valid_data):.2f} {info['unit']}"],
                     ["Min", f"{np.min(valid_data):.2f} {info['unit']}"],
-                    ["25%", f"{np.percentile(valid_data, 25):.2f} {info['unit']}"],
+                    ["25%",
+                        f"{np.percentile(valid_data, 25):.2f} {info['unit']}"],
                     ["Median", f"{np.median(valid_data):.2f} {info['unit']}"],
-                    ["75%", f"{np.percentile(valid_data, 75):.2f} {info['unit']}"],
+                    ["75%",
+                        f"{np.percentile(valid_data, 75):.2f} {info['unit']}"],
                     ["Max", f"{np.max(valid_data):.2f} {info['unit']}"]
                 ]
                 f.write(f"Sensor {sensor_id}:\n")
@@ -559,10 +561,12 @@ def _write_sensor_analysis(output_dir: str, sensors: dict, activities: pd.Series
                     activity_mask = activities == activity
                     activity_data = data.loc[activity_mask]
 
-                    valid_data = activity_data.replace(MISSING_VALUE, pd.NA).dropna()
+                    valid_data = activity_data.replace(
+                        MISSING_VALUE, pd.NA).dropna()
 
                     if not valid_data.empty:
-                        validity_rate = (valid_data.count().sum() / activity_data.size) * 100
+                        validity_rate = (
+                            valid_data.count().sum() / activity_data.size) * 100
                         activity_stats.append([
                             ACTIVITY_NAMES[activity],
                             f"{valid_data.mean().mean():.2f} {info['unit']}",
