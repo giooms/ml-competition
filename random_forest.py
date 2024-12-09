@@ -1,12 +1,6 @@
 import helpers as hlp
-import joblib
 import logging
-import matplotlib.pyplot as plt
-import os
-import pandas as pd
-from tqdm import tqdm
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.model_selection import GridSearchCV
 
 # Configure logging
 logging.basicConfig(level=logging.INFO,
@@ -16,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 if __name__ == '__main__':
     logger.info('Random Forest Classifier')
+
     # Load the data
     X_train, X_test, y_train = hlp.load_data(data_path='./')
     # print(X_train.head())
