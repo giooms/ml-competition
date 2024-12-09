@@ -23,11 +23,11 @@ each of the 3,500 time series of the corresponding set.
 
 In the learning set, you will find another file named ``activity_Id.txt``, which contains the activity being performed for each time series. This is your target to predict. The 14 activites and 31 sensors are respectively described in $Table 1$ and $Table 2$.
 
-![Time Series](./md-img/time-series.png "Time Series")
+![Time Series](./admin/md-img/time-series.png "Time Series")
 $Figure 1$: **Example time series for 5 different sensors.** Each one of the sensors, activities, and individuals leads to very different time series, with different scales, behaviour, periodicity, etc. Considering the time series as typical tabular features might be tedious.
 
-![Table1](./md-img/table1.png "Activity Description")
-![Table2](./md-img/table2.png "Sensors Description")
+![Table1](./admin/md-img/table1.png "Activity Description")
+![Table2](./admin/md-img/table2.png "Sensors Description")
 
 ## 3. Target prediction
 

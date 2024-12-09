@@ -105,6 +105,11 @@ class SensorDataAnalyzer:
             self.activities = pd.read_csv(os.path.join(
                 path, 'activity_Id.txt'), delimiter=' ', header=None).squeeze()
 
+        # Debug
+        # print(f"Loaded {len(self.sensors)} sensors")
+        # print(f"Loaded {len(self.activities)} activities")
+        # print(f"Loaded {len(self.subjects)} subjects")
+
     def analyze_missing_values(self) -> Dict:
         """Analyze missing values in sensor data."""
         logger.info("Analyzing missing values...")
@@ -272,23 +277,14 @@ class SensorDataPreprocessor:
         self.analyzer = analyzer
         self.scalers = {}   # Store (min, max) values for each sensor
 
-    def preprocess(self, imputation_method: str = 'spline', remove_outliers: bool = True) -> Dict:
-        """
-        Preprocess sensor data with specified imputation method.
-
-        Parameters:
-            imputation_method: One of ['knn', 'interpolation', 'spline']. Default is 'spline'.
-             remove_outliers: Whether to remove statistical outliers. Default is True.
-
-        Returns:
-            Processed sensor data as a dictionary of sensor ID to processed data.
-        """
+    def preprocess(self, imputation_method: str = 'spline', remove_outliers: bool = True) -> tuple:
+        """Preprocess sensor data with specified imputation method."""
         processed_sensors = {}
         PERCENTAGE_THRESHOLD = 0.25
         series_to_drop = pd.Series([False] * 3500)
         outlier_handler = StatisticalOutlierHandler()
 
-        for sensor_id, data in tqdm(self.analyzer.sensors.items(), desc="Identify excessive NaN sensors"):
+        for sensor_id, data in tqdm(self.analyzer.sensors.items(), desc="Identifying time series with excessive NaNs"):
             missing_patterns = self.analyzer._analyze_df_missing_patterns(data)
 
             # Get time series with >25% missing values
@@ -300,7 +296,7 @@ class SensorDataPreprocessor:
                 missing_patterns['num_sequences'] > 50)
 
         # Drop time series with excessive missing values
-        for sensor_id, data in tqdm(self.analyzer.sensors.items(), desc="Clean & Impute sensors"):
+        for sensor_id, data in tqdm(self.analyzer.sensors.items(), desc="Cleaning sensors"):
             assert len(series_to_drop) == len(
                 data), "Length of series_to_drop does not match number of rows in data."
             processed_data = data[~series_to_drop].reset_index(drop=True)
@@ -336,12 +332,12 @@ class SensorDataPreprocessor:
             processed_sensors[sensor_id] = normalized_data
 
             # Drop time series with excessive missing values
-            self.analyzer.activities = self.analyzer.activities[~series_to_drop].reset_index(
-                drop=True)
-            self.analyzer.subjects = self.analyzer.subjects[~series_to_drop].reset_index(
-                drop=True)
+            activities = self.analyzer.activities[~series_to_drop].reset_index(
+                drop=True).squeeze()
+            subjects = self.analyzer.subjects[~series_to_drop].reset_index(
+                drop=True).squeeze()
 
-        return processed_sensors
+        return processed_sensors, activities, subjects
 
     def _knn_impute(self, data: pd.DataFrame) -> pd.DataFrame:
         """KNN imputation for missing values treating rows independently."""
@@ -405,7 +401,7 @@ class SensorDataPreprocessor:
                 row.iloc[i] = previous_value
         return row
 
-    def save_preprocessed_data(self, processed_sensors: Dict, method: str) -> None:
+    def save_preprocessed_data(self, processed_sensors: Dict, processed_activities: pd.Series, processed_subjects: pd.Series, method: str) -> None:
         """Save preprocessed data and scalers."""
         output_dir = os.path.join(self.analyzer.root_path, 'processed')
         os.makedirs(output_dir, exist_ok=True)
@@ -426,8 +422,13 @@ class SensorDataPreprocessor:
         # Serialize activities and subjects to files
         activity_path = os.path.join(output_dir, f'activities.pkl')
         subjects_path = os.path.join(output_dir, f'subjects.pkl')
-        self.analyzer.activities.to_pickle(activity_path)
-        self.analyzer.subjects.to_pickle(subjects_path)
+
+        # Debug: Print shapes before serialization
+        # print(f"Activities shape before serialization: {processed_activities.size}")
+        # print(f"Subjects shape before serialization: {processed_subjects.size}")
+
+        processed_activities.to_pickle(activity_path)
+        processed_subjects.to_pickle(subjects_path)
 
         # Generate and save summary statistics
         summary_file = os.path.join(output_dir, f'{method}_summary.txt')
@@ -650,9 +651,9 @@ def process_data(analyzer: SensorDataAnalyzer, method: str = 'spline') -> None:
 
     for m in methods:
         logger.info(f"Processing data using {m} imputation...")
-        processed_data = preprocessor.preprocess(m)
+        new_data, new_activities, new_subjects = preprocessor.preprocess(m)
         logger.info(f"Saving preprocessed data for {m} imputation...")
-        preprocessor.save_preprocessed_data(processed_data, m)
+        preprocessor.save_preprocessed_data(new_data, new_activities, new_subjects, m)
 
 
 # HELPER FUNCTIONS
