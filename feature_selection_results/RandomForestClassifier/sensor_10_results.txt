@@ -1,0 +1,157 @@
+=== Sensor 10 ===
+
+Top 100 features (SelectKBest):
+Feature 508 (original: 508): Score = 100.4982
+Feature 509 (original: 509): Score = 100.3947
+Feature 469 (original: 469): Score = 100.3537
+Feature 507 (original: 507): Score = 100.3338
+Feature 511 (original: 511): Score = 100.2316
+Feature 497 (original: 497): Score = 100.1154
+Feature 470 (original: 470): Score = 100.0629
+Feature 471 (original: 471): Score = 100.0607
+Feature 472 (original: 472): Score = 100.0542
+Feature 501 (original: 501): Score = 100.0086
+Feature 465 (original: 465): Score = 100.0078
+Feature 506 (original: 506): Score = 99.9676
+Feature 510 (original: 510): Score = 99.9240
+Feature 462 (original: 462): Score = 99.9080
+Feature 466 (original: 466): Score = 99.8975
+Feature 474 (original: 474): Score = 99.8815
+Feature 500 (original: 500): Score = 99.8779
+Feature 505 (original: 505): Score = 99.8667
+Feature 502 (original: 502): Score = 99.8580
+Feature 269 (original: 269): Score = 99.8541
+Feature 476 (original: 476): Score = 99.8401
+Feature 454 (original: 454): Score = 99.8105
+Feature 498 (original: 498): Score = 99.7686
+Feature 464 (original: 464): Score = 99.7562
+Feature 512 (original: 512): Score = 99.7557
+Feature 461 (original: 461): Score = 99.7380
+Feature 270 (original: 270): Score = 99.7221
+Feature 463 (original: 463): Score = 99.7178
+Feature 468 (original: 468): Score = 99.6915
+Feature 473 (original: 473): Score = 99.6886
+Feature 499 (original: 499): Score = 99.6429
+Feature 453 (original: 453): Score = 99.6382
+Feature 260 (original: 260): Score = 99.6355
+Feature 475 (original: 475): Score = 99.6224
+Feature 456 (original: 456): Score = 99.5713
+Feature 261 (original: 261): Score = 99.5473
+Feature 485 (original: 485): Score = 99.5213
+Feature 467 (original: 467): Score = 99.4731
+Feature 455 (original: 455): Score = 99.4662
+Feature 460 (original: 460): Score = 99.4250
+Feature 457 (original: 457): Score = 99.4119
+Feature 256 (original: 256): Score = 99.3784
+Feature 271 (original: 271): Score = 99.3567
+Feature 481 (original: 481): Score = 99.3503
+Feature 272 (original: 272): Score = 99.3423
+Feature 458 (original: 458): Score = 99.3415
+Feature 267 (original: 267): Score = 99.3376
+Feature 258 (original: 258): Score = 99.3335
+Feature 459 (original: 459): Score = 99.3224
+Feature 452 (original: 452): Score = 99.3052
+Feature 266 (original: 266): Score = 99.2977
+Feature 268 (original: 268): Score = 99.2975
+Feature 496 (original: 496): Score = 99.2834
+Feature 257 (original: 257): Score = 99.2701
+Feature 488 (original: 488): Score = 99.2391
+Feature 495 (original: 495): Score = 99.2143
+Feature 347 (original: 347): Score = 99.1697
+Feature 504 (original: 504): Score = 99.1111
+Feature 346 (original: 346): Score = 99.1043
+Feature 480 (original: 480): Score = 99.1020
+Feature 494 (original: 494): Score = 99.0949
+Feature 477 (original: 477): Score = 99.0197
+Feature 484 (original: 484): Score = 99.0167
+Feature 482 (original: 482): Score = 99.0008
+Feature 451 (original: 451): Score = 98.9867
+Feature 492 (original: 492): Score = 98.9681
+Feature 255 (original: 255): Score = 98.9480
+Feature 254 (original: 254): Score = 98.9272
+Feature 345 (original: 345): Score = 98.8940
+Feature 503 (original: 503): Score = 98.8534
+Feature 486 (original: 486): Score = 98.8517
+Feature 262 (original: 262): Score = 98.8257
+Feature 259 (original: 259): Score = 98.8186
+Feature 263 (original: 263): Score = 98.8119
+Feature 487 (original: 487): Score = 98.8031
+Feature 253 (original: 253): Score = 98.7951
+Feature 478 (original: 478): Score = 98.7850
+Feature 273 (original: 273): Score = 98.7260
+Feature 343 (original: 343): Score = 98.7022
+Feature 450 (original: 450): Score = 98.6710
+Feature 489 (original: 489): Score = 98.6498
+Feature 192 (original: 192): Score = 98.6271
+Feature 483 (original: 483): Score = 98.6221
+Feature 490 (original: 490): Score = 98.6042
+Feature 405 (original: 405): Score = 98.6010
+Feature 193 (original: 193): Score = 98.5847
+Feature 265 (original: 265): Score = 98.5745
+Feature 200 (original: 200): Score = 98.5576
+Feature 491 (original: 491): Score = 98.5543
+Feature 448 (original: 448): Score = 98.5402
+Feature 344 (original: 344): Score = 98.4748
+Feature 191 (original: 191): Score = 98.4615
+Feature 264 (original: 264): Score = 98.3908
+Feature 449 (original: 449): Score = 98.3763
+Feature 479 (original: 479): Score = 98.3735
+Feature 348 (original: 348): Score = 98.3130
+Feature 493 (original: 493): Score = 98.2854
+Feature 201 (original: 201): Score = 98.2629
+Feature 198 (original: 198): Score = 98.2339
+Feature 349 (original: 349): Score = 98.2205
+
+Top 50 features (RandomForestClassifier - RFE):
+Feature 1 (original: 508)
+Feature 2 (original: 509)
+Feature 4 (original: 507)
+Feature 5 (original: 511)
+Feature 7 (original: 470)
+Feature 13 (original: 510)
+Feature 14 (original: 462)
+Feature 17 (original: 500)
+Feature 18 (original: 505)
+Feature 19 (original: 502)
+Feature 20 (original: 269)
+Feature 25 (original: 512)
+Feature 26 (original: 461)
+Feature 30 (original: 473)
+Feature 41 (original: 457)
+Feature 42 (original: 256)
+Feature 43 (original: 271)
+Feature 44 (original: 481)
+Feature 45 (original: 272)
+Feature 48 (original: 258)
+Feature 50 (original: 452)
+Feature 51 (original: 266)
+Feature 52 (original: 268)
+Feature 57 (original: 347)
+Feature 59 (original: 346)
+Feature 65 (original: 451)
+Feature 67 (original: 255)
+Feature 68 (original: 254)
+Feature 69 (original: 345)
+Feature 73 (original: 259)
+Feature 76 (original: 253)
+Feature 77 (original: 478)
+Feature 78 (original: 273)
+Feature 79 (original: 343)
+Feature 80 (original: 450)
+Feature 82 (original: 192)
+Feature 83 (original: 483)
+Feature 85 (original: 405)
+Feature 86 (original: 193)
+Feature 87 (original: 265)
+Feature 88 (original: 200)
+Feature 89 (original: 491)
+Feature 90 (original: 448)
+Feature 91 (original: 344)
+Feature 92 (original: 191)
+Feature 93 (original: 264)
+Feature 96 (original: 348)
+Feature 98 (original: 201)
+Feature 99 (original: 198)
+Feature 100 (original: 349)
+
+RandomForestClassifier Mean CV Score: 0.5606

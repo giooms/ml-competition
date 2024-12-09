@@ -1,0 +1,157 @@
+=== Sensor 31 ===
+
+Top 100 features (SelectKBest):
+Feature 345 (original: 345): Score = 31.7132
+Feature 343 (original: 343): Score = 31.5912
+Feature 341 (original: 341): Score = 31.5773
+Feature 344 (original: 344): Score = 31.4438
+Feature 331 (original: 331): Score = 31.3497
+Feature 340 (original: 340): Score = 31.3329
+Feature 337 (original: 337): Score = 31.3181
+Feature 339 (original: 339): Score = 31.3042
+Feature 342 (original: 342): Score = 31.2456
+Feature 338 (original: 338): Score = 31.2390
+Feature 346 (original: 346): Score = 31.2380
+Feature 335 (original: 335): Score = 31.2110
+Feature 334 (original: 334): Score = 31.1777
+Feature 336 (original: 336): Score = 31.1266
+Feature 327 (original: 327): Score = 31.0465
+Feature 347 (original: 347): Score = 31.0228
+Feature 353 (original: 353): Score = 31.0196
+Feature 354 (original: 354): Score = 30.9884
+Feature 350 (original: 350): Score = 30.9709
+Feature 349 (original: 349): Score = 30.9571
+Feature 329 (original: 329): Score = 30.9435
+Feature 245 (original: 245): Score = 30.9238
+Feature 330 (original: 330): Score = 30.9124
+Feature 246 (original: 246): Score = 30.9057
+Feature 326 (original: 326): Score = 30.8566
+Feature 237 (original: 237): Score = 30.8327
+Feature 352 (original: 352): Score = 30.8224
+Feature 355 (original: 355): Score = 30.8202
+Feature 348 (original: 348): Score = 30.8071
+Feature 247 (original: 247): Score = 30.7767
+Feature 328 (original: 328): Score = 30.7358
+Feature 325 (original: 325): Score = 30.7258
+Feature 221 (original: 221): Score = 30.7208
+Feature 248 (original: 248): Score = 30.6834
+Feature 255 (original: 255): Score = 30.6602
+Feature 231 (original: 231): Score = 30.6472
+Feature 249 (original: 249): Score = 30.6434
+Feature 220 (original: 220): Score = 30.6381
+Feature 251 (original: 251): Score = 30.6249
+Feature 225 (original: 225): Score = 30.6152
+Feature 243 (original: 243): Score = 30.6146
+Feature 236 (original: 236): Score = 30.6099
+Feature 244 (original: 244): Score = 30.5882
+Feature 239 (original: 239): Score = 30.5871
+Feature 253 (original: 253): Score = 30.5783
+Feature 257 (original: 257): Score = 30.5641
+Feature 232 (original: 232): Score = 30.5599
+Feature 238 (original: 238): Score = 30.5483
+Feature 215 (original: 215): Score = 30.5289
+Feature 250 (original: 250): Score = 30.5256
+Feature 242 (original: 242): Score = 30.5146
+Feature 224 (original: 224): Score = 30.5121
+Feature 254 (original: 254): Score = 30.4993
+Feature 222 (original: 222): Score = 30.4945
+Feature 234 (original: 234): Score = 30.4797
+Feature 259 (original: 259): Score = 30.4758
+Feature 324 (original: 324): Score = 30.4607
+Feature 233 (original: 233): Score = 30.4594
+Feature 235 (original: 235): Score = 30.4535
+Feature 356 (original: 356): Score = 30.4372
+Feature 358 (original: 358): Score = 30.3906
+Feature 256 (original: 256): Score = 30.3759
+Feature 357 (original: 357): Score = 30.3675
+Feature 219 (original: 219): Score = 30.3669
+Feature 211 (original: 211): Score = 30.3535
+Feature 258 (original: 258): Score = 30.3469
+Feature 216 (original: 216): Score = 30.3450
+Feature 223 (original: 223): Score = 30.3441
+Feature 229 (original: 229): Score = 30.3417
+Feature 240 (original: 240): Score = 30.3212
+Feature 230 (original: 230): Score = 30.2987
+Feature 260 (original: 260): Score = 30.2880
+Feature 228 (original: 228): Score = 30.2768
+Feature 212 (original: 212): Score = 30.2462
+Feature 213 (original: 213): Score = 30.2372
+Feature 217 (original: 217): Score = 30.2327
+Feature 323 (original: 323): Score = 30.2246
+Feature 214 (original: 214): Score = 30.2242
+Feature 227 (original: 227): Score = 30.2172
+Feature 226 (original: 226): Score = 30.2056
+Feature 501 (original: 501): Score = 30.1929
+Feature 218 (original: 218): Score = 30.1341
+Feature 392 (original: 392): Score = 30.1230
+Feature 321 (original: 321): Score = 30.0867
+Feature 394 (original: 394): Score = 30.0578
+Feature 499 (original: 499): Score = 30.0415
+Feature 320 (original: 320): Score = 30.0362
+Feature 261 (original: 261): Score = 30.0341
+Feature 322 (original: 322): Score = 30.0265
+Feature 497 (original: 497): Score = 30.0116
+Feature 210 (original: 210): Score = 30.0109
+Feature 313 (original: 313): Score = 30.0053
+Feature 495 (original: 495): Score = 30.0032
+Feature 362 (original: 362): Score = 29.9816
+Feature 363 (original: 363): Score = 29.9475
+Feature 493 (original: 493): Score = 29.9182
+Feature 312 (original: 312): Score = 29.9105
+Feature 404 (original: 404): Score = 29.8896
+Feature 364 (original: 364): Score = 29.8735
+Feature 400 (original: 400): Score = 29.8559
+
+Top 50 features (RandomForestClassifier - RFE):
+Feature 2 (original: 343)
+Feature 8 (original: 339)
+Feature 11 (original: 346)
+Feature 13 (original: 334)
+Feature 17 (original: 353)
+Feature 18 (original: 354)
+Feature 19 (original: 350)
+Feature 21 (original: 329)
+Feature 23 (original: 330)
+Feature 25 (original: 326)
+Feature 28 (original: 355)
+Feature 29 (original: 348)
+Feature 30 (original: 247)
+Feature 31 (original: 328)
+Feature 35 (original: 255)
+Feature 37 (original: 249)
+Feature 40 (original: 225)
+Feature 49 (original: 215)
+Feature 50 (original: 250)
+Feature 51 (original: 242)
+Feature 54 (original: 222)
+Feature 55 (original: 234)
+Feature 56 (original: 259)
+Feature 60 (original: 356)
+Feature 61 (original: 358)
+Feature 62 (original: 256)
+Feature 63 (original: 357)
+Feature 65 (original: 211)
+Feature 67 (original: 216)
+Feature 73 (original: 228)
+Feature 74 (original: 212)
+Feature 75 (original: 213)
+Feature 78 (original: 214)
+Feature 79 (original: 227)
+Feature 81 (original: 501)
+Feature 83 (original: 392)
+Feature 84 (original: 321)
+Feature 85 (original: 394)
+Feature 86 (original: 499)
+Feature 88 (original: 261)
+Feature 90 (original: 497)
+Feature 91 (original: 210)
+Feature 92 (original: 313)
+Feature 93 (original: 495)
+Feature 94 (original: 362)
+Feature 96 (original: 493)
+Feature 97 (original: 312)
+Feature 98 (original: 404)
+Feature 99 (original: 364)
+Feature 100 (original: 400)
+
+RandomForestClassifier Mean CV Score: 0.5817

@@ -1,0 +1,157 @@
+=== Sensor 32 ===
+
+Top 100 features (SelectKBest):
+Feature 1 (original: 1): Score = 59.2948
+Feature 305 (original: 305): Score = 58.9725
+Feature 309 (original: 309): Score = 58.9047
+Feature 308 (original: 308): Score = 58.8824
+Feature 306 (original: 306): Score = 58.8286
+Feature 307 (original: 307): Score = 58.7570
+Feature 3 (original: 3): Score = 58.7072
+Feature 2 (original: 2): Score = 58.7037
+Feature 310 (original: 310): Score = 58.6773
+Feature 89 (original: 89): Score = 58.5394
+Feature 311 (original: 311): Score = 58.5379
+Feature 88 (original: 88): Score = 58.4844
+Feature 304 (original: 304): Score = 58.4439
+Feature 303 (original: 303): Score = 58.4434
+Feature 302 (original: 302): Score = 58.3109
+Feature 87 (original: 87): Score = 58.3041
+Feature 5 (original: 5): Score = 58.2994
+Feature 4 (original: 4): Score = 58.2786
+Feature 312 (original: 312): Score = 58.0780
+Feature 91 (original: 91): Score = 58.0730
+Feature 90 (original: 90): Score = 58.0312
+Feature 7 (original: 7): Score = 58.0284
+Feature 301 (original: 301): Score = 58.0256
+Feature 6 (original: 6): Score = 58.0196
+Feature 9 (original: 9): Score = 57.8987
+Feature 85 (original: 85): Score = 57.8442
+Feature 8 (original: 8): Score = 57.7970
+Feature 92 (original: 92): Score = 57.7023
+Feature 300 (original: 300): Score = 57.6680
+Feature 86 (original: 86): Score = 57.6220
+Feature 93 (original: 93): Score = 57.6185
+Feature 339 (original: 339): Score = 57.6118
+Feature 335 (original: 335): Score = 57.4734
+Feature 313 (original: 313): Score = 57.4733
+Feature 84 (original: 84): Score = 57.4548
+Feature 10 (original: 10): Score = 57.3790
+Feature 314 (original: 314): Score = 57.3649
+Feature 340 (original: 340): Score = 57.3494
+Feature 334 (original: 334): Score = 57.3402
+Feature 336 (original: 336): Score = 57.3399
+Feature 337 (original: 337): Score = 57.3100
+Feature 338 (original: 338): Score = 57.2958
+Feature 315 (original: 315): Score = 57.1435
+Feature 94 (original: 94): Score = 57.1218
+Feature 350 (original: 350): Score = 57.1180
+Feature 333 (original: 333): Score = 57.0795
+Feature 83 (original: 83): Score = 57.0749
+Feature 349 (original: 349): Score = 57.0692
+Feature 299 (original: 299): Score = 57.0567
+Feature 341 (original: 341): Score = 57.0511
+Feature 316 (original: 316): Score = 57.0510
+Feature 95 (original: 95): Score = 57.0454
+Feature 11 (original: 11): Score = 57.0115
+Feature 156 (original: 156): Score = 56.9723
+Feature 353 (original: 353): Score = 56.9359
+Feature 348 (original: 348): Score = 56.9337
+Feature 352 (original: 352): Score = 56.8982
+Feature 351 (original: 351): Score = 56.8756
+Feature 157 (original: 157): Score = 56.8708
+Feature 345 (original: 345): Score = 56.8627
+Feature 344 (original: 344): Score = 56.8478
+Feature 343 (original: 343): Score = 56.8024
+Feature 346 (original: 346): Score = 56.7928
+Feature 347 (original: 347): Score = 56.7673
+Feature 298 (original: 298): Score = 56.7092
+Feature 342 (original: 342): Score = 56.6428
+Feature 354 (original: 354): Score = 56.6000
+Feature 13 (original: 13): Score = 56.5942
+Feature 332 (original: 332): Score = 56.5849
+Feature 155 (original: 155): Score = 56.5576
+Feature 12 (original: 12): Score = 56.5496
+Feature 158 (original: 158): Score = 56.5322
+Feature 331 (original: 331): Score = 56.4995
+Feature 82 (original: 82): Score = 56.4829
+Feature 161 (original: 161): Score = 56.4210
+Feature 97 (original: 97): Score = 56.3678
+Feature 317 (original: 317): Score = 56.3593
+Feature 81 (original: 81): Score = 56.3337
+Feature 160 (original: 160): Score = 56.3206
+Feature 159 (original: 159): Score = 56.3095
+Feature 154 (original: 154): Score = 56.2966
+Feature 153 (original: 153): Score = 56.2874
+Feature 96 (original: 96): Score = 56.2115
+Feature 355 (original: 355): Score = 56.1983
+Feature 329 (original: 329): Score = 56.1628
+Feature 152 (original: 152): Score = 56.1601
+Feature 99 (original: 99): Score = 56.0922
+Feature 327 (original: 327): Score = 56.0742
+Feature 98 (original: 98): Score = 56.0278
+Feature 507 (original: 507): Score = 56.0242
+Feature 510 (original: 510): Score = 56.0173
+Feature 297 (original: 297): Score = 56.0115
+Feature 318 (original: 318): Score = 55.9918
+Feature 509 (original: 509): Score = 55.9856
+Feature 356 (original: 356): Score = 55.9655
+Feature 330 (original: 330): Score = 55.9568
+Feature 482 (original: 482): Score = 55.9538
+Feature 477 (original: 477): Score = 55.9184
+Feature 319 (original: 319): Score = 55.9141
+Feature 328 (original: 328): Score = 55.9080
+
+Top 50 features (RandomForestClassifier - RFE):
+Feature 1 (original: 1)
+Feature 2 (original: 305)
+Feature 5 (original: 306)
+Feature 8 (original: 2)
+Feature 9 (original: 310)
+Feature 15 (original: 302)
+Feature 16 (original: 87)
+Feature 17 (original: 5)
+Feature 18 (original: 4)
+Feature 20 (original: 91)
+Feature 26 (original: 85)
+Feature 29 (original: 300)
+Feature 30 (original: 86)
+Feature 31 (original: 93)
+Feature 36 (original: 10)
+Feature 45 (original: 350)
+Feature 47 (original: 83)
+Feature 48 (original: 349)
+Feature 50 (original: 341)
+Feature 51 (original: 316)
+Feature 53 (original: 11)
+Feature 59 (original: 157)
+Feature 60 (original: 345)
+Feature 61 (original: 344)
+Feature 62 (original: 343)
+Feature 64 (original: 347)
+Feature 67 (original: 354)
+Feature 68 (original: 13)
+Feature 69 (original: 332)
+Feature 71 (original: 12)
+Feature 72 (original: 158)
+Feature 74 (original: 82)
+Feature 75 (original: 161)
+Feature 78 (original: 81)
+Feature 79 (original: 160)
+Feature 82 (original: 153)
+Feature 84 (original: 355)
+Feature 86 (original: 152)
+Feature 87 (original: 99)
+Feature 88 (original: 327)
+Feature 89 (original: 98)
+Feature 90 (original: 507)
+Feature 91 (original: 510)
+Feature 92 (original: 297)
+Feature 94 (original: 509)
+Feature 95 (original: 356)
+Feature 97 (original: 482)
+Feature 98 (original: 477)
+Feature 99 (original: 319)
+Feature 100 (original: 328)
+
+RandomForestClassifier Mean CV Score: 0.6397
