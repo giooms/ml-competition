@@ -36,7 +36,6 @@ import os
 import pandas as pd
 import seaborn as sns
 import warnings
-from sklearn.preprocessing import MinMaxScaler
 from sklearn.impute import KNNImputer
 from scipy.interpolate import interp1d, UnivariateSpline
 from stat_outliers import StatisticalOutlierHandler
@@ -106,6 +105,41 @@ class SensorDataAnalyzer:
             self.activities = pd.read_csv(os.path.join(
                 path, 'activity_Id.txt'), delimiter=' ', header=None).squeeze()
 
+    def analyze_missing_values(self) -> Dict:
+        """Analyze missing values in sensor data."""
+        logger.info("Analyzing missing values...")
+        missing_stats = {}
+
+        for sensor_id, data in self.sensors.items():
+            assert isinstance(data, pd.DataFrame), "Data must be a DataFrame"
+            results = self._analyze_df_missing_patterns(data)
+
+            #  total_missing  missing_percentage  longest_sequence  num_sequences  avg_sequence_length
+            missing_stats[sensor_id] = {
+                'total_samples': results.shape[0],
+                'missing_time_series': (results['missing_percentage'] == 100.0).sum(),
+                'missing_points': results['total_missing'].sum(),
+                'missing_percentage': results['missing_percentage'].mean(),
+                'longest_sequence': results['longest_sequence'].max(),
+                'avg_sequence_length': results['avg_sequence_length'].mean()
+            }
+
+        return missing_stats
+
+    def _analyze_df_missing_patterns(self, df: pd.DataFrame) -> pd.DataFrame:
+        results = []
+        for idx, row in df.iterrows():
+            total_missing, max_seq, num_seq = self._analyze_missing_pattern(
+                row)
+            results.append({
+                'total_missing': total_missing,
+                'missing_percentage': (total_missing / len(row)) * 100,
+                'longest_sequence': max_seq,
+                'num_sequences': num_seq,
+                'avg_sequence_length': total_missing / num_seq if num_seq > 0 else 0
+            })
+        return pd.DataFrame(results, index=df.index)
+
     def _analyze_missing_pattern(self, df_row: pd.Series) -> tuple:
         """
         Analyzes the pattern of missing values in a row.
@@ -146,41 +180,6 @@ class SensorDataAnalyzer:
         num_sequences = len(sequence_lengths)
 
         return total_missing, max_sequence, num_sequences
-
-    def _analyze_df_missing_patterns(self, df: pd.DataFrame) -> pd.DataFrame:
-        results = []
-        for idx, row in df.iterrows():
-            total_missing, max_seq, num_seq = self._analyze_missing_pattern(
-                row)
-            results.append({
-                'total_missing': total_missing,
-                'missing_percentage': (total_missing / len(row)) * 100,
-                'longest_sequence': max_seq,
-                'num_sequences': num_seq,
-                'avg_sequence_length': total_missing / num_seq if num_seq > 0 else 0
-            })
-        return pd.DataFrame(results, index=df.index)
-
-    def analyze_missing_values(self) -> Dict:
-        """Analyze missing values in sensor data."""
-        logger.info("Analyzing missing values...")
-        missing_stats = {}
-
-        for sensor_id, data in self.sensors.items():
-            assert isinstance(data, pd.DataFrame), "Data must be a DataFrame"
-            results = self._analyze_df_missing_patterns(data)
-
-            #  total_missing  missing_percentage  longest_sequence  num_sequences  avg_sequence_length
-            missing_stats[sensor_id] = {
-                'total_samples': results.shape[0],
-                'missing_time_series': (results['missing_percentage'] == 100.0).sum(),
-                'missing_points': results['total_missing'].sum(),
-                'missing_percentage': results['missing_percentage'].mean(),
-                'longest_sequence': results['longest_sequence'].max(),
-                'avg_sequence_length': results['avg_sequence_length'].mean()
-            }
-
-        return missing_stats
 
     def analyze_outliers(self) -> Dict:
         """Analyze outliers based on physical constraints and statistical methods."""
@@ -271,7 +270,7 @@ class SensorDataPreprocessor:
 
     def __init__(self, analyzer: SensorDataAnalyzer):
         self.analyzer = analyzer
-        self.scalers = {}
+        self.scalers = {}   # Store (min, max) values for each sensor
 
     def preprocess(self, imputation_method: str = 'spline', remove_outliers: bool = True) -> Dict:
         """
@@ -302,9 +301,9 @@ class SensorDataPreprocessor:
 
         # Drop time series with excessive missing values
         for sensor_id, data in tqdm(self.analyzer.sensors.items(), desc="Clean & Impute sensors"):
-            assert len(series_to_drop) == len(data), "The length of series_to_drop must match the number of rows in data."
-            processed_data = data[~series_to_drop]
-
+            assert len(series_to_drop) == len(
+                data), "Length of series_to_drop does not match number of rows in data."
+            processed_data = data[~series_to_drop].reset_index(drop=True)
 
             # Impute missing values if any
             still_nans = processed_data.isna().values.any()
@@ -324,20 +323,23 @@ class SensorDataPreprocessor:
                     logger.warning(
                         f"Sensor {sensor_id} has missing values after imputation")
 
-
             if remove_outliers:
                 processed_data = self._remove_outliers(
                     outlier_handler, processed_data, sensor_id)
 
             # Normalize
-            normalizer = MinMaxScaler()
-            self.scalers[sensor_id] = normalizer
-            # processed_sensors[sensor_id] = normalizer.fit_transform(processed_data)
-            processed_sensors[sensor_id] = processed_data
+            global_min = processed_data.min().min()
+            global_max = processed_data.max().max()
+            normalized_data = (processed_data - global_min) / \
+                (global_max - global_min)
+            self.scalers[sensor_id] = (global_min, global_max)
+            processed_sensors[sensor_id] = normalized_data
 
             # Drop time series with excessive missing values
-            self.analyzer.activities = self.analyzer.activities[~series_to_drop]
-            self.analyzer.subjects = self.analyzer.subjects[~series_to_drop]
+            self.analyzer.activities = self.analyzer.activities[~series_to_drop].reset_index(
+                drop=True)
+            self.analyzer.subjects = self.analyzer.subjects[~series_to_drop].reset_index(
+                drop=True)
 
         return processed_sensors
 
@@ -408,21 +410,24 @@ class SensorDataPreprocessor:
         output_dir = os.path.join(self.analyzer.root_path, 'processed')
         os.makedirs(output_dir, exist_ok=True)
 
+        method_dir = os.path.join(output_dir, method)
+        scaler_dir = os.path.join(method_dir, 'scalers')
+        os.makedirs(method_dir, exist_ok=True)
+        os.makedirs(scaler_dir, exist_ok=True)
+
         # Serialize processed sensor data and scalers to files
         for sensor_id, sensor_data in processed_sensors.items():
-            directory = os.path.join(output_dir, method)
-            os.makedirs(directory, exist_ok=True)
+            sensor_path = os.path.join(method_dir, f'sensor_{sensor_id}.pkl')
+            scaler_path = os.path.join(scaler_dir, f'scaler_{sensor_id}.pkl')
 
-            filename = os.path.join(directory, f'sensor_{sensor_id}.pkl')
-            sensor_data.to_pickle(filename)
-            joblib.dump(self.scalers[sensor_id],
-                        filename.replace('.pkl', '_scaler.pkl'))
+            sensor_data.to_pickle(sensor_path)
+            joblib.dump(self.scalers[sensor_id], scaler_path)
 
         # Serialize activities and subjects to files
-        filename = os.path.join(output_dir, f'activities.pkl')
-        joblib.dump(self.analyzer.activities, filename)
-        filename = os.path.join(output_dir, f'subjects.pkl')
-        joblib.dump(self.analyzer.subjects, filename)
+        activity_path = os.path.join(output_dir, f'activities.pkl')
+        subjects_path = os.path.join(output_dir, f'subjects.pkl')
+        self.analyzer.activities.to_pickle(activity_path)
+        self.analyzer.subjects.to_pickle(subjects_path)
 
         # Generate and save summary statistics
         summary_file = os.path.join(output_dir, f'{method}_summary.txt')
@@ -637,7 +642,7 @@ def _write_sensor_analysis(output_dir: str, sensors: dict, activities: pd.Series
 
 
 # PROCESSOR ANALYSIS
-def process_data(analyzer: SensorDataAnalyzer, method: str = 'all'):
+def process_data(analyzer: SensorDataAnalyzer, method: str = 'spline') -> None:
     """Run data preprocessing workflow"""
     preprocessor = SensorDataPreprocessor(analyzer)
     methods = ['knn', 'interpolation',
@@ -678,11 +683,11 @@ if __name__ == "__main__":
         description='Sensor Data Analysis and Processing Tool')
     parser.add_argument('mode', choices=[
                         'explore', 'process'], help='Mode of operation: explore data or process data', default='explore')
-    parser.add_argument('--method', '--m', choices=['all', 'knn', 'interpolation',
-                        'spline'], default='all', help='Preprocessing method (only for process mode)')
-    parser.add_argument('--visualization', '--v', choices=['visualize', 'save', 'both'],
+    parser.add_argument('--method', '-m', choices=['all', 'knn', 'interpolation',
+                        'spline'], default='spline', help='Preprocessing method (only for process mode)')
+    parser.add_argument('--visualization', '-v', choices=['visualize', 'save', 'both'],
                         default='both', help='Action for visualization plots (only for explore mode)')
-    parser.add_argument('--dataset_type', '--dt', choices=[
+    parser.add_argument('--dataset_type', '-dt', choices=[
                         'learning', 'test'], default='learning', help='Type of dataset to load (only for explore mode)')
     parser.add_argument('--data_path', default='.',
                         help='Path to data directory (default: current directory)')
