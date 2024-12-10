@@ -161,12 +161,12 @@ def fit_or_load_model(model: Union[RandomForestClassifier, GradientBoostingClass
     """Fits the specified model using GridSearchCV or loads a pre-fitted model."""
     # Check the input types
     if not isinstance(model, (RandomForestClassifier, GradientBoostingClassifier, XGBClassifier)):
-        raise ValueError('Model must be an instance of RandomForestClassifier, GradientBoostingClassifier, or XGBClassifier')
+        raise ValueError(
+            'Model must be an instance of RandomForestClassifier, GradientBoostingClassifier, or XGBClassifier')
     if not isinstance(X_train, (pd.DataFrame, np.ndarray)):
         raise ValueError('X_train must be a DataFrame or a 2D ndarray')
     if not isinstance(y_train, (pd.Series, np.ndarray)):
         raise ValueError('y_train must be a Series or a 1D ndarray')
-
 
     # Get the model name
     model_name = type(model).__name__
@@ -183,7 +183,8 @@ def fit_or_load_model(model: Union[RandomForestClassifier, GradientBoostingClass
     os.makedirs(fitted_models_path, exist_ok=True)
 
     # Create the model path based on the model name
-    model_path = os.path.join(fitted_models_path, f'{model_name.lower()}_model.pkl')
+    model_path = os.path.join(
+        fitted_models_path, f'{model_name.lower()}_model.pkl')
 
     if not os.path.exists(model_path):
         logger.info(
@@ -209,7 +210,7 @@ def fit_or_load_model(model: Union[RandomForestClassifier, GradientBoostingClass
 
         # Plot the training and testing curves
         plot_training_testing_curves(
-            grid_search.cv_results_, fitted_models_path, visualize, save)
+            grid_search.cv_results_, model_name.lower(), fitted_models_path, visualize, save)
     else:
         logger.info(f'Loading a pre-fitted {model_name} model...')
         clf = joblib.load(model_path)
@@ -217,7 +218,7 @@ def fit_or_load_model(model: Union[RandomForestClassifier, GradientBoostingClass
     return clf
 
 
-def plot_training_testing_curves(results, fitted_models_path, visualize, save):
+def plot_training_testing_curves(results, model_name, fitted_models_path, visualize, save):
     """Plots the training and testing curves."""
     plt.figure(figsize=(12, 6))
 
@@ -234,7 +235,7 @@ def plot_training_testing_curves(results, fitted_models_path, visualize, save):
         plt.legend()
         plt.grid(True)
         if save:
-            plt.savefig(os.path.join(fitted_models_path, "gradient_boost.png"))
+            plt.savefig(os.path.join(fitted_models_path, f'{model_name}.png'))
         if visualize:
             plt.show()
         plt.close()
