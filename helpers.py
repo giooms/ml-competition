@@ -31,6 +31,7 @@ from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from tqdm import tqdm
 from typing import Union
+from xgboost import XGBClassifier
 
 TS_N_TIME_SERIES = 3500
 FEATURES = range(2, 33)
@@ -156,11 +157,11 @@ def summarize_results(y_pred, summary_path='example_results_summary.csv'):
     return summary_df
 
 
-def fit_or_load_model(model: Union[GradientBoostingClassifier, RandomForestClassifier], param_grid: dict, X_train: Union[pd.DataFrame, np.ndarray], y_train: Union[pd.Series, np.ndarray], visualize: bool = False, save: bool = False) -> Union[GradientBoostingClassifier, RandomForestClassifier]:
+def fit_or_load_model(model: Union[RandomForestClassifier, GradientBoostingClassifier, XGBClassifier], param_grid: dict, X_train: Union[pd.DataFrame, np.ndarray], y_train: Union[pd.Series, np.ndarray], visualize: bool = False, save: bool = False) -> Union[GradientBoostingClassifier, RandomForestClassifier]:
     """Fits the specified model using GridSearchCV or loads a pre-fitted model."""
     # Check the input types
-    if not isinstance(model, (GradientBoostingClassifier, RandomForestClassifier)):
-        raise ValueError('Model must be an instance of GradientBoostingClassifier or RandomForestClassifier')
+    if not isinstance(model, (RandomForestClassifier, GradientBoostingClassifier, XGBClassifier)):
+        raise ValueError('Model must be an instance of RandomForestClassifier, GradientBoostingClassifier, or XGBClassifier')
     if not isinstance(X_train, (pd.DataFrame, np.ndarray)):
         raise ValueError('X_train must be a DataFrame or a 2D ndarray')
     if not isinstance(y_train, (pd.Series, np.ndarray)):
@@ -205,7 +206,7 @@ def fit_or_load_model(model: Union[GradientBoostingClassifier, RandomForestClass
 
         joblib.dump(grid_search.best_estimator_, model_path)
         clf = grid_search.best_estimator_
-        
+
         # Plot the training and testing curves
         plot_training_testing_curves(
             grid_search.cv_results_, fitted_models_path, visualize, save)

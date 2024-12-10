@@ -1,6 +1,7 @@
 import helpers as hlp
 import logging
 from sklearn.ensemble import GradientBoostingClassifier
+from xgboost import XGBClassifier
 
 # Configure logging
 logging.basicConfig(level=logging.INFO,
@@ -18,18 +19,28 @@ if __name__ == '__main__':
     # print(y_train.head())
 
     # Hyperparameter grid for GridSearchCV
+    # param_grid = {
+    #     'n_estimators': [50, 100, 200],
+    #     'learning_rate': [0.01, 0.1, 0.3],
+    #     'max_depth': [5, 7, 10],
+    #     'min_samples_split': [2, 5, 10],
+    #     'min_samples_leaf': [2, 5, 8],
+    #     'subsample': [0.7, 1.0],
+    #     'max_features': ['auto', 'sqrt']
+    # }
     param_grid = {
         'n_estimators': [50, 100, 200],
         'learning_rate': [0.01, 0.1, 0.3],
         'max_depth': [5, 7, 10],
-        'min_samples_split': [2, 5, 10],
-        'min_samples_leaf': [2, 5, 8],
+        'min_child_weight': [1, 3, 5],
         'subsample': [0.7, 1.0],
-        'max_features': ['auto', 'sqrt']
+        'colsample_bytree': [0.7, 1.0],
+        'gamma': [0, 0.1, 0.3]
     }
 
     # Fit the model using GridSearchCV
-    clf = GradientBoostingClassifier(random_state=0)
+    # clf = GradientBoostingClassifier(random_state=0)
+    clf = XGBClassifier(random_state=0)
     clf = hlp.fit_or_load_model(
         clf, param_grid, X_train, y_train, visualize=False, save=True)
 
