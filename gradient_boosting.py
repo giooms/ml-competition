@@ -1,5 +1,6 @@
 import helpers as hlp
 import logging
+import xgboost as xgb
 from sklearn.ensemble import GradientBoostingClassifier
 from xgboost import XGBClassifier
 
@@ -7,6 +8,10 @@ from xgboost import XGBClassifier
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# Check if GPU is available
+gpu_available = xgb.rabit.get_rank() == 0 and xgb.rabit.get_world_size() > 1
+tree_method = 'gpu_hist' if gpu_available else 'hist'
 
 
 if __name__ == '__main__':
@@ -40,7 +45,7 @@ if __name__ == '__main__':
 
     # Fit the model using GridSearchCV
     # clf = GradientBoostingClassifier(random_state=0)
-    clf = XGBClassifier(random_state=0)
+    clf = XGBClassifier(tree_method=tree_method, random_state=0)
     clf = hlp.fit_or_load_model(
         clf, param_grid, X_train, y_train, visualize=False, save=True)
 
