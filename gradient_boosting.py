@@ -19,13 +19,13 @@ if __name__ == '__main__':
 
     # Hyperparameter grid for GridSearchCV
     param_grid = {
-        'n_estimators': [50, 100, 200, 300, 400, 500],
-        'learning_rate': [0.001, 0.01, 0.1, 0.2, 0.3],
-        'max_depth': [2, 3, 4, 5, 6, 7, 10],
-        'min_samples_split': [2, 5, 10, 15, 20],
-        'min_samples_leaf': [1, 2, 4, 6, 8],
-        'subsample': [0.6, 0.7, 0.8, 0.9, 1.0],
-        'max_features': ['auto', 'sqrt', 'log2', None]
+        'n_estimators': [50, 100, 200],
+        'learning_rate': [0.01, 0.1, 0.3],
+        'max_depth': [5, 7, 10],
+        'min_samples_split': [2, 5, 10],
+        'min_samples_leaf': [2, 5, 8],
+        'subsample': [0.7, 1.0],
+        'max_features': ['auto', 'sqrt']
     }
 
     # Fit the model using GridSearchCV
