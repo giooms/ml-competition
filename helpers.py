@@ -125,7 +125,7 @@ def write_submission(y, submission_path='example_submission.csv'):
     logger.info(f'Submission saved to {submission_path}.')
 
 
-def summarize_results(y_pred, summary_path='example_results_summary.csv'):
+def summarize_results(y_pred: Union[pd.Series, np.ndarray], summary_path='example_results_summary.csv') -> pd.DataFrame:
     # Calculate the distribution of predicted classes
     unique, counts = np.unique(y_pred, return_counts=True)
     class_distribution = dict(zip(unique, counts))
@@ -218,7 +218,7 @@ def fit_or_load_model(model: Union[RandomForestClassifier, GradientBoostingClass
     return clf
 
 
-def plot_training_testing_curves(results, model_name, fitted_models_path, visualize, save):
+def plot_training_testing_curves(results: dict, model_name: str, fitted_models_path: str, visualize: bool=False, save: bool=True) -> None:
     """Plots the training and testing curves."""
     plt.figure(figsize=(12, 6))
 
