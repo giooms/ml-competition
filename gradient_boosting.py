@@ -18,6 +18,8 @@ if __name__ == '__main__':
     # print(X_test.head())
     # print(y_train.head())
 
+    y_train = y_train - 1
+
     # Hyperparameter grid for GridSearchCV
     # param_grid = {
     #     'n_estimators': [50, 100, 200],

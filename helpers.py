@@ -198,7 +198,8 @@ def fit_or_load_model(model: Union[RandomForestClassifier, GradientBoostingClass
             scoring='accuracy',
             cv=5,
             n_jobs=-1,
-            verbose=1
+            verbose=1,
+            return_train_score=True
         )
         grid_search.fit(X_train, y_train)
 
