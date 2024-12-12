@@ -30,6 +30,7 @@ from data_prep import process_data, SensorDataAnalyzer
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_selection import RFE
+from typing import Tuple
 from tqdm import tqdm
 from typing import Union
 from xgboost import XGBClassifier
@@ -44,70 +45,91 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger(__name__)
 
 
-def load_data(
-    data_path: str, 
-    method: str = 'spline', 
-    use_rfe: bool = False, 
-    rfe_estimator=None, 
-    n_features_to_select: int = 100
-) -> tuple:
-    """
-    Loads training and testing data from the specified directory and optionally applies Recursive Feature Elimination (RFE).
-
-    Args:
-        data_path (str): Path to the data directory.
-        method (str): Preprocessing method used ('spline' by default).
-        use_rfe (bool): Whether to apply RFE on the training data.
-        rfe_estimator: Estimator to use for RFE (default: RandomForestClassifier).
-        n_features_to_select (int): Number of features to select when RFE is used.
-
-    Returns:
-        tuple: (X_train, X_test, y_train)
-    """
-    logger.info(f'Loading data...')
+def load_raw_data(data_path: str, method: str='spline') -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series]:
+    """Loads raw training/test data and also activities and subjects from processed/."""
+    logger.info('Loading raw data...')
     LS_path = os.path.join(data_path, f'processed/{method}')
     TS_path = os.path.join(data_path, 'TS')
-    activity_path = os.path.join(data_path, f'processed/')
+    activity_path = os.path.join(data_path, 'processed')
 
     if not os.path.exists(LS_path):
-        logger.info(f'Preprocessed data not found. Processing data...')
-        analyzer = SensorDataAnalyzer(data_path)
-        process_data(analyzer, method)
+        raise FileNotFoundError("Preprocessed data not found. Run process_data first.")
 
-    # Create the training and testing samples
     X_train = pd.DataFrame()
     X_test = pd.DataFrame()
     for f in tqdm(FEATURES, desc='Loading training and test sets'):
         ls_data = pd.read_pickle(os.path.join(LS_path, f'sensor_{f}.pkl'))
-        ts_data = pd.read_csv(os.path.join(
-            TS_path, f'TS_sensor_{f}.txt'), delimiter=' ', header=None)
+        ts_data = pd.read_csv(os.path.join(TS_path, f'TS_sensor_{f}.txt'), delimiter=' ', header=None)
 
         X_train = pd.concat([X_train, ls_data], axis=1, ignore_index=True)
         X_test = pd.concat([X_test, ts_data], axis=1, ignore_index=True)
 
-    # Create training labels
     y_train = pd.read_pickle(os.path.join(activity_path, 'activities.pkl'))
+    subjects = pd.read_pickle(os.path.join(activity_path, 'subjects.pkl'))
 
-    # Check shapes
-    assert X_train.shape[0] == y_train.shape[0], 'Number of samples in X_train and y_train do not match'
+    assert X_train.shape[0] == y_train.shape[0], 'Mismatch in X_train and y_train'
+    assert X_train.shape[0] == subjects.shape[0], 'Mismatch in X_train and subjects'
     assert X_test.shape[0] == TS_N_TIME_SERIES, 'Invalid number of samples in X_test'
 
-    # Optional RFE step
-    if use_rfe:
-        logger.info("Applying Recursive Feature Elimination (RFE)...")
-        if rfe_estimator is None:
-            rfe_estimator = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
+    return X_train, X_test, y_train, subjects
 
-        rfe = RFE(estimator=rfe_estimator, n_features_to_select=n_features_to_select, step=1)
-        rfe.fit(X_train, y_train)
+def apply_rfe(X_train: pd.DataFrame, y_train: pd.Series, n_features: int=100) -> np.ndarray:
+    """Applies RFE to select n_features from raw data."""
+    logger.info("Applying RFE...")
+    estimator = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
+    rfe = RFE(estimator=estimator, n_features_to_select=n_features, step=1)
+    rfe.fit(X_train, y_train)
+    support = rfe.support_
+    logger.info(f"RFE completed. Selected {support.sum()} features out of {X_train.shape[1]}")
+    return support
 
-        # Transform both X_train and X_test
-        X_train = X_train.loc[:, rfe.support_]
-        X_test = X_test.loc[:, rfe.support_]
+def fit_model(X_train, y_train, model_type='rf'):
+    """Fits a model (RF or XGB) with GridSearchCV and returns best estimator. Always trains fresh, no loading."""
+    logger.info(f'Fitting a new {model_type.upper()} model. This may take a while...')
+    if model_type == 'rf':
+        model = RandomForestClassifier(random_state=42, n_jobs=-1)
+        param_grid = {
+            'n_estimators': [50, 100],
+            'max_depth': [5, 10]
+        }
+    else:
+        model = XGBClassifier(random_state=42, tree_method='gpu_hist', predictor='gpu_predictor')
+        param_grid = {
+            'n_estimators': [50, 100],
+            'max_depth': [5, 10],
+            'learning_rate': [0.1]
+        }
 
-        logger.info(f"RFE completed. Selected {n_features_to_select} features out of {X_train.shape[1]}.")
+    grid_search = GridSearchCV(
+        estimator=model,
+        param_grid=param_grid,
+        scoring='accuracy',
+        cv=3,
+        n_jobs=-1,
+        verbose=1
+    )
+    grid_search.fit(X_train, y_train)
+    logger.info(f"Best parameters found: {grid_search.best_params_}")
+    return grid_search.best_estimator_
 
-    return X_train, X_test, y_train
+def evaluate_and_save(y_pred, output_path='results_summary.csv'):
+    # [Unchanged logic]
+    unique, counts = np.unique(y_pred, return_counts=True)
+    class_distribution = dict(zip(unique, counts))
+    total = len(y_pred)
+    proportions = {cls: cnt/total for cls, cnt in class_distribution.items()}
+
+    summary_df = pd.DataFrame({
+        'Class': list(class_distribution.keys()),
+        'Count': list(class_distribution.values()),
+        'Proportion': list(proportions.values())
+    }).sort_values(by='Class').reset_index(drop=True)
+
+    results_dir = os.path.join(root_path, 'results')
+    os.makedirs(results_dir, exist_ok=True)
+    summary_path = os.path.join(results_dir, output_path)
+    summary_df.to_csv(summary_path, index=False)
+    logger.info(f"Summary saved to {summary_path}")
 
 def write_submission(y, submission_path='example_submission.csv'):
     """
@@ -152,6 +174,80 @@ def write_submission(y, submission_path='example_submission.csv'):
 
     logger.info(f'Submission saved to {submission_path}.')
 
+def get_subject_splits(subjects: pd.Series) -> list:
+    """
+    Given the subjects series, returns a list of (train_idx, val_idx, val_sub) splits
+    for leave-one-subject-out cross-validation.
+    """
+    unique_subs = subjects.unique()
+    splits = []
+    for val_sub in unique_subs:
+        val_idx = subjects[subjects == val_sub].index
+        train_idx = subjects[subjects != val_sub].index
+        splits.append((train_idx, val_idx, val_sub))
+    return splits
+
+def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
+                 n_features: int=50, latent_dim: int=50, fold: int=None):
+    """
+    Scenarios:
+    A = Raw data
+    B = Raw + RFE
+    C = FE only
+    D = FE + PCA
+    E = FE + AE
+
+    If fold is provided, do LOSO (leave-one-subject-out). Otherwise use full training set.
+    """
+    X_train_raw, X_test_raw, y_train, subjects = load_raw_data(data_path, method=method)
+
+    if fold is not None:
+        splits = get_subject_splits(subjects)
+        if fold < 1 or fold > len(splits):
+            raise ValueError(f"Fold {fold} out of range. {len(splits)} subjects total.")
+        train_idx, val_idx, val_sub = splits[fold-1]
+        logger.info(f"LOSO CV: Using subject {val_sub} as validation")
+        X_train_portion = X_train_raw.loc[train_idx]
+        y_train_portion = y_train.loc[train_idx]
+        # val_idx can be used if we want internal validation on training data, but not strictly needed.
+    else:
+        X_train_portion = X_train_raw
+        y_train_portion = y_train
+
+    if scenario == 'A':
+        X_train_processed = X_train_portion
+        X_test_processed = X_test_raw
+    elif scenario == 'B':
+        support = apply_rfe(X_train_portion, y_train_portion, n_features=n_features)
+        X_train_processed = X_train_portion.loc[:, support]
+        X_test_processed = X_test_raw.loc[:, support]
+    else:
+        # Feature Extraction cases
+        from feature_extraction import extract_features, apply_pca, apply_autoencoder
+        X_train_fe = extract_features(X_train_portion, method=method)
+        X_test_fe = extract_features(X_test_raw, method=method)
+
+        if scenario == 'C':
+            X_train_processed = X_train_fe
+            X_test_processed = X_test_fe
+        elif scenario == 'D':
+            X_train_pca, X_test_pca = apply_pca(X_train_fe, X_test_fe, latent_dim)
+            X_train_processed = pd.DataFrame(X_train_pca)
+            X_test_processed = pd.DataFrame(X_test_pca)
+        elif scenario == 'E':
+            X_train_ae, X_test_ae = apply_autoencoder(X_train_fe.values, X_test_fe.values, latent_dim)
+            X_train_processed = pd.DataFrame(X_train_ae)
+            X_test_processed = pd.DataFrame(X_test_ae)
+        else:
+            raise ValueError("Scenario must be one of A,B,C,D,E.")
+
+    clf = fit_model(X_train_processed, y_train_portion, model_type=model_type)
+    logger.info("Predicting on test set...")
+    y_pred = clf.predict(X_test_processed)
+
+    suffix = f"_fold{fold}" if fold is not None else ""
+    evaluate_and_save(y_pred, output_path=f"{model_type}_{scenario}{suffix}_summary.csv")
+    write_submission(y_pred, submission_path=f"{model_type}_{scenario}{suffix}_submission.csv")
 
 def summarize_results(y_pred: Union[pd.Series, np.ndarray], summary_path='example_results_summary.csv') -> pd.DataFrame:
     # Calculate the distribution of predicted classes

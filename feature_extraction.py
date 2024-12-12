@@ -3,12 +3,9 @@ import numpy as np
 import pandas as pd
 import scipy.stats as stats
 from scipy.fft import rfft, rfftfreq
-from tqdm import tqdm
-import argparse
-import logging
-
+from keras import layers, models
 from sklearn.decomposition import PCA
-from tensorflow.keras import layers, models
+import argparse
 
 """
 Feature Extraction Script with Optional PCA or Auto-Encoder Reduction
