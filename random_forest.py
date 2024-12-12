@@ -12,7 +12,7 @@ if __name__ == '__main__':
     logger.info('Random Forest Classifier')
 
     # Load the data
-    X_train, X_test, y_train = hlp.load_data(data_path='./')
+    X_train, X_test, y_train = hlp.load_data(data_path='./', method='spline', use_rfe=True, n_features_to_select=50)
     # print(X_train.head())
     # print(X_test.head())
     # print(y_train.head())
@@ -34,5 +34,5 @@ if __name__ == '__main__':
     # Predict on test set
     logger.info('Predicting on test set...')
     y_pred = clf.predict(X_test)
-    hlp.write_submission(y_pred, 'random_forest.csv')
-    _ = hlp.summarize_results(y_pred, 'random_forest_summary.csv')
+    hlp.write_submission(y_pred, 'random_forest_rfe.csv')
+    _ = hlp.summarize_results(y_pred, 'random_forest_summary_rfe.csv')

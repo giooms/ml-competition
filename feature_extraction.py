@@ -4,69 +4,57 @@ import pandas as pd
 import scipy.stats as stats
 from scipy.fft import rfft, rfftfreq
 from tqdm import tqdm
+import argparse
+import logging
+
+from sklearn.decomposition import PCA
+from tensorflow.keras import layers, models
 
 """
-Feature Extraction Script - Sensor-Specific
+Feature Extraction Script with Optional PCA or Auto-Encoder Reduction
 
-This script loads processed sensor time series data and computes engineered features 
-based on the sensor type:
+This script:
+1. Extracts features from raw sensor data (time-domain, frequency-domain).
+2. Optionally applies dimensionality reduction using PCA or an Auto-Encoder.
 
-Sensor Mapping:
-2: Heart rate (bpm) [1D, slow signal]
-3, 13, 23: Temperature (°C) [1D, slow signal]
-4-6, 14-16, 24-26: Acceleration (3D)
-7-9, 17-19, 27-29: Gyroscope (3D)
-10-12, 20-22, 30-32: Magnetometer (3D)
+Command-line arguments:
+--reduction_method {none,pca,ae} : Choose the dimensionality reduction method.
+--n_components : Number of components for PCA or latent dimension for AE.
+--data_path : Path to data directory.
+--method : Preprocessing method used (default 'spline').
 
-Strategy:
-- For 1D sensors (heart rate, temperature):
-  * Compute time-domain statistics (mean, median, std, min, max, skew, kurtosis, range).
-  * Possibly compute energy (sum of squares) to gauge variability.
-  * Frequency-domain analysis might be less critical, but we’ll still include dominant frequency 
-    and spectral entropy for completeness, or at least show how to do it.
+Output:
+- Always saves the full feature set to 'X_train_features.pkl' and 'X_test_features.pkl'.
+- If PCA is chosen, also saves 'X_train_features_pca.pkl' and 'X_test_features_pca.pkl'.
+- If AE is chosen, also saves 'X_train_features_ae.pkl' and 'X_test_features_ae.pkl'.
 
-- For 3D sensors (acc, gyro, mag):
-  * Compute axis-wise features (same stats as 1D).
-  * Compute vector magnitude = sqrt(x^2 + y^2 + z^2) and extract features from that magnitude signal.
-  * Include frequency-domain features as these signals can have distinct periodic patterns (e.g., walking).
-
-After running:
-- Produces X_train_features.pkl and X_test_features.pkl containing aggregated features for all sensors.
-
-Next steps after evaluating model results:
-- Possibly refine features (remove frequency domain for slow sensors, add more domain-specific transformations, or do feature selection).
+Dependencies:
+- Ensure 'activities.pkl' and processed data are available.
+- Keras (TensorFlow) is required for AE.
 """
 
-METHOD = 'spline'  
-DATA_PATH = '.'     
-LS_PATH = os.path.join(DATA_PATH, 'processed', METHOD)
-TS_PATH = os.path.join(DATA_PATH, 'TS')
-FEATURES = range(2, 33)
+# Default constants
+METHOD = 'spline'
+DATA_PATH = '.'
 N_SAMPLES = 3500
 N_TIMEPOINTS = 512
-
-# Sampling frequency assumption (adjust if known)
-SAMPLING_FREQ = 100.0  # Hz (Example; if unknown, use 1.0 and interpret frequency features relatively)
+SAMPLING_FREQ = 100.0  # Assuming 100Hz, adjust if known.
 
 ########################
 # Sensor Type Definitions
 ########################
+
 SENSOR_TYPE_MAP = {
-    # Single-dimension sensors
     2: 'heart_rate',
     3: 'temperature', 13: 'temperature', 23: 'temperature',
-    
-    # 3D sensors grouped by modality
     # Hand
     4: 'acceleration', 5: 'acceleration', 6: 'acceleration',
     7: 'gyroscope', 8: 'gyroscope', 9: 'gyroscope',
     10: 'magnetometer', 11: 'magnetometer', 12: 'magnetometer',
-    
     # Chest
     14: 'acceleration', 15: 'acceleration', 16: 'acceleration',
     17: 'gyroscope', 18: 'gyroscope', 19: 'gyroscope',
     20: 'magnetometer', 21: 'magnetometer', 22: 'magnetometer',
-    
     # Foot
     24: 'acceleration', 25: 'acceleration', 26: 'acceleration',
     27: 'gyroscope', 28: 'gyroscope', 29: 'gyroscope',
@@ -85,7 +73,6 @@ def spectral_entropy(signal):
     return entropy
 
 def extract_1d_features(series):
-    """Extract features for a single-dimension sensor signal."""
     feats = {}
     # Time domain
     feats['mean'] = np.mean(series)
@@ -113,17 +100,12 @@ def extract_1d_features(series):
     return feats
 
 def extract_3d_features(x, y, z):
-    """Extract features for a 3D sensor. Computes per-axis features and magnitude features."""
-    # Per-axis features
     x_feats = extract_1d_features(x)
     y_feats = extract_1d_features(y)
     z_feats = extract_1d_features(z)
-
-    # Compute magnitude
     mag = np.sqrt(x**2 + y**2 + z**2)
     mag_feats = extract_1d_features(mag)
 
-    # Prefix features
     feats = {}
     for k, v in x_feats.items():
         feats[f'x_{k}'] = v
@@ -135,33 +117,7 @@ def extract_3d_features(x, y, z):
         feats[f'mag_{k}'] = v
     return feats
 
-# def extract_features_for_sample(sensor_id, series):
-#     """
-#     Extract features for a single sample from a given sensor_id.
-#     If it's a single-dimension sensor (heart_rate or temperature), we use extract_1d_features.
-#     If it's a 3D sensor (acceleration, gyroscope, magnetometer), we group their axes together.
-#     """
-#     sensor_type = SENSOR_TYPE_MAP.get(sensor_id, None)
-#     # Identify if it's a standalone (1D) or part of a triplet (3D)
-#     if sensor_type in ['heart_rate', 'temperature']:
-#         # Single dimension
-#         return extract_1d_features(series)
-#     else:
-#         # Let's handle that logic outside this function. This function will just do 1D extraction.
-#         # For 3D sensors, we won't call this function directly. Instead, we will call a separate routine.
-#         return extract_1d_features(series)  # Placeholder if accidentally called.
-#         # In the main loop, we will handle 3D grouping.
-
 def get_3d_sensor_groups():
-    """
-    Return a list of tuples, each containing the three sensor IDs for the 3D sensors.
-    Example:
-    Hand acceleration: (4, 5, 6)
-    Hand gyroscope: (7, 8, 9)
-    ...
-    """
-    # We know from the mapping that each triplet is consecutive.
-    # We can hardcode or dynamically find them:
     groups = [
         (4,5,6), (7,8,9), (10,11,12),
         (14,15,16), (17,18,19), (20,21,22),
@@ -172,25 +128,21 @@ def get_3d_sensor_groups():
 def get_1d_sensors():
     return [2, 3, 13, 23]
 
-def extract_features():
-    # Load activity labels for sanity check
-    y = pd.read_pickle(os.path.join(os.path.dirname(LS_PATH), 'activities.pkl'))
+def extract_features(data_path=DATA_PATH, method=METHOD):
+    activity_path = os.path.join(data_path, f'processed/')
+    y = pd.read_pickle(os.path.join(activity_path, 'activities.pkl'))
 
-    # Load 1D sensors
+    LS_path = os.path.join(data_path, 'processed', method)
+    TS_path = os.path.join(data_path, 'TS')
+
+    # 1D sensors
     X_train_1d = []
     X_test_1d = []
-
     print("Extracting features for 1D sensors (heart_rate, temperature)...")
     for sensor_id in get_1d_sensors():
-        train_data = pd.read_pickle(os.path.join(LS_PATH, f'sensor_{sensor_id}.pkl')).values
-        test_data = pd.read_csv(os.path.join(TS_PATH, f'TS_sensor_{sensor_id}.txt'), delimiter=' ', header=None).values
+        train_data = pd.read_pickle(os.path.join(LS_path, f'sensor_{sensor_id}.pkl')).values
+        test_data = pd.read_csv(os.path.join(TS_path, f'TS_sensor_{sensor_id}.txt'), delimiter=' ', header=None).values
 
-        assert train_data.shape[0] == y.shape[0]
-        assert train_data.shape[1] == N_TIMEPOINTS
-        assert test_data.shape[0] == N_SAMPLES
-        assert test_data.shape[1] == N_TIMEPOINTS
-
-        # Extract features per sample
         train_feats = [extract_1d_features(train_data[i,:]) for i in range(train_data.shape[0])]
         test_feats = [extract_1d_features(test_data[i,:]) for i in range(test_data.shape[0])]
 
@@ -203,7 +155,6 @@ def extract_features():
         X_train_1d.append(df_train)
         X_test_1d.append(df_test)
 
-    # Concatenate all 1D sensors
     if len(X_train_1d) > 0:
         X_train_1d = pd.concat(X_train_1d, axis=1)
         X_test_1d = pd.concat(X_test_1d, axis=1)
@@ -211,39 +162,29 @@ def extract_features():
         X_train_1d = pd.DataFrame()
         X_test_1d = pd.DataFrame()
 
-    # Load and process 3D sensors
+    # 3D sensors
     print("Extracting features for 3D sensors (acceleration, gyroscope, magnetometer)...")
-    # Each group of 3 sensors forms one vector sensor (x,y,z)
     X_train_3d = []
     X_test_3d = []
-
     groups = get_3d_sensor_groups()
     for group in groups:
-        # group is a tuple like (4,5,6)
-        # Load data for each axis
+        LS_path_group = [os.path.join(LS_path, f'sensor_{sid}.pkl') for sid in group]
+        TS_path_group = [os.path.join(TS_path, f'TS_sensor_{sid}.txt') for sid in group]
+
         train_axes = []
         test_axes = []
-        for sid in group:
-            train_data = pd.read_pickle(os.path.join(LS_PATH, f'sensor_{sid}.pkl')).values
-            test_data = pd.read_csv(os.path.join(TS_PATH, f'TS_sensor_{sid}.txt'), delimiter=' ', header=None).values
-
-            # shape checks
-            assert train_data.shape[0] == y.shape[0]
-            assert train_data.shape[1] == N_TIMEPOINTS
-            assert test_data.shape[0] == N_SAMPLES
-            assert test_data.shape[1] == N_TIMEPOINTS
-
+        for sid_path_ls, sid_path_ts in zip(LS_path_group, TS_path_group):
+            train_data = pd.read_pickle(sid_path_ls).values
+            test_data = pd.read_csv(sid_path_ts, delimiter=' ', header=None).values
             train_axes.append(train_data)
             test_axes.append(test_data)
 
-        # Stack them: now we have train_axes as [x_data, y_data, z_data], each shape (n_samples, 512)
-        # Convert to np.array with shape (n_samples, 3, 512)
-        train_axes = np.stack(train_axes, axis=1)
+        train_axes = np.stack(train_axes, axis=1)  # (n_samples, 3, 512)
         test_axes = np.stack(test_axes, axis=1)
 
-        # Extract features per sample
         train_feats = []
         test_feats = []
+        sensor_type = SENSOR_TYPE_MAP[group[0]]
 
         for i in range(train_axes.shape[0]):
             x = train_axes[i,0,:]
@@ -262,8 +203,6 @@ def extract_features():
         df_train = pd.DataFrame(train_feats)
         df_test = pd.DataFrame(test_feats)
 
-        # Name columns: e.g. for group (4,5,6) -> "hand_acceleration" if we can map from sensor_id to location.
-        sensor_type = SENSOR_TYPE_MAP[group[0]]
         df_train.columns = [f'group_{group[0]}_{sensor_type}_{c}' for c in df_train.columns]
         df_test.columns = [f'group_{group[0]}_{sensor_type}_{c}' for c in df_test.columns]
 
@@ -277,31 +216,95 @@ def extract_features():
         X_train_3d = pd.DataFrame()
         X_test_3d = pd.DataFrame()
 
-    # Combine 1D and 3D features
     X_train_features = pd.concat([X_train_1d, X_train_3d], axis=1)
     X_test_features = pd.concat([X_test_1d, X_test_3d], axis=1)
 
     return X_train_features, X_test_features
 
 
+def apply_pca(X_train, X_test, n_components):
+    print(f"Applying PCA with {n_components} components...")
+    pca = PCA(n_components=n_components, random_state=42)
+    pca.fit(X_train)
+    X_train_pca = pca.transform(X_train)
+    X_test_pca = pca.transform(X_test)
+    return X_train_pca, X_test_pca
+
+
+def build_autoencoder(input_dim, latent_dim):
+    # Simple AE model
+    input_layer = layers.Input(shape=(input_dim,))
+    encoded = layers.Dense(256, activation='relu')(input_layer)
+    encoded = layers.Dense(latent_dim, activation='relu')(encoded)
+
+    decoded = layers.Dense(256, activation='relu')(encoded)
+    decoded = layers.Dense(input_dim, activation='linear')(decoded)
+
+    autoencoder = models.Model(inputs=input_layer, outputs=decoded)
+    encoder = models.Model(inputs=input_layer, outputs=encoded)
+
+    autoencoder.compile(optimizer='adam', loss='mse')
+    return autoencoder, encoder
+
+def apply_autoencoder(X_train, X_test, latent_dim):
+    print(f"Applying Auto-Encoder with latent dimension {latent_dim}...")
+    input_dim = X_train.shape[1]
+
+    autoencoder, encoder = build_autoencoder(input_dim, latent_dim)
+    # Train AE on training set
+    autoencoder.fit(X_train, X_train, epochs=20, batch_size=64, shuffle=True, validation_split=0.1, verbose=1)
+
+    X_train_ae = encoder.predict(X_train)
+    X_test_ae = encoder.predict(X_test)
+    return X_train_ae, X_test_ae
+
+
 if __name__ == "__main__":
-    print("Starting sensor-specific feature extraction...")
-    X_train_features, X_test_features = extract_features()
+    parser = argparse.ArgumentParser(description='Feature extraction with optional PCA/AE reduction.')
+    parser.add_argument('--data_path', type=str, default='.', help='Path to data directory')
+    parser.add_argument('--method', type=str, default='spline', help='Preprocessing method')
+    parser.add_argument('--reduction_method', type=str, default='none', choices=['none', 'pca', 'ae'],
+                        help='Dimensionality reduction method to use: none, pca, ae')
+    parser.add_argument('--n_components', type=int, default=50, help='Number of components for PCA or latent_dim for AE')
+
+    args = parser.parse_args()
+
+    print("Starting feature extraction...")
+    X_train_features, X_test_features = extract_features(data_path=args.data_path, method=args.method)
 
     output_dir = os.path.join('.', 'processed_features')
     os.makedirs(output_dir, exist_ok=True)
+
+    # Always save the full feature set
     X_train_features_path = os.path.join(output_dir, 'X_train_features.pkl')
     X_test_features_path = os.path.join(output_dir, 'X_test_features.pkl')
 
     X_train_features.to_pickle(X_train_features_path)
     X_test_features.to_pickle(X_test_features_path)
 
-    print(f"Feature extraction completed. Files saved to:\n{X_train_features_path}\n{X_test_features_path}")
+    if args.reduction_method == 'pca':
+        X_train_red, X_test_red = apply_pca(X_train_features, X_test_features, args.n_components)
+        X_train_red_df = pd.DataFrame(X_train_red)
+        X_test_red_df = pd.DataFrame(X_test_red)
+        X_train_red_path = os.path.join(output_dir, f'X_train_features_pca.pkl')
+        X_test_red_path = os.path.join(output_dir, f'X_test_features_pca.pkl')
+        X_train_red_df.to_pickle(X_train_red_path)
+        X_test_red_df.to_pickle(X_test_red_path)
+        print(f"PCA reduced features saved to {X_train_red_path} and {X_test_red_path}")
 
-    # Next steps:
-    # 1. Update your model training scripts (e.g., gradient_boosting.py, random_forest.py)
-    #    to load X_train_features.pkl and X_test_features.pkl instead of raw data.
-    # 2. Evaluate the models. If performance improves or changes, consider:
-    #    - Further feature selection
-    #    - Adjusting or removing certain features (like frequency features from temperature sensors)
-    #    - Incorporating domain knowledge (e.g., computing step count from acceleration)
+    elif args.reduction_method == 'ae':
+        # Convert to numpy array if not already
+        X_train_arr = X_train_features.values
+        X_test_arr = X_test_features.values
+
+        X_train_red, X_test_red = apply_autoencoder(X_train_arr, X_test_arr, args.n_components)
+        X_train_red_df = pd.DataFrame(X_train_red)
+        X_test_red_df = pd.DataFrame(X_test_red)
+        X_train_red_path = os.path.join(output_dir, f'X_train_features_ae.pkl')
+        X_test_red_path = os.path.join(output_dir, f'X_test_features_ae.pkl')
+        X_train_red_df.to_pickle(X_train_red_path)
+        X_test_red_df.to_pickle(X_test_red_path)
+        print(f"AE reduced features saved to {X_train_red_path} and {X_test_red_path}")
+
+    else:
+        print("No dimensionality reduction applied. Only full feature sets are saved.")

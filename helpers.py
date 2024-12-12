@@ -29,6 +29,7 @@ import pandas as pd
 from data_prep import process_data, SensorDataAnalyzer
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
+from sklearn.feature_selection import RFE
 from tqdm import tqdm
 from typing import Union
 from xgboost import XGBClassifier
@@ -43,8 +44,26 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger(__name__)
 
 
-def load_data(data_path: str, method: str = 'spline') -> tuple:
-    """Loads training and testing data from the specified directory."""
+def load_data(
+    data_path: str, 
+    method: str = 'spline', 
+    use_rfe: bool = False, 
+    rfe_estimator=None, 
+    n_features_to_select: int = 100
+) -> tuple:
+    """
+    Loads training and testing data from the specified directory and optionally applies Recursive Feature Elimination (RFE).
+
+    Args:
+        data_path (str): Path to the data directory.
+        method (str): Preprocessing method used ('spline' by default).
+        use_rfe (bool): Whether to apply RFE on the training data.
+        rfe_estimator: Estimator to use for RFE (default: RandomForestClassifier).
+        n_features_to_select (int): Number of features to select when RFE is used.
+
+    Returns:
+        tuple: (X_train, X_test, y_train)
+    """
     logger.info(f'Loading data...')
     LS_path = os.path.join(data_path, f'processed/{method}')
     TS_path = os.path.join(data_path, 'TS')
@@ -69,17 +88,26 @@ def load_data(data_path: str, method: str = 'spline') -> tuple:
     # Create training labels
     y_train = pd.read_pickle(os.path.join(activity_path, 'activities.pkl'))
 
-    # Debug
-    # print(X_train.shape)
-    # print(X_test.shape)
-    # print(y_train.shape)
-
-    # Check data shapes
+    # Check shapes
     assert X_train.shape[0] == y_train.shape[0], 'Number of samples in X_train and y_train do not match'
     assert X_test.shape[0] == TS_N_TIME_SERIES, 'Invalid number of samples in X_test'
 
-    return X_train, X_test, y_train
+    # Optional RFE step
+    if use_rfe:
+        logger.info("Applying Recursive Feature Elimination (RFE)...")
+        if rfe_estimator is None:
+            rfe_estimator = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
 
+        rfe = RFE(estimator=rfe_estimator, n_features_to_select=n_features_to_select, step=1)
+        rfe.fit(X_train, y_train)
+
+        # Transform both X_train and X_test
+        X_train = X_train.loc[:, rfe.support_]
+        X_test = X_test.loc[:, rfe.support_]
+
+        logger.info(f"RFE completed. Selected {n_features_to_select} features out of {X_train.shape[1]}.")
+
+    return X_train, X_test, y_train
 
 def write_submission(y, submission_path='example_submission.csv'):
     """
