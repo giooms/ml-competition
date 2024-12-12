@@ -105,16 +105,45 @@ def fit_model(X_train, y_train, model_type='rf'):
     if model_type == 'rf':
         model = RandomForestClassifier(random_state=42, n_jobs=-1)
         param_grid = {
-            'n_estimators': [50, 100],
-            'max_depth': [5, 10]
+            'n_estimators': [50, 100, 200],
+            'max_depth': [5, 10, 50],
+            'min_samples_split': [2, 5, 10],
+            'min_samples_leaf': [1, 2, 5],
+            'max_features': ['auto', 'sqrt']
         }
+        # param_grid = {
+        #     'n_estimators': [50, 100],
+        #     'max_depth': [5, 10]
+        # }
     else:
-        model = XGBClassifier(random_state=42, tree_method='gpu_hist', predictor='gpu_predictor')
+         # Attempt GPU mode first
+        try:
+            model = XGBClassifier(
+                random_state=42,
+                tree_method='gpu_hist',    # GPU mode
+                predictor='gpu_predictor'  # GPU predictor
+            )
+        except XGBoostError:
+            # If GPU is not available, fallback to CPU mode
+            model = XGBClassifier(
+                random_state=42,
+                tree_method='hist',        # CPU mode
+                predictor='cpu_predictor'  # CPU predictor
+            )
         param_grid = {
-            'n_estimators': [50, 100],
+            'n_estimators': [50, 100, 200],
             'max_depth': [5, 10],
-            'learning_rate': [0.1]
+            'learning_rate': [0.01, 0.1, 0.3],
+            'subsample': [0.7, 1.0],
+            'colsample_bytree': [0.7, 1.0],
+            'gamma': [0, 0.1],
+            'min_child_weight': [1, 3]
         }
+        # param_grid = {
+        #     'n_estimators': [50, 100],
+        #     'max_depth': [5, 10],
+        #     'learning_rate': [0.1]
+        # }
 
     grid_search = GridSearchCV(
         estimator=model,
@@ -270,6 +299,25 @@ def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
     suffix = f"_fold{fold}" if fold is not None else ""
     evaluate_and_save(y_pred, output_path=f"{model_type}_{scenario}{suffix}_summary.csv")
     write_submission(y_pred, submission_path=f"{model_type}_{scenario}{suffix}_submission.csv")
+
+    # Compute LOSO validation results if fold is specified
+    if fold is not None:
+        if X_val_processed is not None:
+            y_val_pred = clf.predict(X_val_processed)
+            # Compute accuracy
+            from sklearn.metrics import accuracy_score
+            val_acc = accuracy_score(y_val_portion, y_val_pred)
+            logger.info(f"LOSO Validation Accuracy for scenario {scenario}, model {model_type}, fold {fold}: {val_acc:.4f}")
+            # Save LOSO result to a file, e.g., results/loso_results.csv
+            loso_path = os.path.join(root_path, 'results', 'loso_results.csv')
+            os.makedirs(os.path.join(root_path, 'results'), exist_ok=True)
+            header_needed = not os.path.exists(loso_path)
+            with open(loso_path, 'a') as f:
+                if header_needed:
+                    f.write("Scenario,Model,Fold,Validation_Accuracy\n")
+                f.write(f"{scenario},{model_type},{fold},{val_acc}\n")
+        else:
+            logger.warning("No validation portion found for LOSO validation accuracy computation.")
 
 def summarize_results(y_pred: Union[pd.Series, np.ndarray], summary_path='example_results_summary.csv') -> pd.DataFrame:
     # Calculate the distribution of predicted classes
