@@ -5,41 +5,22 @@ import scipy.stats as stats
 from scipy.fft import rfft, rfftfreq
 from keras import layers, models
 from sklearn.decomposition import PCA
-import argparse
 
 """
-Feature Extraction Script with Optional PCA or Auto-Encoder Reduction
-
-This script:
-1. Extracts features from raw sensor data (time-domain, frequency-domain).
-2. Optionally applies dimensionality reduction using PCA or an Auto-Encoder.
-
-Command-line arguments:
---reduction_method {none,pca,ae} : Choose the dimensionality reduction method.
---n_components : Number of components for PCA or latent dimension for AE.
---data_path : Path to data directory.
---method : Preprocessing method used (default 'spline').
-
-Output:
-- Always saves the full feature set to 'X_train_features.pkl' and 'X_test_features.pkl'.
-- If PCA is chosen, also saves 'X_train_features_pca.pkl' and 'X_test_features_pca.pkl'.
-- If AE is chosen, also saves 'X_train_features_ae.pkl' and 'X_test_features_ae.pkl'.
-
-Dependencies:
-- Ensure 'activities.pkl' and processed data are available.
-- Keras (TensorFlow) is required for AE.
+Feature Extraction:
+- extract_features(X_raw): Convert raw sensor time series into statistical & spectral features.
+- apply_pca(X_train, X_test, n_components): Reduce dimensionality using PCA.
+- apply_autoencoder(X_train, X_test, latent_dim): Use an auto-encoder for non-linear dimensionality reduction.
+No file loading here; all data is passed as DataFrames or arrays.
 """
 
-# Default constants
-METHOD = 'spline'
-DATA_PATH = '.'
-N_SAMPLES = 3500
-N_TIMEPOINTS = 512
-SAMPLING_FREQ = 100.0  # Assuming 100Hz, adjust if known.
-
-########################
-# Sensor Type Definitions
-########################
+SAMPLING_FREQ = 100.0
+ONE_D_SENSORS = [2, 3, 13, 23]
+THREE_D_GROUPS = [
+    (4,5,6), (7,8,9), (10,11,12),
+    (14,15,16), (17,18,19), (20,21,22),
+    (24,25,26), (27,28,29), (30,31,32)
+]
 
 SENSOR_TYPE_MAP = {
     2: 'heart_rate',
@@ -60,40 +41,67 @@ SENSOR_TYPE_MAP = {
 
 def zero_crossing_rate(signal):
     zero_crossings = np.nonzero(np.diff(np.sign(signal)))[0]
-    return len(zero_crossings) / len(signal)
+    return len(zero_crossings) / len(signal) if len(signal) > 0 else 0
 
 def spectral_entropy(signal):
     fft_vals = np.abs(rfft(signal))
     psd = fft_vals**2
-    psd_norm = psd / (np.sum(psd) + 1e-12)
+    psd_sum = psd.sum() + 1e-12
+    psd_norm = psd / psd_sum
     entropy = -np.sum(psd_norm * np.log2(psd_norm + 1e-12))
     return entropy
 
 def extract_1d_features(series):
     feats = {}
-    # Time domain
-    feats['mean'] = np.mean(series)
-    feats['median'] = np.median(series)
-    feats['std'] = np.std(series)
-    feats['min'] = np.min(series)
-    feats['max'] = np.max(series)
-    feats['range'] = np.max(series) - np.min(series)
-    feats['skew'] = stats.skew(series)
-    feats['kurtosis'] = stats.kurtosis(series)
-    feats['zcr'] = zero_crossing_rate(series)
-    feats['energy'] = np.sum(series**2)
+    # Time-domain features
+    mean_val = np.mean(series)
+    median_val = np.median(series)
+    std_val = np.std(series)
+    min_val = np.min(series)
+    max_val = np.max(series)
+    range_val = max_val - min_val
+    energy_val = np.sum(series**2)
 
-    # Frequency domain
+    # Handle skew and kurtosis carefully to avoid NaN if all values are identical
+    if std_val == 0:
+        # Constant signal: skew = 0, kurtosis = 0
+        skew_val = 0.0
+        kurt_val = 0.0
+    else:
+        skew_val = stats.skew(series)
+        # If skew is NaN due to floating precision, force to 0
+        if np.isnan(skew_val):
+            skew_val = 0.0
+        kurt_val = stats.kurtosis(series)
+        if np.isnan(kurt_val):
+            kurt_val = 0.0
+
+    # Frequency-domain features
     fft_vals = rfft(series)
     fft_freq = rfftfreq(len(series), d=1/SAMPLING_FREQ)
     fft_power = np.abs(fft_vals)**2
-
     idx_peak = np.argmax(fft_power)
-    feats['dominant_freq'] = fft_freq[idx_peak]
+    dominant_freq = fft_freq[idx_peak]
 
-    total_power = np.sum(fft_power) + 1e-12
-    feats['spectral_centroid'] = np.sum(fft_freq * fft_power) / total_power
-    feats['spectral_entropy'] = spectral_entropy(series)
+    total_power = fft_power.sum() + 1e-12
+    spectral_centroid = np.sum(fft_freq * fft_power) / total_power
+    spec_entropy = spectral_entropy(series)
+
+    feats['mean'] = mean_val
+    feats['median'] = median_val
+    feats['std'] = std_val
+    feats['min'] = min_val
+    feats['max'] = max_val
+    feats['range'] = range_val
+    feats['skew'] = skew_val
+    feats['kurtosis'] = kurt_val
+    feats['zcr'] = zero_crossing_rate(series)
+    feats['energy'] = energy_val
+    feats['dominant_freq'] = dominant_freq
+    feats['spectral_centroid'] = spectral_centroid
+    feats['spectral_entropy'] = spec_entropy
+
+    # None of these steps produce NaN if input is clean and constant arrays handled
     return feats
 
 def extract_3d_features(x, y, z):
@@ -104,6 +112,8 @@ def extract_3d_features(x, y, z):
     mag_feats = extract_1d_features(mag)
 
     feats = {}
+    # Combine them into a single feature vector
+    # Each axis' features are prefixed with x_, y_, z_, mag_ respectively
     for k, v in x_feats.items():
         feats[f'x_{k}'] = v
     for k, v in y_feats.items():
@@ -114,112 +124,59 @@ def extract_3d_features(x, y, z):
         feats[f'mag_{k}'] = v
     return feats
 
-def get_3d_sensor_groups():
-    groups = [
-        (4,5,6), (7,8,9), (10,11,12),
-        (14,15,16), (17,18,19), (20,21,22),
-        (24,25,26), (27,28,29), (30,31,32)
-    ]
-    return groups
-
-def get_1d_sensors():
-    return [2, 3, 13, 23]
-
-def extract_features(data_path=DATA_PATH, method=METHOD):
-    activity_path = os.path.join(data_path, f'processed/')
-    y = pd.read_pickle(os.path.join(activity_path, 'activities.pkl'))
-
-    LS_path = os.path.join(data_path, 'processed', method)
-    TS_path = os.path.join(data_path, 'TS')
+def extract_features(X_raw: pd.DataFrame) -> pd.DataFrame:
+    """
+    Extract features from raw DataFrame X_raw of shape (n_samples, 31*512),
+    no missing values assumed (after data_prep).
+    Each sensor or group of sensors yields a set of features, concatenated horizontally.
+    """
 
     # 1D sensors
-    X_train_1d = []
-    X_test_1d = []
-    print("Extracting features for 1D sensors (heart_rate, temperature)...")
-    for sensor_id in get_1d_sensors():
-        train_data = pd.read_pickle(os.path.join(LS_path, f'sensor_{sensor_id}.pkl')).values
-        test_data = pd.read_csv(os.path.join(TS_path, f'TS_sensor_{sensor_id}.txt'), delimiter=' ', header=None).values
-
-        train_feats = [extract_1d_features(train_data[i,:]) for i in range(train_data.shape[0])]
-        test_feats = [extract_1d_features(test_data[i,:]) for i in range(test_data.shape[0])]
-
-        df_train = pd.DataFrame(train_feats)
-        df_test = pd.DataFrame(test_feats)
-
-        df_train.columns = [f'sensor_{sensor_id}_{c}' for c in df_train.columns]
-        df_test.columns = [f'sensor_{sensor_id}_{c}' for c in df_test.columns]
-
-        X_train_1d.append(df_train)
-        X_test_1d.append(df_test)
-
-    if len(X_train_1d) > 0:
-        X_train_1d = pd.concat(X_train_1d, axis=1)
-        X_test_1d = pd.concat(X_test_1d, axis=1)
-    else:
-        X_train_1d = pd.DataFrame()
-        X_test_1d = pd.DataFrame()
+    X_1d_list = []
+    for sensor_id in ONE_D_SENSORS:
+        start = (sensor_id - 2)*512
+        end = start + 512
+        sensor_data = X_raw.iloc[:, start:end].values
+        feats = [extract_1d_features(sensor_data[i,:]) for i in range(sensor_data.shape[0])]
+        df_feats = pd.DataFrame(feats)
+        df_feats.columns = [f'sensor_{sensor_id}_{c}' for c in df_feats.columns]
+        X_1d_list.append(df_feats)
+    X_1d = pd.concat(X_1d_list, axis=1) if X_1d_list else pd.DataFrame()
 
     # 3D sensors
-    print("Extracting features for 3D sensors (acceleration, gyroscope, magnetometer)...")
-    X_train_3d = []
-    X_test_3d = []
-    groups = get_3d_sensor_groups()
-    for group in groups:
-        LS_path_group = [os.path.join(LS_path, f'sensor_{sid}.pkl') for sid in group]
-        TS_path_group = [os.path.join(TS_path, f'TS_sensor_{sid}.txt') for sid in group]
+    X_3d_list = []
+    for group in THREE_D_GROUPS:
+        axes_data = []
+        for sid in group:
+            start = (sid - 2)*512
+            end = start+512
+            sid_data = X_raw.iloc[:, start:end].values
+            axes_data.append(sid_data)
 
-        train_axes = []
-        test_axes = []
-        for sid_path_ls, sid_path_ts in zip(LS_path_group, TS_path_group):
-            train_data = pd.read_pickle(sid_path_ls).values
-            test_data = pd.read_csv(sid_path_ts, delimiter=' ', header=None).values
-            train_axes.append(train_data)
-            test_axes.append(test_data)
-
-        train_axes = np.stack(train_axes, axis=1)  # (n_samples, 3, 512)
-        test_axes = np.stack(test_axes, axis=1)
-
-        train_feats = []
-        test_feats = []
+        train_axes = np.stack(axes_data, axis=1)  # (n_samples,3,512)
         sensor_type = SENSOR_TYPE_MAP[group[0]]
-
+        feats_3d = []
         for i in range(train_axes.shape[0]):
-            x = train_axes[i,0,:]
-            y_ = train_axes[i,1,:]
-            z = train_axes[i,2,:]
+            x, y_, z = train_axes[i,0,:], train_axes[i,1,:], train_axes[i,2,:]
             f = extract_3d_features(x, y_, z)
-            train_feats.append(f)
+            feats_3d.append(f)
+        df_feats_3d = pd.DataFrame(feats_3d)
+        df_feats_3d.columns = [f'group_{group[0]}_{sensor_type}_{c}' for c in df_feats_3d.columns]
+        X_3d_list.append(df_feats_3d)
+    X_3d = pd.concat(X_3d_list, axis=1) if X_3d_list else pd.DataFrame()
 
-        for i in range(test_axes.shape[0]):
-            x = test_axes[i,0,:]
-            y_ = test_axes[i,1,:]
-            z = test_axes[i,2,:]
-            f = extract_3d_features(x, y_, z)
-            test_feats.append(f)
+    X_features = pd.concat([X_1d, X_3d], axis=1)
 
-        df_train = pd.DataFrame(train_feats)
-        df_test = pd.DataFrame(test_feats)
+    # Check for any NaNs due to unexpected issues
+    if X_features.isna().sum().sum() > 0:
+        # This should not happen if input is clean and code handles constants
+        # But if it does, we can fill them or raise a warning
+        print("Warning: NaN values found in extracted features. Filling NaNs with 0.0.")
+        X_features = X_features.fillna(0.0)
 
-        df_train.columns = [f'group_{group[0]}_{sensor_type}_{c}' for c in df_train.columns]
-        df_test.columns = [f'group_{group[0]}_{sensor_type}_{c}' for c in df_test.columns]
+    return X_features
 
-        X_train_3d.append(df_train)
-        X_test_3d.append(df_test)
-
-    if len(X_train_3d) > 0:
-        X_train_3d = pd.concat(X_train_3d, axis=1)
-        X_test_3d = pd.concat(X_test_3d, axis=1)
-    else:
-        X_train_3d = pd.DataFrame()
-        X_test_3d = pd.DataFrame()
-
-    X_train_features = pd.concat([X_train_1d, X_train_3d], axis=1)
-    X_test_features = pd.concat([X_test_1d, X_test_3d], axis=1)
-
-    return X_train_features, X_test_features
-
-
-def apply_pca(X_train, X_test, n_components):
+def apply_pca(X_train: pd.DataFrame, X_test: pd.DataFrame, n_components: int):
     print(f"Applying PCA with {n_components} components...")
     pca = PCA(n_components=n_components, random_state=42)
     pca.fit(X_train)
@@ -227,9 +184,7 @@ def apply_pca(X_train, X_test, n_components):
     X_test_pca = pca.transform(X_test)
     return X_train_pca, X_test_pca
 
-
-def build_autoencoder(input_dim, latent_dim):
-    # Simple AE model
+def build_autoencoder(input_dim, latent_dim: int):
     input_layer = layers.Input(shape=(input_dim,))
     encoded = layers.Dense(256, activation='relu')(input_layer)
     encoded = layers.Dense(latent_dim, activation='relu')(encoded)
@@ -239,69 +194,14 @@ def build_autoencoder(input_dim, latent_dim):
 
     autoencoder = models.Model(inputs=input_layer, outputs=decoded)
     encoder = models.Model(inputs=input_layer, outputs=encoded)
-
     autoencoder.compile(optimizer='adam', loss='mse')
     return autoencoder, encoder
 
-def apply_autoencoder(X_train, X_test, latent_dim):
+def apply_autoencoder(X_train: np.ndarray, X_test: np.ndarray, latent_dim: int):
     print(f"Applying Auto-Encoder with latent dimension {latent_dim}...")
     input_dim = X_train.shape[1]
-
     autoencoder, encoder = build_autoencoder(input_dim, latent_dim)
-    # Train AE on training set
     autoencoder.fit(X_train, X_train, epochs=20, batch_size=64, shuffle=True, validation_split=0.1, verbose=1)
-
     X_train_ae = encoder.predict(X_train)
     X_test_ae = encoder.predict(X_test)
     return X_train_ae, X_test_ae
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Feature extraction with optional PCA/AE reduction.')
-    parser.add_argument('--data_path', type=str, default='.', help='Path to data directory')
-    parser.add_argument('--method', type=str, default='spline', help='Preprocessing method')
-    parser.add_argument('--reduction_method', type=str, default='none', choices=['none', 'pca', 'ae'],
-                        help='Dimensionality reduction method to use: none, pca, ae')
-    parser.add_argument('--n_components', type=int, default=50, help='Number of components for PCA or latent_dim for AE')
-
-    args = parser.parse_args()
-
-    print("Starting feature extraction...")
-    X_train_features, X_test_features = extract_features(data_path=args.data_path, method=args.method)
-
-    output_dir = os.path.join('.', 'processed_features')
-    os.makedirs(output_dir, exist_ok=True)
-
-    # Always save the full feature set
-    X_train_features_path = os.path.join(output_dir, 'X_train_features.pkl')
-    X_test_features_path = os.path.join(output_dir, 'X_test_features.pkl')
-
-    X_train_features.to_pickle(X_train_features_path)
-    X_test_features.to_pickle(X_test_features_path)
-
-    if args.reduction_method == 'pca':
-        X_train_red, X_test_red = apply_pca(X_train_features, X_test_features, args.n_components)
-        X_train_red_df = pd.DataFrame(X_train_red)
-        X_test_red_df = pd.DataFrame(X_test_red)
-        X_train_red_path = os.path.join(output_dir, f'X_train_features_pca.pkl')
-        X_test_red_path = os.path.join(output_dir, f'X_test_features_pca.pkl')
-        X_train_red_df.to_pickle(X_train_red_path)
-        X_test_red_df.to_pickle(X_test_red_path)
-        print(f"PCA reduced features saved to {X_train_red_path} and {X_test_red_path}")
-
-    elif args.reduction_method == 'ae':
-        # Convert to numpy array if not already
-        X_train_arr = X_train_features.values
-        X_test_arr = X_test_features.values
-
-        X_train_red, X_test_red = apply_autoencoder(X_train_arr, X_test_arr, args.n_components)
-        X_train_red_df = pd.DataFrame(X_train_red)
-        X_test_red_df = pd.DataFrame(X_test_red)
-        X_train_red_path = os.path.join(output_dir, f'X_train_features_ae.pkl')
-        X_test_red_path = os.path.join(output_dir, f'X_test_features_ae.pkl')
-        X_train_red_df.to_pickle(X_train_red_path)
-        X_test_red_df.to_pickle(X_test_red_path)
-        print(f"AE reduced features saved to {X_train_red_path} and {X_test_red_path}")
-
-    else:
-        print("No dimensionality reduction applied. Only full feature sets are saved.")

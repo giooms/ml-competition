@@ -45,24 +45,40 @@ logging.basicConfig(level=logging.INFO,
 logger = logging.getLogger(__name__)
 
 
-def load_raw_data(data_path: str, method: str='spline') -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series]:
-    """Loads raw training/test data and also activities and subjects from processed/."""
+def load_raw_data(data_path: str, method: str='spline') -> Tuple[pd.DataFrame, pd.DataFrame, pd.Series, pd.Series]:
+    """Loads training and test data, activities, and subjects from processed data.
+       Applies the same scaling to the test set as used in the training set.
+    """
     logger.info('Loading raw data...')
     LS_path = os.path.join(data_path, f'processed/{method}')
     TS_path = os.path.join(data_path, 'TS')
     activity_path = os.path.join(data_path, 'processed')
+    scaler_dir = os.path.join(LS_path, 'scalers')
 
     if not os.path.exists(LS_path):
         raise FileNotFoundError("Preprocessed data not found. Run process_data first.")
 
     X_train = pd.DataFrame()
     X_test = pd.DataFrame()
-    for f in tqdm(FEATURES, desc='Loading training and test sets'):
+
+    for f in tqdm(FEATURES, desc='Loading and scaling test sets'):
+        # Load already preprocessed (and scaled) training data
         ls_data = pd.read_pickle(os.path.join(LS_path, f'sensor_{f}.pkl'))
-        ts_data = pd.read_csv(os.path.join(TS_path, f'TS_sensor_{f}.txt'), delimiter=' ', header=None)
+        # Raw test data
+        ts_data = pd.read_csv(os.path.join(TS_path, f'TS_sensor_{f}.txt'), delimiter=' ', header=None).values
+
+        # Load scaler for this sensor
+        scaler_path = os.path.join(scaler_dir, f'scaler_{f}.pkl')
+        if not os.path.exists(scaler_path):
+            raise FileNotFoundError(f"Scaler file not found for sensor {f} at {scaler_path}")
+        global_min, global_max = joblib.load(scaler_path)
+
+        # Apply scaling to test data
+        # Note: training data is already scaled by data_prep.py
+        ts_data_scaled = (ts_data - global_min) / (global_max - global_min)
 
         X_train = pd.concat([X_train, ls_data], axis=1, ignore_index=True)
-        X_test = pd.concat([X_test, ts_data], axis=1, ignore_index=True)
+        X_test = pd.concat([X_test, pd.DataFrame(ts_data_scaled)], axis=1, ignore_index=True)
 
     y_train = pd.read_pickle(os.path.join(activity_path, 'activities.pkl'))
     subjects = pd.read_pickle(os.path.join(activity_path, 'subjects.pkl'))
@@ -209,7 +225,6 @@ def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
         logger.info(f"LOSO CV: Using subject {val_sub} as validation")
         X_train_portion = X_train_raw.loc[train_idx]
         y_train_portion = y_train.loc[train_idx]
-        # val_idx can be used if we want internal validation on training data, but not strictly needed.
     else:
         X_train_portion = X_train_raw
         y_train_portion = y_train
@@ -224,8 +239,9 @@ def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
     else:
         # Feature Extraction cases
         from feature_extraction import extract_features, apply_pca, apply_autoencoder
-        X_train_fe = extract_features(X_train_portion, method=method)
-        X_test_fe = extract_features(X_test_raw, method=method)
+        # Now we call extract_features without 'method'
+        X_train_fe = extract_features(X_train_portion)
+        X_test_fe = extract_features(X_test_raw)
 
         if scenario == 'C':
             X_train_processed = X_train_fe
@@ -240,6 +256,12 @@ def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
             X_test_processed = pd.DataFrame(X_test_ae)
         else:
             raise ValueError("Scenario must be one of A,B,C,D,E.")
+
+    # Optional: Check for NaNs before fitting (debugging)
+    if X_train_processed.isna().sum().sum() > 0:
+        logger.warning("NaNs detected in X_train_processed. Consider filling or investigating upstream steps.")
+    if X_test_processed.isna().sum().sum() > 0:
+        logger.warning("NaNs detected in X_test_processed. Consider filling or investigating upstream steps.")
 
     clf = fit_model(X_train_processed, y_train_portion, model_type=model_type)
     logger.info("Predicting on test set...")
