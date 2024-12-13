@@ -120,7 +120,7 @@ def fit_model(X_train, y_train, model_type='rf'):
         try:
             model = XGBClassifier(
                 random_state=42,
-                tree_method='gpu_hist',    # GPU mode
+                device='cuda',    # GPU mode
                 predictor='gpu_predictor'  # GPU predictor
             )
         except XGBoostError:
@@ -258,6 +258,8 @@ def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
         X_train_portion = X_train_raw
         y_train_portion = y_train
 
+    y_train_portion = y_train_portion - 1
+
     if scenario == 'A':
         X_train_processed = X_train_portion
         X_test_processed = X_test_raw
@@ -295,6 +297,9 @@ def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
     clf = fit_model(X_train_processed, y_train_portion, model_type=model_type)
     logger.info("Predicting on test set...")
     y_pred = clf.predict(X_test_processed)
+
+    # Convert predictions back to [1–14] for reporting and submission
+    y_pred = y_pred + 1
 
     suffix = f"_fold{fold}" if fold is not None else ""
     evaluate_and_save(y_pred, output_path=f"{model_type}_{scenario}{suffix}_summary.csv")
