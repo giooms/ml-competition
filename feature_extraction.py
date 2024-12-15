@@ -8,10 +8,26 @@ from sklearn.decomposition import PCA
 
 """
 Feature Extraction:
-- extract_features(X_raw): Convert raw sensor time series into statistical & spectral features.
-- apply_pca(X_train, X_test, n_components): Reduce dimensionality using PCA.
-- apply_autoencoder(X_train, X_test, latent_dim): Use an auto-encoder for non-linear dimensionality reduction.
-No file loading here; all data is passed as DataFrames or arrays.
+- extract_features(X_raw): Convert raw sensor time series into statistical & spectral features per sample.
+- For 1D sensors: compute statistics on each sensor's 512-point time series.
+- For 3D sensors: compute per-axis features and combine them, plus magnitude and cross-axis correlation.
+
+Added features:
+- RMS (root mean square)
+- Interquartile range (IQR)
+- Median absolute deviation (MAD)
+- Cross-axis correlations (for 3D sensors only)
+
+At the end, all features become columns in a final DataFrame.
+
+We assume X_raw is a DataFrame: (n_samples, 31*512) with each sensor occupying a block of 512 columns.
+No missing values are expected here.
+
+Dimensionality reduction:
+- apply_pca(X_train, X_test, n_components)
+- apply_autoencoder(X_train, X_test, latent_dim)
+
+NOTE: All computations are done per sample.
 """
 
 SAMPLING_FREQ = 100.0
@@ -40,8 +56,10 @@ SENSOR_TYPE_MAP = {
 }
 
 def zero_crossing_rate(signal):
+    if len(signal) == 0:
+        return 0
     zero_crossings = np.nonzero(np.diff(np.sign(signal)))[0]
-    return len(zero_crossings) / len(signal) if len(signal) > 0 else 0
+    return len(zero_crossings) / len(signal)
 
 def spectral_entropy(signal):
     fft_vals = np.abs(rfft(signal))
@@ -50,6 +68,14 @@ def spectral_entropy(signal):
     psd_norm = psd / psd_sum
     entropy = -np.sum(psd_norm * np.log2(psd_norm + 1e-12))
     return entropy
+
+def safe_skew(series):
+    val = stats.skew(series)
+    return val if not np.isnan(val) else 0.0
+
+def safe_kurtosis(series):
+    val = stats.kurtosis(series)
+    return val if not np.isnan(val) else 0.0
 
 def extract_1d_features(series):
     feats = {}
@@ -61,20 +87,14 @@ def extract_1d_features(series):
     max_val = np.max(series)
     range_val = max_val - min_val
     energy_val = np.sum(series**2)
+    # Additional time-domain features
+    rms_val = np.sqrt(np.mean(series**2))
+    iqr_val = np.percentile(series, 75) - np.percentile(series, 25)
+    mad_val = np.mean(np.abs(series - mean_val))  # median absolute deviation around mean
 
-    # Handle skew and kurtosis carefully to avoid NaN if all values are identical
-    if std_val == 0:
-        # Constant signal: skew = 0, kurtosis = 0
-        skew_val = 0.0
-        kurt_val = 0.0
-    else:
-        skew_val = stats.skew(series)
-        # If skew is NaN due to floating precision, force to 0
-        if np.isnan(skew_val):
-            skew_val = 0.0
-        kurt_val = stats.kurtosis(series)
-        if np.isnan(kurt_val):
-            kurt_val = 0.0
+    # Handle skew and kurtosis carefully
+    skew_val = 0.0 if std_val == 0 else safe_skew(series)
+    kurt_val = 0.0 if std_val == 0 else safe_kurtosis(series)
 
     # Frequency-domain features
     fft_vals = rfft(series)
@@ -87,6 +107,7 @@ def extract_1d_features(series):
     spectral_centroid = np.sum(fft_freq * fft_power) / total_power
     spec_entropy = spectral_entropy(series)
 
+    # Fill dictionary
     feats['mean'] = mean_val
     feats['median'] = median_val
     feats['std'] = std_val
@@ -97,23 +118,37 @@ def extract_1d_features(series):
     feats['kurtosis'] = kurt_val
     feats['zcr'] = zero_crossing_rate(series)
     feats['energy'] = energy_val
+    feats['rms'] = rms_val
+    feats['iqr'] = iqr_val
+    feats['mad'] = mad_val
     feats['dominant_freq'] = dominant_freq
     feats['spectral_centroid'] = spectral_centroid
     feats['spectral_entropy'] = spec_entropy
 
-    # None of these steps produce NaN if input is clean and constant arrays handled
     return feats
 
 def extract_3d_features(x, y, z):
+    # Per-axis features
     x_feats = extract_1d_features(x)
     y_feats = extract_1d_features(y)
     z_feats = extract_1d_features(z)
+    # Magnitude
     mag = np.sqrt(x**2 + y**2 + z**2)
     mag_feats = extract_1d_features(mag)
 
+    # Cross-axis correlations
+    # Pearson correlation between axes
+    # If any axis is constant, correlation is 0 by definition
+    def safe_corr(a, b):
+        if np.std(a) == 0 or np.std(b) == 0:
+            return 0.0
+        return np.corrcoef(a, b)[0, 1]
+
+    xy_corr = safe_corr(x, y)
+    xz_corr = safe_corr(x, z)
+    yz_corr = safe_corr(y, z)
+
     feats = {}
-    # Combine them into a single feature vector
-    # Each axis' features are prefixed with x_, y_, z_, mag_ respectively
     for k, v in x_feats.items():
         feats[f'x_{k}'] = v
     for k, v in y_feats.items():
@@ -122,13 +157,20 @@ def extract_3d_features(x, y, z):
         feats[f'z_{k}'] = v
     for k, v in mag_feats.items():
         feats[f'mag_{k}'] = v
+
+    # Add cross-axis correlation features
+    feats['xy_corr'] = xy_corr
+    feats['xz_corr'] = xz_corr
+    feats['yz_corr'] = yz_corr
+
     return feats
 
 def extract_features(X_raw: pd.DataFrame) -> pd.DataFrame:
     """
-    Extract features from raw DataFrame X_raw of shape (n_samples, 31*512),
-    no missing values assumed (after data_prep).
-    Each sensor or group of sensors yields a set of features, concatenated horizontally.
+    Extract features from raw DataFrame X_raw of shape (n_samples, 31*512).
+
+    Each sample is a row, each sensor is a block of 512 columns.
+    We compute features per sample and per sensor (1D) or sensor group (3D).
     """
 
     # 1D sensors
@@ -153,7 +195,8 @@ def extract_features(X_raw: pd.DataFrame) -> pd.DataFrame:
             sid_data = X_raw.iloc[:, start:end].values
             axes_data.append(sid_data)
 
-        train_axes = np.stack(axes_data, axis=1)  # (n_samples,3,512)
+        # stack to (n_samples, 3, 512)
+        train_axes = np.stack(axes_data, axis=1)
         sensor_type = SENSOR_TYPE_MAP[group[0]]
         feats_3d = []
         for i in range(train_axes.shape[0]):
@@ -163,14 +206,13 @@ def extract_features(X_raw: pd.DataFrame) -> pd.DataFrame:
         df_feats_3d = pd.DataFrame(feats_3d)
         df_feats_3d.columns = [f'group_{group[0]}_{sensor_type}_{c}' for c in df_feats_3d.columns]
         X_3d_list.append(df_feats_3d)
+
     X_3d = pd.concat(X_3d_list, axis=1) if X_3d_list else pd.DataFrame()
 
     X_features = pd.concat([X_1d, X_3d], axis=1)
 
-    # Check for any NaNs due to unexpected issues
+    # Check for NaNs
     if X_features.isna().sum().sum() > 0:
-        # This should not happen if input is clean and code handles constants
-        # But if it does, we can fill them or raise a warning
         print("Warning: NaN values found in extracted features. Filling NaNs with 0.0.")
         X_features = X_features.fillna(0.0)
 

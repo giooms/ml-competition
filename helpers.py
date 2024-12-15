@@ -131,13 +131,11 @@ def fit_model(X_train, y_train, model_type='rf'):
                 predictor='cpu_predictor'  # CPU predictor
             )
         param_grid = {
-            'n_estimators': [50, 100, 200],
-            'max_depth': [5, 10],
-            'learning_rate': [0.01, 0.1, 0.3],
-            'subsample': [0.7, 1.0],
-            'colsample_bytree': [0.7, 1.0],
-            'gamma': [0, 0.1],
-            'min_child_weight': [1, 3]
+            'n_estimators': [100, 300, 500],
+            'max_depth': [5, 10, 50, None],
+            'min_samples_split': [2, 5, 10],
+            'min_samples_leaf': [1, 2, 5],
+            'max_features': ['sqrt', 'log2']
         }
         # param_grid = {
         #     'n_estimators': [50, 100],
