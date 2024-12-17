@@ -132,21 +132,21 @@ def extract_3d_features(x, y, z):
     x_feats = extract_1d_features(x)
     y_feats = extract_1d_features(y)
     z_feats = extract_1d_features(z)
-    # Magnitude
-    mag = np.sqrt(x**2 + y**2 + z**2)
-    mag_feats = extract_1d_features(mag)
+    # # Magnitude
+    # mag = np.sqrt(x**2 + y**2 + z**2)
+    # mag_feats = extract_1d_features(mag)
 
-    # Cross-axis correlations
-    # Pearson correlation between axes
-    # If any axis is constant, correlation is 0 by definition
-    def safe_corr(a, b):
-        if np.std(a) == 0 or np.std(b) == 0:
-            return 0.0
-        return np.corrcoef(a, b)[0, 1]
+    # # Cross-axis correlations
+    # # Pearson correlation between axes
+    # # If any axis is constant, correlation is 0 by definition
+    # def safe_corr(a, b):
+    #     if np.std(a) == 0 or np.std(b) == 0:
+    #         return 0.0
+    #     return np.corrcoef(a, b)[0, 1]
 
-    xy_corr = safe_corr(x, y)
-    xz_corr = safe_corr(x, z)
-    yz_corr = safe_corr(y, z)
+    # xy_corr = safe_corr(x, y)
+    # xz_corr = safe_corr(x, z)
+    # yz_corr = safe_corr(y, z)
 
     feats = {}
     for k, v in x_feats.items():
@@ -155,13 +155,13 @@ def extract_3d_features(x, y, z):
         feats[f'y_{k}'] = v
     for k, v in z_feats.items():
         feats[f'z_{k}'] = v
-    for k, v in mag_feats.items():
-        feats[f'mag_{k}'] = v
+    # for k, v in mag_feats.items():
+    #     feats[f'mag_{k}'] = v
 
-    # Add cross-axis correlation features
-    feats['xy_corr'] = xy_corr
-    feats['xz_corr'] = xz_corr
-    feats['yz_corr'] = yz_corr
+    # # Add cross-axis correlation features
+    # feats['xy_corr'] = xy_corr
+    # feats['xz_corr'] = xz_corr
+    # feats['yz_corr'] = yz_corr
 
     return feats
 

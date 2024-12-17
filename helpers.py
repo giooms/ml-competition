@@ -5,13 +5,12 @@ Step 1. Start with Gradient Boosting Classifier:
 
 Step 2. Feature Selection:
 - If performance with all features is slow or suboptimal, explore RFE or SelectFromModel.
-- This will reduce dimensionality while retaining the most relevant information for predicting the activity.
+- This reduces dimensionality while retaining the most relevant information.
 - Compare with results obtained from step 1 alone.
 
 (optional) Step 1.2 Experiment with CNNs for Feature Extraction:
 - Train a CNN to extract meaningful, lower-dimensional representations (dense vectors) of the time-series data.
-- These embeddings will serve as the new dataset, replacing the original high-dimensional raw time-series data.
-- With this new dataset, repeat from step 1. If results are still poor, perform additional Feature Selection step)
+- Repeat step 1 with these embeddings. If still poor, perform Feature Selection.
 
 In total, four workflows to explore:
 a) Step 1 alone
@@ -27,12 +26,11 @@ import numpy as np
 import os
 import pandas as pd
 from data_prep import process_data, SensorDataAnalyzer
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_selection import RFE
-from typing import Tuple
+from typing import Tuple, Union
 from tqdm import tqdm
-from typing import Union
 from xgboost import XGBClassifier
 
 TS_N_TIME_SERIES = 3500
@@ -62,20 +60,26 @@ def load_raw_data(data_path: str, method: str='spline') -> Tuple[pd.DataFrame, p
     X_test = pd.DataFrame()
 
     for f in tqdm(FEATURES, desc='Loading and scaling test sets'):
-        # Load already preprocessed (and scaled) training data
         ls_data = pd.read_pickle(os.path.join(LS_path, f'sensor_{f}.pkl'))
-        # Raw test data
         ts_data = pd.read_csv(os.path.join(TS_path, f'TS_sensor_{f}.txt'), delimiter=' ', header=None).values
 
         # Load scaler for this sensor
         scaler_path = os.path.join(scaler_dir, f'scaler_{f}.pkl')
         if not os.path.exists(scaler_path):
             raise FileNotFoundError(f"Scaler file not found for sensor {f} at {scaler_path}")
-        global_min, global_max = joblib.load(scaler_path)
+        # global_min, global_max = joblib.load(scaler_path)
+        sensor_median, iqr_vals = joblib.load(scaler_path)
 
+        # Convert Series to NumPy arrays:
+        sensor_median = sensor_median.to_numpy() if hasattr(sensor_median, 'to_numpy') else np.array(sensor_median)
+        iqr_vals = iqr_vals.to_numpy() if hasattr(iqr_vals, 'to_numpy') else np.array(iqr_vals)
+
+        # Avoid division by zero if needed
+        iqr_vals[iqr_vals == 0] = 1e-9
+
+        ts_data_scaled = (ts_data - sensor_median) / iqr_vals
         # Apply scaling to test data
-        # Note: training data is already scaled by data_prep.py
-        ts_data_scaled = (ts_data - global_min) / (global_max - global_min)
+        # ts_data_scaled = (ts_data - global_min) / (global_max - global_min)
 
         X_train = pd.concat([X_train, ls_data], axis=1, ignore_index=True)
         X_test = pd.concat([X_test, pd.DataFrame(ts_data_scaled)], axis=1, ignore_index=True)
@@ -89,6 +93,7 @@ def load_raw_data(data_path: str, method: str='spline') -> Tuple[pd.DataFrame, p
 
     return X_train, X_test, y_train, subjects
 
+
 def apply_rfe(X_train: pd.DataFrame, y_train: pd.Series, n_features: int=100) -> np.ndarray:
     """Applies RFE to select n_features from raw data."""
     logger.info("Applying RFE...")
@@ -99,55 +104,70 @@ def apply_rfe(X_train: pd.DataFrame, y_train: pd.Series, n_features: int=100) ->
     logger.info(f"RFE completed. Selected {support.sum()} features out of {X_train.shape[1]}")
     return support
 
-def fit_model(X_train, y_train, model_type='rf'):
-    """Fits a model (RF or XGB) with GridSearchCV and returns best estimator. Always trains fresh, no loading."""
-    logger.info(f'Fitting a new {model_type.upper()} model. This may take a while...')
+
+class LOSOSplitter:
+    """Custom Leave-One-Subject-Out cross-validation splitter."""
+    def __init__(self, subjects: pd.Series):
+        self.subjects = subjects.values
+        self.unique_subs = np.unique(self.subjects)
+
+    def split(self, X, y=None, groups=None):
+        for sub in self.unique_subs:
+            val_idx = np.where(self.subjects == sub)[0]
+            train_idx = np.where(self.subjects != sub)[0]
+            yield (train_idx, val_idx)
+
+    def get_n_splits(self, X=None, y=None, groups=None):
+        return len(self.unique_subs)
+
+
+def fit_model(X_train, y_train, subjects_train, model_type='rf'):
+    """Fits a model (RF or XGB) with GridSearchCV using LOSO CV and returns best estimator."""
+    logger.info(f'Fitting a new {model_type.upper()} model with LOSO CV. This may take a while...')
     if model_type == 'rf':
         model = RandomForestClassifier(random_state=42, n_jobs=-1)
         param_grid = {
-            'n_estimators': [50, 100, 200],
-            'max_depth': [5, 10, 50],
-            'min_samples_split': [2, 5, 10],
-            'min_samples_leaf': [1, 2, 5],
-            'max_features': ['auto', 'sqrt']
+            'n_estimators': [50, 100, 200, 300],      # Added 300
+            'max_depth': [5, 10, 20, 50],             # Added 20
+            'min_samples_split': [2, 5, 10, 20],      # Added 20
+            'min_samples_leaf': [1, 2, 5, 10],        # Added 10
+            'max_features': ['auto', 'sqrt', 'log2']  # Added 'log2'
         }
-        # param_grid = {
-        #     'n_estimators': [50, 100],
-        #     'max_depth': [5, 10]
-        # }
     else:
-         # Attempt GPU mode first
+        # Attempt GPU mode first
         try:
             model = XGBClassifier(
                 random_state=42,
                 device='cuda',    # GPU mode
                 predictor='gpu_predictor'  # GPU predictor
             )
-        except XGBoostError:
-            # If GPU is not available, fallback to CPU mode
+        except:
             model = XGBClassifier(
                 random_state=42,
-                tree_method='hist',        # CPU mode
-                predictor='cpu_predictor'  # CPU predictor
+                tree_method='hist',  # CPU mode
+                predictor='cpu_predictor'
             )
         param_grid = {
-            'n_estimators': [100, 300, 500],
-            'max_depth': [5, 10, 50, None],
-            'min_samples_split': [2, 5, 10],
-            'min_samples_leaf': [1, 2, 5],
-            'max_features': ['sqrt', 'log2']
+            'n_estimators': [100, 300, 500, 700, 1000],
+            'max_depth': [3, 5, 7, 10, 15, 20],
+            'learning_rate': [0.001, 0.01, 0.1],
+            'subsample': [0.5, 0.7, 1.0],
+            'colsample_bytree': [0.5, 0.7, 1.0],
+            'gamma': [0, 0.1, 0.3, 1],
+            'min_child_weight': [1, 3, 5, 10],
+            'reg_alpha': [0, 0.1, 0.3, 1],
+            'reg_lambda': [1, 1.5, 2, 5]
         }
-        # param_grid = {
-        #     'n_estimators': [50, 100],
-        #     'max_depth': [5, 10],
-        #     'learning_rate': [0.1]
-        # }
+
+
+    # Use LOSO as CV
+    loso_cv = LOSOSplitter(subjects_train)
 
     grid_search = GridSearchCV(
         estimator=model,
         param_grid=param_grid,
         scoring='accuracy',
-        cv=3,
+        cv=loso_cv,
         n_jobs=-1,
         verbose=1
     )
@@ -155,8 +175,8 @@ def fit_model(X_train, y_train, model_type='rf'):
     logger.info(f"Best parameters found: {grid_search.best_params_}")
     return grid_search.best_estimator_
 
+
 def evaluate_and_save(y_pred, output_path='results_summary.csv'):
-    # [Unchanged logic]
     unique, counts = np.unique(y_pred, return_counts=True)
     class_distribution = dict(zip(unique, counts))
     total = len(y_pred)
@@ -174,20 +194,8 @@ def evaluate_and_save(y_pred, output_path='results_summary.csv'):
     summary_df.to_csv(summary_path, index=False)
     logger.info(f"Summary saved to {summary_path}")
 
+
 def write_submission(y, submission_path='example_submission.csv'):
-    """
-    Writes the predictions to a CSV file in the required submission format.
-    Parameters:
-        y (numpy.ndarray): Array of predicted class labels.
-        submission_path (str): Path to the submission file. Default is 'example_submission.csv'.
-    Raises:
-        ValueError: If any predicted class label is outside the range [1, 14].
-        ValueError: If the number of predicted values is not 3500.
-    **Notes:**
-    - The function ensures the parent directory of the submission file exists.
-    - If the submission file already exists, it will be removed before writing the new file.
-    - The function writes the predictions in the format 'Id,Prediction' with 1-based indexing for the Id.
-    """
     submission_path = os.path.join("submissions", submission_path)
     parent_dir = os.path.dirname(submission_path)
     if parent_dir:
@@ -198,30 +206,23 @@ def write_submission(y, submission_path='example_submission.csv'):
     y = y.astype(int)
     outputs = np.unique(y)
 
-    # Verify conditions on the predictions
     if np.max(outputs) > 14:
         raise ValueError('Class {} does not exist.'.format(np.max(outputs)))
     if np.min(outputs) < 1:
         raise ValueError('Class {} does not exist.'.format(np.min(outputs)))
 
-    # Write submission file
     with open(submission_path, 'a') as file:
         n_samples = len(y)
         if n_samples != 3500:
             raise ValueError('Check the number of predicted values.')
-
         file.write('Id,Prediction\n')
-
         for n, i in enumerate(y):
             file.write('{},{}\n'.format(n+1, int(i)))
 
     logger.info(f'Submission saved to {submission_path}.')
 
+
 def get_subject_splits(subjects: pd.Series) -> list:
-    """
-    Given the subjects series, returns a list of (train_idx, val_idx, val_sub) splits
-    for leave-one-subject-out cross-validation.
-    """
     unique_subs = subjects.unique()
     splits = []
     for val_sub in unique_subs:
@@ -230,18 +231,9 @@ def get_subject_splits(subjects: pd.Series) -> list:
         splits.append((train_idx, val_idx, val_sub))
     return splits
 
+
 def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
                  n_features: int=50, latent_dim: int=50, fold: int=None):
-    """
-    Scenarios:
-    A = Raw data
-    B = Raw + RFE
-    C = FE only
-    D = FE + PCA
-    E = FE + AE
-
-    If fold is provided, do LOSO (leave-one-subject-out). Otherwise use full training set.
-    """
     X_train_raw, X_test_raw, y_train, subjects = load_raw_data(data_path, method=method)
 
     if fold is not None:
@@ -252,9 +244,16 @@ def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
         logger.info(f"LOSO CV: Using subject {val_sub} as validation")
         X_train_portion = X_train_raw.loc[train_idx]
         y_train_portion = y_train.loc[train_idx]
+        val_subjects = subjects.loc[val_idx]
+        # For LOSO val evaluation after training, we can define:
+        X_val_portion = X_train_raw.loc[val_idx]
+        y_val_portion = y_train.loc[val_idx] - 1
     else:
         X_train_portion = X_train_raw
         y_train_portion = y_train
+        X_val_portion = None
+        y_val_portion = None
+        val_subjects = None
 
     y_train_portion = y_train_portion - 1
 
@@ -266,9 +265,7 @@ def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
         X_train_processed = X_train_portion.loc[:, support]
         X_test_processed = X_test_raw.loc[:, support]
     else:
-        # Feature Extraction cases
         from feature_extraction import extract_features, apply_pca, apply_autoencoder
-        # Now we call extract_features without 'method'
         X_train_fe = extract_features(X_train_portion)
         X_test_fe = extract_features(X_test_raw)
 
@@ -286,41 +283,51 @@ def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
         else:
             raise ValueError("Scenario must be one of A,B,C,D,E.")
 
-    # Optional: Check for NaNs before fitting (debugging)
     if X_train_processed.isna().sum().sum() > 0:
-        logger.warning("NaNs detected in X_train_processed. Consider filling or investigating upstream steps.")
+        logger.warning("NaNs detected in X_train_processed.")
     if X_test_processed.isna().sum().sum() > 0:
-        logger.warning("NaNs detected in X_test_processed. Consider filling or investigating upstream steps.")
+        logger.warning("NaNs detected in X_test_processed.")
 
-    clf = fit_model(X_train_processed, y_train_portion, model_type=model_type)
+    # Fit model using LOSO CV
+    clf = fit_model(X_train_processed, y_train_portion, subjects.loc[X_train_portion.index], model_type=model_type)
     logger.info("Predicting on test set...")
     y_pred = clf.predict(X_test_processed)
-
-    # Convert predictions back to [1–14] for reporting and submission
     y_pred = y_pred + 1
 
     suffix = f"_fold{fold}" if fold is not None else ""
-    evaluate_and_save(y_pred, output_path=f"{model_type}_{scenario}{suffix}_summary.csv")
-    write_submission(y_pred, submission_path=f"{model_type}_{scenario}{suffix}_submission.csv")
+    evaluate_and_save(y_pred, output_path=f"{model_type}_{scenario}{suffix}_{method}_summary.csv")
+    write_submission(y_pred, submission_path=f"{model_type}_{scenario}{suffix}_{method}_submission.csv")
 
-    # Compute LOSO validation results if fold is specified
-    if fold is not None:
-        if X_val_processed is not None:
-            y_val_pred = clf.predict(X_val_processed)
-            # Compute accuracy
-            from sklearn.metrics import accuracy_score
-            val_acc = accuracy_score(y_val_portion, y_val_pred)
-            logger.info(f"LOSO Validation Accuracy for scenario {scenario}, model {model_type}, fold {fold}: {val_acc:.4f}")
-            # Save LOSO result to a file, e.g., results/loso_results.csv
-            loso_path = os.path.join(root_path, 'results', 'loso_results.csv')
-            os.makedirs(os.path.join(root_path, 'results'), exist_ok=True)
-            header_needed = not os.path.exists(loso_path)
-            with open(loso_path, 'a') as f:
-                if header_needed:
-                    f.write("Scenario,Model,Fold,Validation_Accuracy\n")
-                f.write(f"{scenario},{model_type},{fold},{val_acc}\n")
-        else:
-            logger.warning("No validation portion found for LOSO validation accuracy computation.")
+    test_labels_path = os.path.join(data_path, 'TS', 'test_labels.csv')
+    if os.path.exists(test_labels_path):
+        test_labels = pd.read_csv(test_labels_path)
+        submission = pd.read_csv(os.path.join("submissions", f"{model_type}_{scenario}{suffix}_{method}_submission.csv"))
+
+        # Ensure sorted by Id in case order differs
+        test_labels = test_labels.sort_values(by='Id')
+        submission = submission.sort_values(by='Id')
+
+        # Compute accuracy
+        acc = (test_labels['Prediction'].values == submission['Prediction'].values).mean()
+        logger.info(f"Test Accuracy using test_labels.csv: {acc*100:.2f}%")
+        print(f"Test Accuracy: {acc*100:.2f}%")
+    else:
+        logger.warning("No test_labels.csv found in TS directory. Accuracy on test set cannot be computed.")
+
+    # If LOSO fold is specified, evaluate on val portion
+    if fold is not None and X_val_portion is not None:
+        y_val_pred = clf.predict(X_val_portion)
+        from sklearn.metrics import accuracy_score
+        val_acc = accuracy_score(y_val_portion, y_val_pred)
+        logger.info(f"LOSO Validation Accuracy for scenario {scenario}, model {model_type}, fold {fold}: {val_acc:.4f}")
+        loso_path = os.path.join(root_path, 'results', 'loso_results.csv')
+        os.makedirs(os.path.join(root_path, 'results'), exist_ok=True)
+        header_needed = not os.path.exists(loso_path)
+        with open(loso_path, 'a') as f:
+            if header_needed:
+                f.write("Scenario,Model,Fold,Validation_Accuracy\n")
+            f.write(f"{scenario},{model_type},{fold},{val_acc}\n")
+
 
 def summarize_results(y_pred: Union[pd.Series, np.ndarray], summary_path='example_results_summary.csv') -> pd.DataFrame:
     # Calculate the distribution of predicted classes

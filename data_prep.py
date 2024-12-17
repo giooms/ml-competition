@@ -284,21 +284,19 @@ class SensorDataPreprocessor:
         series_to_drop = pd.Series([False] * 3500)
         outlier_handler = StatisticalOutlierHandler()
 
+        # Identify series to drop
         for sensor_id, data in tqdm(self.analyzer.sensors.items(), desc="Identifying time series with excessive NaNs"):
             missing_patterns = self.analyzer._analyze_df_missing_patterns(data)
 
-            # Get time series with >25% missing values
-            series_to_drop = series_to_drop | (
-                missing_patterns['missing_percentage'] > PERCENTAGE_THRESHOLD)
+            # Drop time series with >25% missing
+            series_to_drop |= (missing_patterns['missing_percentage'] > PERCENTAGE_THRESHOLD)
 
-            # Get time series with missing sequences > 50
-            series_to_drop = series_to_drop | (
-                missing_patterns['num_sequences'] > 50)
+            # Drop time series with too many missing sequences
+            series_to_drop |= (missing_patterns['num_sequences'] > 50)
 
-        # Drop time series with excessive missing values
+        # Now process each sensor with chosen imputation and normalization
         for sensor_id, data in tqdm(self.analyzer.sensors.items(), desc="Cleaning sensors"):
-            assert len(series_to_drop) == len(
-                data), "Length of series_to_drop does not match number of rows in data."
+            assert len(series_to_drop) == len(data), "Length mismatch."
             processed_data = data[~series_to_drop].reset_index(drop=True)
 
             # Impute missing values if any
@@ -311,31 +309,36 @@ class SensorDataPreprocessor:
                 elif imputation_method == 'spline':
                     processed_data = self._spline_impute(processed_data)
                 else:
-                    raise ValueError(
-                        f"Invalid imputation method: {imputation_method}")
+                    raise ValueError(f"Invalid imputation method: {imputation_method}")
 
-                if process_data.isna().values.any():
+                if processed_data.isna().values.any():
                     # If still missing values after imputation, log a warning
-                    logger.warning(
-                        f"Sensor {sensor_id} has missing values after imputation")
+                    logger.warning(f"Sensor {sensor_id} still has missing values after imputation")
 
+            # Remove outliers if needed
             if remove_outliers:
-                processed_data = self._remove_outliers(
-                    outlier_handler, processed_data, sensor_id)
+                processed_data = self._remove_outliers(outlier_handler, processed_data, sensor_id)
 
-            # Normalize
-            global_min = processed_data.min().min()
-            global_max = processed_data.max().max()
-            normalized_data = (processed_data - global_min) / \
-                (global_max - global_min)
-            self.scalers[sensor_id] = (global_min, global_max)
+            # Compute median and IQR across columns (time steps)
+            sensor_median = processed_data.median(axis=0)
+            q1_vals = processed_data.quantile(0.25, axis=0)
+            q3_vals = processed_data.quantile(0.75, axis=0)
+            iqr_vals = q3_vals - q1_vals
+
+            # Avoid division by zero
+            iqr_vals[iqr_vals == 0] = 1e-9
+
+            # Apply robust scaling
+            normalized_data = (processed_data - sensor_median) / iqr_vals
+
+            # Store scalers for test set normalization
+            self.scalers[sensor_id] = (sensor_median, iqr_vals)
+
             processed_sensors[sensor_id] = normalized_data
 
-            # Drop time series with excessive missing values
-            activities = self.analyzer.activities[~series_to_drop].reset_index(
-                drop=True).squeeze()
-            subjects = self.analyzer.subjects[~series_to_drop].reset_index(
-                drop=True).squeeze()
+        # Only after processing all sensors do we select the final activities and subjects
+        activities = self.analyzer.activities[~series_to_drop].reset_index(drop=True).squeeze()
+        subjects = self.analyzer.subjects[~series_to_drop].reset_index(drop=True).squeeze()
 
         return processed_sensors, activities, subjects
 

@@ -4,3 +4,5 @@ __pycache__/*
 *.sh
 *.err
 *.out
+*.csv
+*.txt
