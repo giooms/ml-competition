@@ -64,7 +64,6 @@ class StatisticalOutlierHandler:
 
 
 if __name__ == '__main__':
-    # Example usage
     handler = StatisticalOutlierHandler()
 
     # Symmetric data (normal in this case)

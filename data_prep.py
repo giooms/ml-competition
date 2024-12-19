@@ -8,9 +8,9 @@ This script provides functionality for exploring and preprocessing sensor data f
     - Saving analysis results and visualizations to the 'explorer' directory.
 
 - In 'process' mode, the script preprocesses the sensor data using various imputation methods and outlier removal strategies:
-    - Imputing missing values using one of the following methods: 'mean', 'mode', 'knn', or 'interpolation'.
+    - Imputing missing values using one of the following methods: 'spline', 'knn', or 'interpolation'.
     - Replacing outliers based on physical constraints and statistical methods with median value.
-    - Standardizing the sensor data.
+    - Normalizing the sensor data.
     - Saving the preprocessed data and scalers to the 'processed' directory.
 
 Classes:
@@ -275,7 +275,7 @@ class SensorDataPreprocessor:
 
     def __init__(self, analyzer: SensorDataAnalyzer):
         self.analyzer = analyzer
-        self.scalers = {}   # Store (min, max) values for each sensor
+        self.scalers = {}   # Store scaler values for each sensor
 
     def preprocess(self, imputation_method: str = 'spline', remove_outliers: bool = True) -> tuple:
         """Preprocess sensor data with specified imputation method."""
@@ -315,9 +315,9 @@ class SensorDataPreprocessor:
                     # If still missing values after imputation, log a warning
                     logger.warning(f"Sensor {sensor_id} still has missing values after imputation")
 
-            # Remove outliers if needed
-            if remove_outliers:
-                processed_data = self._remove_outliers(outlier_handler, processed_data, sensor_id)
+            # # Remove outliers if needed
+            # if remove_outliers:
+            #     processed_data = self._remove_outliers(outlier_handler, processed_data, sensor_id)
 
             # Compute median and IQR across columns (time steps)
             sensor_median = processed_data.median(axis=0)

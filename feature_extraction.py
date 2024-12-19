@@ -10,13 +10,7 @@ from sklearn.decomposition import PCA
 Feature Extraction:
 - extract_features(X_raw): Convert raw sensor time series into statistical & spectral features per sample.
 - For 1D sensors: compute statistics on each sensor's 512-point time series.
-- For 3D sensors: compute per-axis features and combine them, plus magnitude and cross-axis correlation.
-
-Added features:
-- RMS (root mean square)
-- Interquartile range (IQR)
-- Median absolute deviation (MAD)
-- Cross-axis correlations (for 3D sensors only)
+- For 3D sensors: compute per-axis features.
 
 At the end, all features become columns in a final DataFrame.
 
@@ -87,10 +81,9 @@ def extract_1d_features(series):
     max_val = np.max(series)
     range_val = max_val - min_val
     energy_val = np.sum(series**2)
-    # Additional time-domain features
     rms_val = np.sqrt(np.mean(series**2))
     iqr_val = np.percentile(series, 75) - np.percentile(series, 25)
-    mad_val = np.mean(np.abs(series - mean_val))  # median absolute deviation around mean
+    mad_val = np.mean(np.abs(series - mean_val))
 
     # Handle skew and kurtosis carefully
     skew_val = 0.0 if std_val == 0 else safe_skew(series)
@@ -125,7 +118,34 @@ def extract_1d_features(series):
     feats['spectral_centroid'] = spectral_centroid
     feats['spectral_entropy'] = spec_entropy
 
+    # Add FFT-based features
+    fft_extra = extract_fft_features(series)
+    feats.update(fft_extra)
+
     return feats
+    
+def extract_fft_features(series):
+    """Extract FFT-based features"""
+    fft_vals = rfft(series)
+    fft_freq = rfftfreq(len(series), d=1/SAMPLING_FREQ)
+    fft_power = np.abs(fft_vals)**2
+    total_power = fft_power.sum() + 1e-12
+
+    # Frequency bands (in Hz)
+    # Low: 0-5, Mid: 5-15, High: 15+
+    low_mask = (fft_freq >= 0) & (fft_freq < 5)
+    mid_mask = (fft_freq >= 5) & (fft_freq < 15)
+    high_mask = (fft_freq >= 15)
+
+    low_power = fft_power[low_mask].sum() / total_power
+    mid_power = fft_power[mid_mask].sum() / total_power
+    high_power = fft_power[high_mask].sum() / total_power
+
+    return {
+        'fft_low_power_ratio': low_power,
+        'fft_mid_power_ratio': mid_power,
+        'fft_high_power_ratio': high_power
+    }
 
 def extract_3d_features(x, y, z):
     # Per-axis features

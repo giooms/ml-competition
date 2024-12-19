@@ -127,11 +127,18 @@ def fit_model(X_train, y_train, subjects_train, model_type='rf'):
     if model_type == 'rf':
         model = RandomForestClassifier(random_state=42, n_jobs=-1)
         param_grid = {
-            'n_estimators': [50, 100, 200, 300],      # Added 300
-            'max_depth': [5, 10, 20, 50],             # Added 20
-            'min_samples_split': [2, 5, 10, 20],      # Added 20
-            'min_samples_leaf': [1, 2, 5, 10],        # Added 10
-            'max_features': ['auto', 'sqrt', 'log2']  # Added 'log2'
+            'n_estimators': [50, 100, 200, 300],    
+            'max_depth': [5, 10, 20, 50],           
+            'min_samples_split': [2, 5, 10, 20],    
+            'min_samples_leaf': [1, 2, 5, 10],      
+            'max_features': ['auto', 'sqrt', 'log2']
+            # 'n_estimators': [100, 200, 300, 500],        
+            # 'max_depth': [5, 10, 15, 20, None],           
+            # 'min_samples_split': [2, 5, 10, 20],          
+            # 'min_samples_leaf': [1, 2, 5],                
+            # 'max_features': ['auto', 'sqrt', 'log2', 0.3, 0.5],  
+            # 'criterion': ['gini', 'entropy'],             
+            # 'bootstrap': [True, False]                    
         }
     else:
         # Attempt GPU mode first
@@ -148,15 +155,15 @@ def fit_model(X_train, y_train, subjects_train, model_type='rf'):
                 predictor='cpu_predictor'
             )
         param_grid = {
-            'n_estimators': [100, 300, 500, 700, 1000],
-            'max_depth': [3, 5, 7, 10, 15, 20],
-            'learning_rate': [0.001, 0.01, 0.1],
-            'subsample': [0.5, 0.7, 1.0],
-            'colsample_bytree': [0.5, 0.7, 1.0],
-            'gamma': [0, 0.1, 0.3, 1],
-            'min_child_weight': [1, 3, 5, 10],
-            'reg_alpha': [0, 0.1, 0.3, 1],
-            'reg_lambda': [1, 1.5, 2, 5]
+            'n_estimators': [50, 100, 200],   
+            'max_depth': [5, 10],             
+            'learning_rate': [0.01, 0.1],     
+            'subsample': [0.7, 1.0],         
+            'colsample_bytree': [0.7, 1.0],  
+            'gamma': [0, 0.1],                
+            'min_child_weight': [1, 5],       
+            'reg_alpha': [0, 0.1],            
+            'reg_lambda': [1]                 
         }
 
 
