@@ -184,6 +184,20 @@ def fit_model(X_train, y_train, subjects_train, model_type='rf'):
 
 
 def evaluate_and_save(y_pred, output_path='results_summary.csv'):
+    """
+    Evaluates the distribution of predicted classes and saves the summary to a CSV file.
+    Parameters:
+    y_pred (array-like): Array of predicted class labels.
+    output_path (str, optional): The filename for the output CSV file. Defaults to 'results_summary.csv'.
+    Returns:
+    None
+    The function performs the following steps:
+    1. Calculates the distribution of predicted classes.
+    2. Creates a DataFrame summarizing the class distribution, including counts and proportions.
+    3. Saves the summary DataFrame to a CSV file in the 'results' directory.
+    4. Logs the path to the saved summary file.
+    """
+
     unique, counts = np.unique(y_pred, return_counts=True)
     class_distribution = dict(zip(unique, counts))
     total = len(y_pred)
@@ -203,6 +217,22 @@ def evaluate_and_save(y_pred, output_path='results_summary.csv'):
 
 
 def write_submission(y, submission_path='example_submission.csv'):
+    """
+    Writes the predictions to a CSV file in the required submission format.
+    Parameters:
+    y (numpy.ndarray): Array of predicted class labels.
+    submission_path (str): Path to save the submission file. Default is 'example_submission.csv'.
+    Raises:
+    ValueError: If the maximum class label is greater than 14.
+    ValueError: If the minimum class label is less than 1.
+    ValueError: If the number of predicted values is not 3500.
+    Notes:
+    - The function ensures the directory for the submission file exists.
+    - If a file already exists at the submission path, it will be removed.
+    - The function writes the predictions to the file in the format 'Id,Prediction'.
+    - The function logs the path where the submission is saved.
+    """
+
     submission_path = os.path.join("submissions", submission_path)
     parent_dir = os.path.dirname(submission_path)
     if parent_dir:
@@ -230,6 +260,9 @@ def write_submission(y, submission_path='example_submission.csv'):
 
 
 def get_subject_splits(subjects: pd.Series) -> list:
+    """
+    Generate train-validation splits based on unique subject identifiers in the given pandas Series.
+    """
     unique_subs = subjects.unique()
     splits = []
     for val_sub in unique_subs:
@@ -242,6 +275,21 @@ def get_subject_splits(subjects: pd.Series) -> list:
 def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
                  n_features: int=50, latent_dim: int=50, fold: int=None):
     X_train_raw, X_test_raw, y_train, subjects = load_raw_data(data_path, method=method)
+    """
+    Run a machine learning scenario with specified parameters.
+    Parameters:
+    data_path (str): Path to the dataset.
+    method (str): Method to load the raw data.
+    model_type (str): Type of model to fit.
+    scenario (str): Scenario to run ('A', 'B', 'C', 'D', 'E').
+    n_features (int, optional): Number of features for RFE. Default is 50.
+    latent_dim (int, optional): Latent dimension for PCA/Autoencoder. Default is 50.
+    fold (int, optional): Fold number for Leave-One-Subject-Out (LOSO) cross-validation. Default is None.
+    Raises:
+    ValueError: If the fold is out of range or if the scenario is not one of 'A', 'B', 'C', 'D', 'E'.
+    Returns:
+    None
+    """
 
     if fold is not None:
         splits = get_subject_splits(subjects)
