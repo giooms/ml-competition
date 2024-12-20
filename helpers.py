@@ -1,35 +1,12 @@
-"""
-Step 1. Start with Gradient Boosting Classifier:
-- Test performance using raw normalized data (or CNN-extracted embeddings - see optional step 1.2).
-- Compare results to Random Forest as a baseline.
-
-Step 2. Feature Selection:
-- If performance with all features is slow or suboptimal, explore RFE or SelectFromModel.
-- This reduces dimensionality while retaining the most relevant information.
-- Compare with results obtained from step 1 alone.
-
-(optional) Step 1.2 Experiment with CNNs for Feature Extraction:
-- Train a CNN to extract meaningful, lower-dimensional representations (dense vectors) of the time-series data.
-- Repeat step 1 with these embeddings. If still poor, perform Feature Selection.
-
-In total, four workflows to explore:
-a) Step 1 alone
-b) Step 1 and 2
-c) Step 1 and 1.2
-d) Step 1, 1.2 and 2
-"""
-
 import joblib
 import logging
-import matplotlib.pyplot as plt
 import numpy as np
 import os
 import pandas as pd
-from data_prep import process_data, SensorDataAnalyzer
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import GridSearchCV
 from sklearn.feature_selection import RFE
-from typing import Tuple, Union
+from typing import Tuple
 from tqdm import tqdm
 from xgboost import XGBClassifier
 
