@@ -127,18 +127,18 @@ def fit_model(X_train, y_train, subjects_train, model_type='rf'):
     if model_type == 'rf':
         model = RandomForestClassifier(random_state=42, n_jobs=-1)
         param_grid = {
-            'n_estimators': [50, 100, 200, 300],    
-            'max_depth': [5, 10, 20, 50],           
-            'min_samples_split': [2, 5, 10, 20],    
-            'min_samples_leaf': [1, 2, 5, 10],      
+            'n_estimators': [50, 100, 200, 300],
+            'max_depth': [5, 10, 20, 50],
+            'min_samples_split': [2, 5, 10, 20],
+            'min_samples_leaf': [1, 2, 5, 10],
             'max_features': ['auto', 'sqrt', 'log2']
-            # 'n_estimators': [100, 200, 300, 500],        
-            # 'max_depth': [5, 10, 15, 20, None],           
-            # 'min_samples_split': [2, 5, 10, 20],          
-            # 'min_samples_leaf': [1, 2, 5],                
-            # 'max_features': ['auto', 'sqrt', 'log2', 0.3, 0.5],  
-            # 'criterion': ['gini', 'entropy'],             
-            # 'bootstrap': [True, False]                    
+            # 'n_estimators': [100, 200, 300, 500],
+            # 'max_depth': [5, 10, 15, 20, None],
+            # 'min_samples_split': [2, 5, 10, 20],
+            # 'min_samples_leaf': [1, 2, 5],
+            # 'max_features': ['auto', 'sqrt', 'log2', 0.3, 0.5],
+            # 'criterion': ['gini', 'entropy'],
+            # 'bootstrap': [True, False]
         }
     else:
         # Attempt GPU mode first
@@ -155,15 +155,15 @@ def fit_model(X_train, y_train, subjects_train, model_type='rf'):
                 predictor='cpu_predictor'
             )
         param_grid = {
-            'n_estimators': [50, 100, 200],   
-            'max_depth': [5, 10],             
-            'learning_rate': [0.01, 0.1],     
-            'subsample': [0.7, 1.0],         
-            'colsample_bytree': [0.7, 1.0],  
-            'gamma': [0, 0.1],                
-            'min_child_weight': [1, 5],       
-            'reg_alpha': [0, 0.1],            
-            'reg_lambda': [1]                 
+            'n_estimators': [50, 100, 200],
+            'max_depth': [5, 10],
+            'learning_rate': [0.01, 0.1],
+            'subsample': [0.7, 1.0],
+            'colsample_bytree': [0.7, 1.0],
+            'gamma': [0, 0.1],
+            'min_child_weight': [1, 5],
+            'reg_alpha': [0, 0.1],
+            'reg_lambda': [1]
         }
 
 
@@ -383,121 +383,3 @@ def run_scenario(data_path: str, method: str, model_type: str, scenario: str,
                 f.write("Scenario,Model,Fold,Validation_Accuracy\n")
             f.write(f"{scenario},{model_type},{fold},{val_acc}\n")
 
-
-def summarize_results(y_pred: Union[pd.Series, np.ndarray], summary_path='example_results_summary.csv') -> pd.DataFrame:
-    # Calculate the distribution of predicted classes
-    unique, counts = np.unique(y_pred, return_counts=True)
-    class_distribution = dict(zip(unique, counts))
-
-    # Calculate the proportion of each class
-    total_predictions = len(y_pred)
-    proportions = {cls: count / total_predictions for cls,
-                   count in class_distribution.items()}
-
-    # Create a DataFrame to hold the class distribution and proportions
-    summary_df = pd.DataFrame({
-        'Class': list(class_distribution.keys()),
-        'Count': list(class_distribution.values()),
-        'Proportion': list(proportions.values())
-    })
-
-    # Sort the DataFrame by class
-    summary_df = summary_df.sort_values(by='Class').reset_index(drop=True)
-    # print(summary_df)
-
-    # Save the summary table to a CSV file
-    summary_dir = os.path.join(root_path, 'results')
-    os.makedirs(summary_dir, exist_ok=True)
-    summary_path = os.path.join(summary_dir, summary_path)
-
-    summary_df.to_csv(summary_path, index=False, mode='w')
-    logger.info(f"Summary saved to {summary_path}")
-
-    return summary_df
-
-
-def fit_or_load_model(model: Union[RandomForestClassifier, GradientBoostingClassifier, XGBClassifier], param_grid: dict, X_train: Union[pd.DataFrame, np.ndarray], y_train: Union[pd.Series, np.ndarray], visualize: bool = False, save: bool = False) -> Union[GradientBoostingClassifier, RandomForestClassifier]:
-    """Fits the specified model using GridSearchCV or loads a pre-fitted model."""
-    # Check the input types
-    if not isinstance(model, (RandomForestClassifier, GradientBoostingClassifier, XGBClassifier)):
-        raise ValueError(
-            'Model must be an instance of RandomForestClassifier, GradientBoostingClassifier, or XGBClassifier')
-    if not isinstance(X_train, (pd.DataFrame, np.ndarray)):
-        raise ValueError('X_train must be a DataFrame or a 2D ndarray')
-    if not isinstance(y_train, (pd.Series, np.ndarray)):
-        raise ValueError('y_train must be a Series or a 1D ndarray')
-
-    # Get the model name
-    model_name = type(model).__name__
-
-    # Validate param_grid keys
-    model_params = model.get_params()
-    for param in param_grid.keys():
-        if param not in model_params:
-            raise ValueError(
-                f"Parameter '{param}' is not a valid parameter for the model {model_name}")
-
-    # Create the directory to save the fitted models
-    fitted_models_path = os.path.join(root_path, 'fitted_models')
-    os.makedirs(fitted_models_path, exist_ok=True)
-
-    # Create the model path based on the model name
-    model_path = os.path.join(
-        fitted_models_path, f'{model_name.lower()}_model.pkl')
-
-    if not os.path.exists(model_path):
-        logger.info(
-            f'Fitting a {model_name} model. This may take a while...')
-
-        # Fit the model using GridSearchCV
-        clf = model
-        grid_search = GridSearchCV(
-            estimator=clf,
-            param_grid=param_grid,
-            scoring='accuracy',
-            cv=5,
-            n_jobs=-1,
-            verbose=1,
-            return_train_score=True
-        )
-        grid_search.fit(X_train, y_train)
-
-        best_params = grid_search.best_params_
-        logger.info("Best parameters found: ", best_params)
-
-        joblib.dump(grid_search.best_estimator_, model_path)
-        clf = grid_search.best_estimator_
-
-        # Plot the training and testing curves
-        plot_training_testing_curves(
-            grid_search.cv_results_, model_name.lower(), fitted_models_path, visualize, save)
-    else:
-        logger.info(f'Loading a pre-fitted {model_name} model...')
-        clf = joblib.load(model_path)
-
-    return clf
-
-
-def plot_training_testing_curves(results: dict, model_name: str, fitted_models_path: str, visualize: bool=False, save: bool=True) -> None:
-    """Plots the training and testing curves."""
-    plt.figure(figsize=(12, 6))
-
-    if 'param_n_estimators' in results:
-        # Plot training and testing scores
-        plt.plot(results['param_n_estimators'], results['mean_train_score'],
-                 label='Training Score', marker='o', color='blue')
-        plt.plot(results['param_n_estimators'], results['mean_test_score'],
-                 label='Testing Score', marker='x', color='red')
-
-        plt.xlabel('Number of Estimators')
-        plt.ylabel('Score')
-        plt.title('Training and Testing Curves')
-        plt.legend()
-        plt.grid(True)
-        if save:
-            plt.savefig(os.path.join(fitted_models_path, f'{model_name}.png'))
-        if visualize:
-            plt.show()
-        plt.close()
-    else:
-        print("The parameter 'param_n_estimators' is not available in the results.")
