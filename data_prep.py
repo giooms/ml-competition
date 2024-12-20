@@ -164,8 +164,6 @@ class SensorDataAnalyzer:
         numeric_mask = missing_mask.astype(int)
 
         # Find sequences of missing values
-        # When diff() == 1, it's the start of a sequence
-        # When diff() == -1, it's the end of a sequence
         diff_mask = numeric_mask.diff()
         sequence_starts = diff_mask[diff_mask == 1].index
         sequence_ends = diff_mask[diff_mask == -1].index
@@ -703,8 +701,8 @@ if __name__ == "__main__":
 
     # Run selected workflow
     if args.mode == 'explore':
-        # missing_stats, outlier_stats = explore_data(
-        #     analyzer, args.visualization)   # check explore_data doc for args
+        missing_stats, outlier_stats = explore_data(
+            analyzer, args.visualization)   # check explore_data doc for args
         explorer_analysis(analyzer, missing_stats=None,
                           outlier_stats=None)
     else:  # process mode

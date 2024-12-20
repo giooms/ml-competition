@@ -163,16 +163,17 @@ def fit_model(X_train, y_train, subjects_train, model_type='rf'):
 def evaluate_and_save(y_pred, output_path='results_summary.csv'):
     """
     Evaluates the distribution of predicted classes and saves the summary to a CSV file.
-    Parameters:
-    y_pred (array-like): Array of predicted class labels.
-    output_path (str, optional): The filename for the output CSV file. Defaults to 'results_summary.csv'.
-    Returns:
-    None
-    The function performs the following steps:
-    1. Calculates the distribution of predicted classes.
-    2. Creates a DataFrame summarizing the class distribution, including counts and proportions.
-    3. Saves the summary DataFrame to a CSV file in the 'results' directory.
-    4. Logs the path to the saved summary file.
+
+    Args:
+        - y_pred (array-like): Array of predicted class labels.
+        - output_path (str, optional): The filename for the output CSV file. Defaults to 'results_summary.csv'.
+
+    Notes:
+        - The function performs the following steps:
+        1. Calculates the distribution of predicted classes.
+        2. Creates a DataFrame summarizing the class distribution, including counts and proportions.
+        3. Saves the summary DataFrame to a CSV file in the 'results' directory.
+        4. Logs the path to the saved summary file.
     """
 
     unique, counts = np.unique(y_pred, return_counts=True)
@@ -197,12 +198,12 @@ def write_submission(y, submission_path='example_submission.csv'):
     """
     Writes the predictions to a CSV file in the required submission format.
     Parameters:
-    y (numpy.ndarray): Array of predicted class labels.
-    submission_path (str): Path to save the submission file. Default is 'example_submission.csv'.
+        y (numpy.ndarray): Array of predicted class labels.
+        submission_path (str): Path to save the submission file. Default is 'example_submission.csv'.
     Raises:
-    ValueError: If the maximum class label is greater than 14.
-    ValueError: If the minimum class label is less than 1.
-    ValueError: If the number of predicted values is not 3500.
+        ValueError: If the maximum class label is greater than 14.
+        ValueError: If the minimum class label is less than 1.
+        ValueError: If the number of predicted values is not 3500.
     Notes:
     - The function ensures the directory for the submission file exists.
     - If a file already exists at the submission path, it will be removed.
